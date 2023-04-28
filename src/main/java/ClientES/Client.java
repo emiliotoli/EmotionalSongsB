@@ -1,5 +1,6 @@
 package ClientES;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import serverES.ServerInterface;
 
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
+
 
 
 public class Client implements MetodiControlli_Client {
@@ -47,11 +49,22 @@ public class Client implements MetodiControlli_Client {
 
 
         /**comandi per collegarmi al server**/
-        Registry registro = LocateRegistry.getRegistry(1099);
-        ServerInterface remoteServerES = (ServerInterface) registro.lookup("ServerEmotionalSongs");
+        try{
+            Registry registro = LocateRegistry.getRegistry(1099);
+            ServerInterface remoteServerES = (ServerInterface) registro.lookup("ServerEmotionalSongs");
+            /**metodo alternativo per fare la richiesta al server**/
+            //java.rmi.Naming.lookup("ServerEmotionalSongs");
 
-        //richiamo il metodo del Server
-        remoteServerES.login(username,password);
+            //richiamo il metodo del Server
+            remoteServerES.login(username,password);
+
+        }catch (Exception e){
+            e.getMessage();
+            System.out.println("ERRORE!! richiesta al server fallita");
+        }
+
+
+
 
 
 
