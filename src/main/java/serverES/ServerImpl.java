@@ -1,14 +1,18 @@
 package serverES;
 
+import DataBase.ConnessioneDB;
+import DataBase.Query;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.sql.SQLOutput;
 
 public class ServerImpl extends UnicastRemoteObject implements ServerInterface{
     private static final long serialVersionUid=1;
-
+    Query stringQuery=new Query();
 
     protected ServerImpl() throws RemoteException {
         super();
@@ -27,6 +31,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface{
 
     /** operazioni  utente loggato e non loggato**/
     public void ricercaCanzoneTitolo(String titolo) {
+        stringQuery.ricercaTitolo(titolo);
     }
     public void ricercaCanzoneAutoreAnno(String autore, String anno) {
 
@@ -59,17 +64,24 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterface{
 
     public static void main(String[] args) throws RemoteException {
 
-        System.out.println("server in preparazione: ");
+        /**faccio partire il server**/
 
+        System.out.println("server in preparazione: ");
+        ServerImpl sevimpl=new ServerImpl();
+        Registry registro;
         try{
-            Registry registro=LocateRegistry.createRegistry(1099);
-            ServerImpl sevimpl=new ServerImpl();
+            registro=LocateRegistry.createRegistry(1099);
             registro.rebind("ServerEmotionalSongs", sevimpl);
             System.out.println("server partito");
         }catch(Exception e){
             System.out.println("ERRORE!!! server non partito");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            System.out.println(e.getMessage().toString());
         }
+        ConnessioneDB connection=new ConnessioneDB();
+        /** connessione DB**/ //parte quando patrte il server
+        connection.DBConnecctoin();
+
+
+
     }
 }
