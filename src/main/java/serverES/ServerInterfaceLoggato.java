@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 
 /**
  * questa interfaccia serve per gestire le operazioni che l'utente può fare quando ha già effettuato il Login
+ *
  */
 public interface ServerInterfaceLoggato extends Remote {
     /** operazioni solo utente loggato**/

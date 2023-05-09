@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 
 /**
  * questa interfaccia serve per gestire le operazioni che l'utente può fare per quando è Loggato e non
+ *
  */
 public interface ServerInterfaceOperazioniComuni extends Remote{
 

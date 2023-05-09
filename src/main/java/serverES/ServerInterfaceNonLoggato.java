@@ -3,6 +3,7 @@ package serverES;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+
 /**
  * questa interfaccia serve per gestire le operazioni che l'utente può fare per loggarsi sull'applicazione
  */

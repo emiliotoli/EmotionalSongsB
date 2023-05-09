@@ -37,6 +37,7 @@ public class Client implements MetodiControlli_Client {
      * @throws ClassNotFoundException
      * @throws NotBoundException
      */
+
     public void exec() throws  IOException, ClassNotFoundException, NotBoundException{
 
     }
