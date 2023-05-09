@@ -1,13 +1,15 @@
 package ClientES;
 
-import com.sun.tools.jconsole.JConsoleContext;
-import serverES.ServerInterface;
+
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
+import serverES.ServerInterfaceOperazioniComuni;
+import serverES.ServerInterfaceLoggato;
+import serverES.ServerInterfaceNonLoggato;
 
 
 
@@ -16,21 +18,16 @@ public class Client implements MetodiControlli_Client {
     Scanner scanner =new Scanner(System.in);
 
     //attributi
-    private int varswich;
-    private String TestoMenu = null;
-    private final boolean loggato=false;
-    private String userName;
+
 
 
     /**
      *
-     * @param user
+     * @param
      * @author Emilio DAverio
      * al costrutore della classe passo come argomento lo userName dell'utente, così da essere in grado di distinguere i vari client
      */
-    public Client(String user){
-
-        this.userName=user;
+    public Client(){
     }
 
     /**
@@ -42,36 +39,10 @@ public class Client implements MetodiControlli_Client {
      */
     public void exec() throws  IOException, ClassNotFoundException, NotBoundException{
 
-        System.out.print("Inserisci lo username: ");
-        String username = scanner.nextLine();
-        System.out.print("Inserisci la password: ");
-        String password = scanner.nextLine();
-
-
-        /**comandi per collegarmi al server**/
-        try{
-            Registry registro = LocateRegistry.getRegistry(1099);
-            ServerInterface remoteServerES = (ServerInterface) registro.lookup("ServerEmotionalSongs");
-            /**metodo alternativo per fare la richiesta al server**/
-            //java.rmi.Naming.lookup("ServerEmotionalSongs");
-
-            //richiamo il metodo del Server
-            remoteServerES.login(username,password);
-
-        }catch (Exception e){
-            e.getMessage();
-            System.out.println("ERRORE!! richiesta al server fallita");
-        }
-
-
-
-
-
-
     }
 
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException {
         String identifier = null;
-        new Client(identifier).exec();
+        new Client().exec();
     }
 }

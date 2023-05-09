@@ -28,6 +28,7 @@ public class ConnessioneDB {
              istance.connection=conn;
              //connection=conn;
              System.out.println("connessione al DB riuscita");
+             System.out.println("Connesso al DB");
 
          }catch (SQLException sqle){
              System.out.println("connessione al DB fallita");
