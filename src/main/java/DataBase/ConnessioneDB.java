@@ -7,7 +7,7 @@ import java.sql.*;
  */
 public class ConnessioneDB {
 
-     static String port= "jdbc:postgresql://localhost:5432/EmotionaSongs_lab_B" ;
+     static String portDB= "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B" ;
      static Connection connection;
      static String username = "postgres" ;
      static String password = "Kira0109@!";
@@ -25,7 +25,7 @@ public class ConnessioneDB {
      /**Connessione al DataBase**/
      public Connection DBConnecctoin(){
          setIstance();
-         try(Connection conn=DriverManager.getConnection(port,username,password)){
+         try(Connection conn=DriverManager.getConnection(portDB,username,password)){
              istance.connection=conn;
              //connection=conn;
              System.out.println("connessione al DB riuscita");

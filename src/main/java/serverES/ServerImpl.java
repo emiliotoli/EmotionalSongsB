@@ -1,19 +1,21 @@
 package serverES;
 
+import ClientES.Utente;
 import DataBase.ConnessioneDB;
-import DataBase.Query;
 
-
+import java.io.Serializable;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 
-public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNonLoggato, ServerInterfaceLoggato, ServerInterfaceOperazioniComuni {
-    private static final long serialVersionUid = 1;
+public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNonLoggato, ServerInterfaceLoggato, Remote {
 
+    private static final long serialVersionUid = 1L;
     protected ServerImpl() throws RemoteException {
         super();
     }
@@ -23,13 +25,20 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
      * operazioni utente non loggato
      **/
 
-    public void registrazione() {
+    public void registrazione() {}
+
+    @Override
+    public void registrazione(Utente utente) throws RemoteException, SQLException {
+        try{
+            Connection conn=new ConnessioneDB().DBConnecctoin();
+        }
 
     }
+
     public void login(String user, String pwd) {
 
     }
-
+    //public boolean checkUserID(String userID) throws RemoteException{}
 
     /**
      * operazioni  utente loggato e non loggato
@@ -38,7 +47,6 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
     public void ricercaCanzoneAutoreAnno(String autore, String anno) {
 
     }
-
     public void visualizzaEmozioni() {
 
     }
@@ -46,26 +54,17 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
     /**
      * operazioni solo utente loggato
      **/
-    public void logOut(String userName, String pwd) {
-
-    }
-
-    public void creaPlaylist() {
-
-    }
-
+    public void logOut(String userName, String pwd) {}
+    public void creaPlaylist() {}
     public void eliminaPlaylist() {
 
     }
-
     public void aggiuntaCanzoniPlaylist() {
 
     }
-
     public void eliminaCanzoniPlaylist() {
 
     }
-
     public void inserisciEmozione() {
 
     }
