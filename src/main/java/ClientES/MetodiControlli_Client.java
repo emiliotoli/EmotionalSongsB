@@ -2,10 +2,7 @@ package ClientES;
 
 import serverES.ServerInterfaceNonLoggato;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -14,7 +11,8 @@ import java.util.Scanner;
 public interface MetodiControlli_Client {
 
     static int cf_Lunghezza = 16; // usato per verificare la lunghezza del codice fiscale
-    Scanner scan =new Scanner(System.in);
+    InputStreamReader isr = new InputStreamReader(System.in);
+    BufferedReader read = new BufferedReader(isr);
 
     private static String soloLettere(String nominativo) throws IOException {
         do {
@@ -23,7 +21,7 @@ public interface MetodiControlli_Client {
             } else {
                 System.out.println("il nominativo appena inserito contiene numeri o caratteri speciali. Deve contenere lettere");
                 System.out.println("digitare nuovamente il nominativo");
-                nominativo = scan.nextLine();
+                nominativo = read.readLine();
             }
         } while (!(nominativo.matches("[a-zA-Z]*${3,20}")));
         return nominativo;
@@ -37,7 +35,7 @@ public interface MetodiControlli_Client {
             } else {
                 System.out.println("non hai inserito nessun nome o il nome inserito è tropppo corto.");
                 System.out.print("reinsirire il nome: ");
-                nominativo = scan.nextLine();
+                nominativo = read.readLine();
             }
         } while (nominativo == null || nominativo.length() < 3);
         soloLettere(nominativo);
@@ -53,7 +51,7 @@ public interface MetodiControlli_Client {
             } else {
                 System.out.println("inserimento non valido");
                 System.out.print("inserisci nuovamente il Codice Fiscale: ");
-                codFisc = scan.nextLine();
+                codFisc = read.readLine();
             }
         } while ((codFisc.length() != cf_Lunghezza) && !codFisc.matches("([A-Za-z]{6})([0-9]{2})([A-Za-z])([0-9]{2})([A-Za-z])([0-9]{3})([A-Za-z])"));
         return codFisc;
@@ -64,7 +62,7 @@ public interface MetodiControlli_Client {
             System.out.println("il numero civico inserito non rispetta il formato");
             System.out.println("Deve iniziare con un numero di lunghezza massima di tre cifre ed una lettera.");
             System.out.println("reinserire il numero civico");
-            numcivico = scan.nextLine();
+            numcivico = read.readLine();
         }
         return numcivico;
     }
@@ -82,7 +80,7 @@ public interface MetodiControlli_Client {
             else {
                 System.out.println("Il CAP deve essere composto esattamente da 5 cifre.");
                 System.out.println("reinserire il cap");
-                cap=scan.nextInt();
+                cap= read.read();
             }
         }while (!checkLunghezzaCap);
 
@@ -92,7 +90,7 @@ public interface MetodiControlli_Client {
             if (cap < 10 || cap > 97100) {
                 System.out.println("cap non valido");
                 System.out.println("reinserire il cap: ");
-                cap = Integer.parseInt(scan.nextLine());
+                cap = Integer.parseInt(String.valueOf(read.read()));
 
             } else {
                 check = true;
@@ -108,7 +106,7 @@ public interface MetodiControlli_Client {
         return CAP.toString();
     }
 
-    static int isNumeric(int cap) {
+    static int isNumeric(int cap) throws IOException {
         boolean chekNumeri = false;
         do{
             String capString = String.valueOf(cap);
@@ -120,7 +118,7 @@ public interface MetodiControlli_Client {
                 else{
                     System.out.println("Il CAP deve contenere solo caratteri numerici");
                     System.out.println("reinserire il cap");
-                    cap=scan.nextInt();
+                    cap= Integer.parseInt(read.readLine());
                 }
             }
         }while(!chekNumeri);
@@ -133,7 +131,7 @@ public interface MetodiControlli_Client {
             if(str.length()==0){
                 System.out.println("non hai inserito niente.");
                 System.out.println("inserisci nuovamente il comune: ");
-                str =scan.nextLine();
+                str =read.readLine();
             }
             else{
                 break;
@@ -150,7 +148,7 @@ public interface MetodiControlli_Client {
             else{
                 System.out.println("la stringa inserita non puo' contenerte dei caratteri numerici o  caratteri speciali");
                 System.out.println("reinserire la stringa: ");
-                str=scan.nextLine();
+                str=read.readLine();
             }
 
         }while(!(str.matches("[A-Za-z]*")));
@@ -164,7 +162,7 @@ public interface MetodiControlli_Client {
             } else {
                 System.out.println("inserimento della mail non valido");
                 System.out.print("reinserisci la mail: ");
-                mail = scan.nextLine();
+                mail = read.readLine();
             }
         } while (!mail.matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,3}"));
         return mail;
@@ -203,7 +201,7 @@ public interface MetodiControlli_Client {
             } else {
                 System.out.println("inserimento dello userId non valido. Non è conforme al formato richiesto");
                 System.out.print("reinserisci lo UserId: ");
-                user = scan.nextLine();
+                user = read.readLine();
             }
         } while (!user.matches("^[a-zA-Z0-9_-]{3,15}$"));
         return user;

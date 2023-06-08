@@ -13,7 +13,7 @@ public class Utente implements Serializable {
     private static String numeroCivico;
     private static String comune;
     private static String provincia;
-    private static int  cap;
+    private static String  cap;
     private static String email;
     private static String userID;
     private static String password;
@@ -32,7 +32,7 @@ public class Utente implements Serializable {
      *
      *
      */
-    public Utente(String nome, String cognome, String codiceFiscale, String via, String numeroCivico, String comune, String provincia, int cap, String email, String userID, String password) {
+    public Utente(String nome, String cognome, String codiceFiscale, String via, String numeroCivico,String cap,String comune, String provincia, String email, String userID, String password) {
         Utente.nome = nome;
         Utente.cognome=cognome;
         Utente.codiceFiscale=codiceFiscale;
@@ -44,39 +44,28 @@ public class Utente implements Serializable {
         Utente.email=email;
         Utente.userID=userID;
         Utente.password =password;
-        //Utente.password=password;
-
-
     }
 
     /**
      * metodo che permette l'output della stringa nome
      * @return string rappresentante il cap
      */
-    public String getNome(){
+    public static String  getNome(){
         return nome;
     }
-
-    public String getCocnome(){
+    public static String getCocnome(){
         return cognome;
     }
-
-    public String getCodiceFiscale(){return codiceFiscale;}
-
-    public String getVia(){return via;}
-
-    public String getNumeroCivico(){return numeroCivico;}
-
-    public String getComun(){return comune;}
-
-    public String getProvincia(){return provincia;}
-
-    public int getCap(){return cap;}
-
-
-
-
-
+    public static String getCodiceFiscale(){return codiceFiscale;}
+    public static String getVia(){return via;}
+    public static String getNumeroCivico(){return numeroCivico;}
+    public static String getComun(){return comune;}
+    public static String getProvincia(){return provincia;}
+    public static String getCap(){return cap;}
+    public static String getEmail(){return email;}
+    public static String getUserID(){return userID;}
+    public static String getPassword(){return password;}
+    //public static String getLogin(){return userID+password;}
 
 }
 

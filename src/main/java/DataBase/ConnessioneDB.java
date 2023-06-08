@@ -9,8 +9,12 @@ public class ConnessioneDB {
 
      static String portDB= "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B" ;
      static Connection connection;
+
+
      static String username = "postgres" ;
      static String password = "Kira0109@!";
+
+     static ConnessioneDB istanceDB=null;
 
 
      public static ConnessioneDB istance;
@@ -23,8 +27,8 @@ public class ConnessioneDB {
 
 
      /**Connessione al DataBase**/
-     public Connection DBConnecctoin(){
-         setIstance();
+     public  Connection getConnectionIstance(){
+        setIstance();
          try(Connection conn=DriverManager.getConnection(portDB,username,password)){
              istance.connection=conn;
              //connection=conn;

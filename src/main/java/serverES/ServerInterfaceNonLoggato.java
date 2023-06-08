@@ -13,8 +13,8 @@ public interface ServerInterfaceNonLoggato extends Remote {
 
     /** operazioni utente non loggato**/
     public void registrazione(Utente utente) throws RemoteException, SQLException;
-    public void login(String user, String pwd) throws RemoteException, SQLException;
-    //public boolean checkUserID(String userID) throws RemoteException, SQLException ;
+    public boolean login(String userId, String password) throws RemoteException;
+    public boolean checkUserID(String userID) throws RemoteException, SQLException ;
 
     /** operazioni che un utente può fare da loggato e non **/
     public void ricercaCanzoneTitolo(String titolo) throws RemoteException, SQLException;

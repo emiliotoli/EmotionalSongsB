@@ -2,7 +2,9 @@ package ClientES;
 
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -11,16 +13,18 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import serverES.ServerInterfaceNonLoggato;
+import serverES.ServerInterfaceLoggato;
 
 
 
 public class Client implements MetodiControlli_Client {
 
     /** ATTRIBUTI **/
-    Scanner scanner =new Scanner(System.in);
+    InputStreamReader isr = new InputStreamReader(System.in);
+    BufferedReader br = new BufferedReader(isr);
     int sceltaUtente=-1;
-    private String nome, cognome, codiceFiscale, via, numeroCivico, comune, provincia, email, userID, password;
-    private int cap;
+    private String nome, cognome, codiceFiscale, via, numeroCivico, cap, comune, provincia, email, userID, password ;
+    private static int nameClient;
     private boolean utenteLoggato = false;
     ServerInterfaceNonLoggato serInterfaccia;
 
@@ -31,6 +35,7 @@ public class Client implements MetodiControlli_Client {
      *
      */
     public Client(){
+
     }
 
     /**
@@ -47,10 +52,11 @@ public class Client implements MetodiControlli_Client {
         Registry registroNonLoggato= LocateRegistry.getRegistry(1099);
 
         try{
-            serInterfaccia=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("Server");
+            serInterfaccia=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("ServerEmotionalSongs");
         }catch (Exception e){
+            e.getMessage();
             System.out.println("collegamento fallito");
-            e.getMessage().toString();
+
         }
 
 
@@ -65,20 +71,12 @@ public class Client implements MetodiControlli_Client {
                 System.out.println("Digitare 4 --> per effetuare il Login.");
                 System.out.println("Digitare 5 --> per accedere all'area Riservata.");
                 System.out.println("Digitare 6 --> per Terminare l'attivita'.");
-                System.out.println("\nOperazione scelta");
+                System.out.println("\nOperazione scelta: \n");
 
                 boolean controlloScelta=false;
-                do {
-                    sceltaUtente = scanner.nextInt();
-                    if(sceltaUtente>=1  || sceltaUtente<=6){
-                        controlloScelta=true;
-                    }else {
-                        System.out.println("inserimento scelta non valido.");
-                        System.out.println("Reinserire la scelta.");
-                    }
-                }while(!controlloScelta);
 
-                switch (sceltaUtente) {
+                    sceltaUtente = Integer.parseInt(br.readLine());
+                    switch (sceltaUtente) {
                     case 1:
                         // Gestisci l'operazione per la ricerca per Titolo
 
@@ -94,6 +92,7 @@ public class Client implements MetodiControlli_Client {
                         break;
                     case 4:
                         // Gestisci l'operazione per il login
+                        login();
                         break;
                     case 5:
                         // Gestisci l'operazione per l'accesso all'area riservata
@@ -106,7 +105,7 @@ public class Client implements MetodiControlli_Client {
             } while (sceltaUtente != 6);
 
             // Chiudi lo scanner dopo aver terminato
-            scanner.close();
+            br.close();
 
 
 
@@ -121,53 +120,67 @@ public class Client implements MetodiControlli_Client {
 
     }
 
+    public void login() throws IOException {
+        boolean connesso;
+        System.out.print("Inserisci un nome utente per il login: ");
+        userID=br.readLine();
+        System.out.print("Inserisci la password per il login: ");
+        password=br.readLine();
+        connesso=serInterfaccia.login(userID,password);
+        if(connesso){
+            System.out.println("ok");
+        }
+        else{
+            System.out.println("no");
+        }
+    }
     public void registrazione() throws NotBoundException, IOException, SQLException {
 
 
         System.out.println("Inizio procedura di registrazione utente\n");
 
         System.out.print("Inserisci nome: ");
-        nome = scanner.nextLine().toLowerCase();
+        nome = br.readLine().toLowerCase();
         nome=MetodiControlli_Client.lunghezzaNominativo(nome);
 
         System.out.print("Inserisci cognome: ");
-        cognome = scanner.nextLine();
+        cognome = br.readLine();
         cognome = MetodiControlli_Client.lunghezzaNominativo(cognome);
 
         System.out.print("Inserisci codice fiscale: ");
-        codiceFiscale = scanner.nextLine().toLowerCase();
+        codiceFiscale = br.readLine().toLowerCase();
         codiceFiscale = MetodiControlli_Client.formatoCF(codiceFiscale);
 
         System.out.print("Inserisci indirizzo: ");
-         via= scanner.nextLine();
+         via= br.readLine();
 
         System.out.print("Inserisci numero civico: ");
-        numeroCivico = scanner.nextLine();
+        numeroCivico = br.readLine();
         numeroCivico = MetodiControlli_Client.formatoNumeroCivico(numeroCivico);
 
         System.out.print("Inserisci CAP: ");
-        cap = scanner.nextInt();
-        cap = Integer.parseInt(MetodiControlli_Client.formatoCAP(cap));
+        cap = br.readLine();
+        cap = MetodiControlli_Client.formatoNumeroCivico(String.valueOf(Integer.parseInt(cap)));
 
         System.out.print("Inserisci il comune: ");
-        comune = scanner.nextLine();
+        comune = br.readLine();
         comune =MetodiControlli_Client.isNotNULL(comune);
 
         System.out.print("Inserisci la provincia: ");
-        provincia = scanner.nextLine();
+        provincia = br.readLine();
         provincia = MetodiControlli_Client.isNotNULL(provincia);
 
         System.out.print("Inserisci e-mail: ");
-        email = scanner.nextLine();
+        email = br.readLine();
         email=MetodiControlli_Client.formatoMail(email);
 
         System.out.print("Inserisci un nome utente per il login: ");
-        userID=scanner.nextLine();
+        userID=br.readLine();
         boolean esiste=false;
         do{
 
             //richiamo il medodo che ho nel servere per vedere se esiste l'utente  e aspetto la risposta del server
-
+            esiste=serInterfaccia.checkUserID(userID);
             //se la risposta e negativa esco dal while; altrimenti
             if(!esiste){
                 break;
@@ -175,14 +188,11 @@ public class Client implements MetodiControlli_Client {
             else{
                 System.out.println("nome utente appena inserito esiste gia'. ");
                 System.out.println("reinserire il nome utente");
-                userID=scanner.nextLine();
+                userID=br.readLine();
             }
-
-            Utente utente =new Utente(nome, cognome,codiceFiscale,via,numeroCivico,comune,provincia,cap,email,userID,password);
-            serInterfaccia.registrazione(utente);
-
-
         }while(esiste);
+        Utente utente =new Utente(nome, cognome,codiceFiscale,via,numeroCivico, cap,comune,provincia,email,userID,password);
+        serInterfaccia.registrazione(utente);
 
 
         //System.out.print("Inserisci password: ");
@@ -196,6 +206,11 @@ public class Client implements MetodiControlli_Client {
 
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException, SQLException {
         String identifier = null;
-        new Client().exec();
+            new Client().exec();
+
+        //for (int i=0;i<4;i++){
+           // new Client_Impl(i);
+        //}
+
     }
 }
