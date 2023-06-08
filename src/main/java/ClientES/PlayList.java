@@ -14,7 +14,7 @@ public class PlayList implements Serializable {
         PlayList.userId=user;
     }
 
-    public static String getnomePlalist(){return nomePlaylist;}
+    public static String getnomePlalist(){return  nomePlaylist;}
     public static String getInfo(){return userId+nomePlaylist;}
 
 
