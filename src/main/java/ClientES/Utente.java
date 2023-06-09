@@ -4,19 +4,19 @@ import javax.print.DocFlavor;
 import java.io.Serializable;
 
 public class Utente implements Serializable {
-    private static final long serialVersionUid = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private static String nome;
-    private static String cognome;
-    private static String codiceFiscale;
-    private static String via;
-    private static String numeroCivico;
-    private static String comune;
-    private static String provincia;
-    private static String  cap;
-    private static String email;
-    private static String userID;
-    private static String password;
+    private  String nome;
+    private  String cognome;
+    private  String codiceFiscale;
+    private  String via;
+    private  String numeroCivico;
+    private  String comune;
+    private  String provincia;
+    private  String  cap;
+    private  String email;
+    private  String userID;
+    private  String password;
 
 
 
@@ -32,40 +32,38 @@ public class Utente implements Serializable {
      *
      *
      */
-    public Utente(String nome, String cognome, String codiceFiscale, String via, String numeroCivico,String cap,String comune, String provincia, String email, String userID, String password) {
-        Utente.nome = nome;
-        Utente.cognome=cognome;
-        Utente.codiceFiscale=codiceFiscale;
-        Utente.via=via;
-        Utente.numeroCivico=numeroCivico;
-        Utente.comune=comune;
-        Utente.provincia=provincia;
-        Utente.cap=cap;
-        Utente.email=email;
-        Utente.userID=userID;
-        Utente.password =password;
+    public Utente(String nome, String cognome, String codiceFiscale, String via, String numeroCivico, String cap, String comune, String provincia, String email, String userID, String password) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.codiceFiscale = codiceFiscale;
+        this.via = via;
+        this.numeroCivico = numeroCivico;
+        this.cap = cap;
+        this.comune = comune;
+        this.provincia = provincia;
+        this.email = email;
+        this.userID = userID;
+        this.password = password;
     }
 
     /**
      * metodo che permette l'output della stringa nome
      * @return string rappresentante il cap
      */
-    public static String  getNome(){
+    public  String  getNome(){
         return nome;
     }
-    public static String getCocnome(){
+    public  String getCognome(){
         return cognome;
     }
-    public static String getCodiceFiscale(){return codiceFiscale;}
-    public static String getVia(){return via;}
-    public static String getNumeroCivico(){return numeroCivico;}
-    public static String getComun(){return comune;}
-    public static String getProvincia(){return provincia;}
-    public static String getCap(){return cap;}
-    public static String getEmail(){return email;}
-    public static String getUserID(){return userID;}
-    public static String getPassword(){return password;}
-    //public static String getLogin(){return userID+password;}
-
+    public  String getCodiceFiscale(){return codiceFiscale;}
+    public  String getVia(){return via;}
+    public  String getNumeroCivico(){return numeroCivico;}
+    public  String getComune(){return comune;}
+    public  String getProvincia(){return provincia;}
+    public  String getCap(){return cap;}
+    public  String getEmail(){return email;}
+    public  String getUserID(){return userID;}
+    public  String getPassword(){return password;}
 }
 

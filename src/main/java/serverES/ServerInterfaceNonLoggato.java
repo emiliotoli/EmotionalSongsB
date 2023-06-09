@@ -12,7 +12,8 @@ import java.sql.SQLException;
 public interface ServerInterfaceNonLoggato extends Remote {
 
     /** operazioni utente non loggato**/
-    public void registrazione(Utente utente) throws RemoteException, SQLException;
+    public boolean registrazione(Utente utente) throws RemoteException, SQLException;
+    public boolean registrazione(String nome, String cognome, String codiceFiscale, String via, String numeroCivico,String cap,String comune, String provincia, String email, String userID, String password) throws RemoteException, SQLException;
     public boolean login(String userId, String password) throws RemoteException;
     public boolean checkUserID(String userID) throws RemoteException, SQLException ;
 

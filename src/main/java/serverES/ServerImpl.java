@@ -1,7 +1,6 @@
 package serverES;
 
 import ClientES.Utente;
-import DataBase.ConnessioneDB;
 import DataBase.ConnessioneDBImpl;
 
 
@@ -11,11 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNonLoggato, ServerInterfaceLoggato, Remote {
 
@@ -28,14 +23,110 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
      * operazioni utente non loggato
      **/
     @Override
-    public synchronized void registrazione(Utente utente) throws RemoteException, SQLException {
+    public synchronized boolean registrazione(Utente utente) throws RemoteException, SQLException {
+
+        Connection connInsertUtente = null;
+        PreparedStatement preparedStatement = null;
+        int capValue;
         try{
-            Connection conn=new ConnessioneDB().getConnectionIstance();
-        }catch (Exception e){
+
+           // Connection con=ConnessioneDB.istance.getConnectionIstance();
+            connInsertUtente=new ConnessioneDBImpl().getConnection();
+
+            String queryInsert = "INSERT INTO utentiregistrati (nome, cognome, codicefiscale, via, numerocivico, comune, provincia, cap, userid, email, password) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            preparedStatement=connInsertUtente.prepareStatement(queryInsert);
+
+            preparedStatement.setString(1, utente.getNome());
+            preparedStatement.setString(2, utente.getCognome());
+            preparedStatement.setString(3, utente.getCodiceFiscale());
+            preparedStatement.setString(4, utente.getVia());
+            preparedStatement.setString(5, utente.getNumeroCivico());
+            preparedStatement.setString(6, utente.getComune());
+            preparedStatement.setString(7, utente.getProvincia());
+
+            try {
+                capValue = Integer.parseInt(utente.getCap());
+                preparedStatement.setInt(8, capValue);
+            } catch (NumberFormatException e) {
+                // Gestisci l'eccezione, ad esempio fornendo un valore di default o segnalando un errore
+                System.out.println("Il valore di 'cap' non è un numero intero valido: " + utente.getCap());
+                return false; // o l'azione appropriata per la gestione degli errori
+            }
+            //preparedStatement.setString(8, utente.getCap());
+            preparedStatement.setString(9, utente.getUserID());
+            preparedStatement.setString(10, utente.getEmail());
+            preparedStatement.setString(11, utente.getPassword());
+
+            System.out.println("query contenete: " +  queryInsert);
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            connInsertUtente.close();
+
+            return true;
+        }catch (Exception e) {
+            System.out.println("errore durante l'inserimento");
             e.getMessage();
+            return false;
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connInsertUtente != null) {
+                connInsertUtente.close();
+            }
         }
     }
 
+    public synchronized boolean registrazione(String nome, String cognome, String codiceFiscale, String via, String numeroCivico, String cap , String comune, String provincia, String email, String userID, String password) throws RemoteException, SQLException {
+        Connection connInsertUtente = null;
+        PreparedStatement preparedStatement = null;
+        int capValue;
+
+        try {
+            connInsertUtente = new ConnessioneDBImpl().getConnection();
+
+            String queryInsert = "INSERT INTO utentiregistrati (nome, cognome, codicefiscale, via, numerocivico, comune, provincia, cap, userid, email, password) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            preparedStatement = connInsertUtente.prepareStatement(queryInsert);
+
+            preparedStatement.setString(1, nome);
+            preparedStatement.setString(2, cognome);
+            preparedStatement.setString(3, codiceFiscale);
+            preparedStatement.setString(4, via);
+            preparedStatement.setString(5, numeroCivico);
+            preparedStatement.setString(6, comune);
+            preparedStatement.setString(7, provincia);
+            try {
+                capValue = Integer.parseInt(cap);
+                preparedStatement.setInt(8, capValue);
+            } catch (NumberFormatException e) {
+                // Gestisci l'eccezione, ad esempio fornendo un valore di default o segnalando un errore
+                System.out.println("Il valore di 'cap' non è un numero intero valido: " + cap);
+                return false; // o l'azione appropriata per la gestione degli errori
+            }
+            //preparedStatement.setString(8, cap );
+            preparedStatement.setString(9, userID);
+            preparedStatement.setString(10, email);
+            preparedStatement.setString(11, password);
+
+            System.out.println("Query contenente: " + queryInsert);
+            int rowsInserted = preparedStatement.executeUpdate();
+
+            return rowsInserted > 0;
+        } catch (Exception e) {
+            System.out.println("Errore durante l'inserimento");
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connInsertUtente != null) {
+                connInsertUtente.close();
+            }
+        }
+    }
     public synchronized boolean login(String userId, String password) throws RemoteException{
         try{
             //apro la connessione con il DB

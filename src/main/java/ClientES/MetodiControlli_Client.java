@@ -41,7 +41,6 @@ public interface MetodiControlli_Client {
         soloLettere(nominativo);
         return nominativo;
     }
-
     static String formatoCF(String codFisc) throws IOException {
         do {
             if (codFisc.length() == cf_Lunghezza){
@@ -56,8 +55,7 @@ public interface MetodiControlli_Client {
         } while ((codFisc.length() != cf_Lunghezza) && !codFisc.matches("([A-Za-z]{6})([0-9]{2})([A-Za-z])([0-9]{2})([A-Za-z])([0-9]{3})([A-Za-z])"));
         return codFisc;
     }
-
-    public static String formatoNumeroCivico(String numcivico)throws IOException {
+     static String formatoNumeroCivico(String numcivico)throws IOException {
         while(!numcivico.matches("[0-9]+([A-Za-z]*)")) {
             System.out.println("il numero civico inserito non rispetta il formato");
             System.out.println("Deve iniziare con un numero di lunghezza massima di tre cifre ed una lettera.");
@@ -66,7 +64,6 @@ public interface MetodiControlli_Client {
         }
         return numcivico;
     }
-
     static String formatoCAP(int cap) throws IOException {
 
         boolean check = false;
@@ -105,7 +102,6 @@ public interface MetodiControlli_Client {
 
         return CAP.toString();
     }
-
     static int isNumeric(int cap) throws IOException {
         boolean chekNumeri = false;
         do{
@@ -125,7 +121,6 @@ public interface MetodiControlli_Client {
         return cap;
 
     }
-
     static String isNotNULL(String str) throws IOException {
         do{
             if(str.length()==0){
@@ -154,7 +149,6 @@ public interface MetodiControlli_Client {
         }while(!(str.matches("[A-Za-z]*")));
         return str;
     }
-
     static String formatoMail(String mail) throws IOException {
         do {
             if (mail.matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,3}")) {
@@ -167,34 +161,7 @@ public interface MetodiControlli_Client {
         } while (!mail.matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,3}"));
         return mail;
     }
-
-    /*static String userIDExists(String username)throws IOException {
-        boolean esisteut;
-        do {
-            esisteut = esisteUtente(username);
-
-            if (!esisteut) {
-                System.out.println("Nome_Utente valido.");
-                break;
-            } else {
-                System.out.println("Nome_Utente gia' esistente!\nScegliere un nuovo nome utente. ");
-                System.out.println("Inserire il nuovo nome utente: ");
-                username = scan.nextLine();
-            }
-        } while (esisteut);
-
-        username = formatoUser(username);
-        return username;
-    }*/
-    //static boolean esisteUtente(String nomeUtente) throws IOException {
-        // il metodo deve mandare il nome utente scelto al server che crea una connessione con il db e verifica se esiste quell'utente
-        //se esiste il server risponderà con TRUE--> bisogna reinserire l'utente;
-        // se non esiste il server risponderà con FALSE--> nome utente inserito valido
-        //Registry regis= LocateRegistry.getRegistry(1099);
-        //ServerInterfaceNonLoggato serInterfaccia;
-
-    //}
-    private static String formatoUser(String user) throws IOException {
+     static String formatoUser(String user) throws IOException {
         do {
             if (user.matches("^[a-zA-Z0-9_-]{3,15}$")) {
                 break;
@@ -206,6 +173,49 @@ public interface MetodiControlli_Client {
         } while (!user.matches("^[a-zA-Z0-9_-]{3,15}$"));
         return user;
     }
+    static String FormatoPassword(String pwdScelta) throws IOException {
+        String confermaPwd;
+        do {
+            if(pwdScelta!=null){
+                break;
+            }else {
+                System.out.println("Non hai inserito la Password. Reinserire la password");
+                pwdScelta=read.readLine();
+            }
+        }while(pwdScelta==null);
 
+        pwdScelta=MetodiControlli_Client.checkFormato(pwdScelta);
 
+        System.out.println("Conferma Password: ");
+        confermaPwd = read.readLine();
+
+        MetodiControlli_Client.checkPassordUguale(pwdScelta, confermaPwd);
+        return pwdScelta;
+    }
+    private static String checkFormato(String pass) throws IOException {
+        do {
+            if (pass.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!_.]).{8,20})")) {
+                break;
+            } else {
+                System.out.println("inserimento  formato della password non valido");
+                System.out.println("La password deve contenere necessariamente una lettera maiuscola e un carattere speciale (esempio: . @ #) con lunghezza minima 8 e massima 20.");
+                System.out.println("inserire la password:");
+                pass = read.readLine();
+            }
+        } while (!(pass.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!_.]).{8,20})")));
+        return pass;
+    }
+    private static String checkPassordUguale(String pw1, String pw2) throws IOException {
+        do {
+            if (pw1.equals(pw2)) {
+                System.out.println("Password corretta");
+                break;
+            } else {
+                System.out.println("le password non coincidono.");
+                System.out.println("reinserire la password di conferma.");
+                pw2 = read.readLine();
+            }
+        } while (!(pw1.equals(pw2)));
+        return pw1;
+    }
 }

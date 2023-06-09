@@ -12,12 +12,13 @@ public class ConnessioneDBImpl extends UnicastRemoteObject implements Connession
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "Kira0109@!";
+    private static ConnessioneDBImpl instance;
 
     public ConnessioneDBImpl() throws RemoteException {
+        super();
     }
 
     public static ConnessioneDBImpl getInstance() {
-        ConnessioneDBImpl instance = null;
         if (instance == null) {
             synchronized (ConnessioneDBImpl.class) {
                 if (instance == null) {

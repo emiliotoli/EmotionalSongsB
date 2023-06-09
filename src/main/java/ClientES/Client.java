@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 import serverES.ServerInterfaceNonLoggato;
@@ -52,10 +53,13 @@ public class Client implements MetodiControlli_Client {
         Registry registroNonLoggato= LocateRegistry.getRegistry(1099);
 
         try{
+            System.out.println("Procedura di collegamento al Server --> Iniziata");
             serInterfaccia=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("ServerEmotionalSongs");
+            System.out.println("Procedura di collegamento al Server --> Completata");
+            System.out.println("Collegameto al Server--> Riuscito");
         }catch (Exception e){
             e.getMessage();
-            System.out.println("collegamento fallito");
+            System.out.println("Collegamento al Server-->fallito");
 
         }
 
@@ -136,6 +140,7 @@ public class Client implements MetodiControlli_Client {
     }
     public void registrazione() throws NotBoundException, IOException, SQLException {
 
+        boolean inserimentoRiuscito=false;
 
         System.out.println("Inizio procedura di registrazione utente\n");
 
@@ -152,7 +157,7 @@ public class Client implements MetodiControlli_Client {
         codiceFiscale = MetodiControlli_Client.formatoCF(codiceFiscale);
 
         System.out.print("Inserisci indirizzo: ");
-         via= br.readLine();
+        via= br.readLine();
 
         System.out.print("Inserisci numero civico: ");
         numeroCivico = br.readLine();
@@ -176,6 +181,7 @@ public class Client implements MetodiControlli_Client {
 
         System.out.print("Inserisci un nome utente per il login: ");
         userID=br.readLine();
+        userID=MetodiControlli_Client.formatoUser(userID);
         boolean esiste=false;
         do{
 
@@ -191,16 +197,25 @@ public class Client implements MetodiControlli_Client {
                 userID=br.readLine();
             }
         }while(esiste);
-        Utente utente =new Utente(nome, cognome,codiceFiscale,via,numeroCivico, cap,comune,provincia,email,userID,password);
-        serInterfaccia.registrazione(utente);
+
+        System.out.println("Inserisci password: ");
+        password = br.readLine();
+        password = MetodiControlli_Client.FormatoPassword(password);
+
+        System.out.println("Inizio procedura inserimento dati su DB");
+
+        Utente utete=new Utente(nome, cognome,codiceFiscale,via,numeroCivico, cap,comune,provincia,email,userID,password);
+        inserimentoRiuscito=serInterfaccia.registrazione(utete);
 
 
-        //System.out.print("Inserisci password: ");
-        //password = br.readLine();
-        //password = Utenti.controlloPassword(password);
+        //inserimentoRiuscito=serInterfaccia.registrazione(nome, cognome,codiceFiscale,via,numeroCivico, cap,comune,provincia,email,userID,password);
 
-        //Utenti.Registrazione( nome,cognome,codfisc,indirizzo, numerocivico,cap,comune,provincia,email,username,password);
-
+        if(inserimentoRiuscito=true){
+            System.out.println("Inserimento dati su DB --> Riuscito");
+        }
+        else{
+            System.out.println("Inserimento dati su DB --> Fallito");
+        }
 
     }
 
