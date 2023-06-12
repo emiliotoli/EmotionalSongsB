@@ -1,6 +1,7 @@
 package serverES;
 
 import ClientES.Utente;
+import ClientES.Canzone;
 import DataBase.ConnessioneDBImpl;
 
 
@@ -11,10 +12,13 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNonLoggato, ServerInterfaceLoggato, Remote {
 
     private static final long serialVersionUid = 1L;
+
     protected ServerImpl() throws RemoteException {
         super();
     }
@@ -78,8 +82,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-
-    public synchronized boolean registrazione(String nome, String cognome, String codiceFiscale, String via, String numeroCivico, String cap , String comune, String provincia, String email, String userID, String password) throws RemoteException, SQLException {
+    /*public synchronized boolean registrazione(String nome, String cognome, String codiceFiscale, String via, String numeroCivico, String cap , String comune, String provincia, String email, String userID, String password) throws RemoteException, SQLException {
         Connection connInsertUtente = null;
         PreparedStatement preparedStatement = null;
         int capValue;
@@ -126,17 +129,18 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
                 connInsertUtente.close();
             }
         }
-    }
+    }*/
     public synchronized boolean login(String userId, String password) throws RemoteException{
+        Connection connCheckLogin = null;
+        PreparedStatement preparedStatement = null;
         try{
             //apro la connessione con il DB
-            //Connection con=ConnessioneDB.istance.getConnectionIstance();
-            Connection connCheckLogin = ConnessioneDBImpl.getInstance().getConnection();
-            PreparedStatement preparedStatement=null;
+
+            connCheckLogin = new ConnessioneDBImpl().getConnection();
 
             String queryLogin="SELECT COUNT(*) FROM utentiregistrati WHERE  userid= ? AND password = ?";
-
             preparedStatement=connCheckLogin.prepareStatement(queryLogin);
+
             preparedStatement.setString(1,userId);
             preparedStatement.setString(2,password);
 
@@ -177,13 +181,103 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
     /**
      * operazioni  utente loggato e non loggato
      **/
-    public synchronized void ricercaCanzoneTitolo(String titolo) { }
-    public  synchronized void ricercaCanzoneAutoreAnno(String autore, String anno) {
+    public synchronized List<Canzone> ricercaCanzoneTitolo(String titolo) throws RemoteException, SQLException {
+        Connection searchByTitle = null;
+        PreparedStatement preparedStatement = null;
 
-    }
-    public  synchronized void visualizzaEmozioni() {
+        List<Canzone> infoCanzone = new ArrayList<>();
+        try{
+            searchByTitle= new ConnessioneDBImpl().getConnection();
+            String query = "SELECT * FROM canzone WHERE titolo = ?";
 
+            preparedStatement = searchByTitle.prepareStatement(query);
+            preparedStatement.setString(1, titolo);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet != null ) {
+                while (resultSet.next()) {
+                    String titoloCanzone = resultSet.getString("titolo");
+                    String autoreCanzone = resultSet.getString("autore");
+                    int annoCanzone = resultSet.getInt("anno");
+
+                    Canzone canzone = new Canzone(titoloCanzone, autoreCanzone, annoCanzone);
+                    infoCanzone.add(canzone);
+
+                    //stampo i valori presi
+                    System.out.println("Titolo: " + titoloCanzone);
+                    System.out.println("Autore: " + autoreCanzone);
+                    System.out.println("Anno: " + annoCanzone);
+                    System.out.println();
+                }
+            }
+            else {
+                infoCanzone = null; // La canzone non è stata trovata, impostiamo l'array a null
+            }
+
+
+            return infoCanzone;
+        }catch(Exception e){
+            System.out.println("Errore durante la ricerca della canzone per titolo: " + e.getMessage());
+            throw new RemoteException("Canzone --> NON Trovata", e);
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (searchByTitle != null) {
+                searchByTitle.close();
+            }
+        }
     }
+    public  synchronized List<Canzone> ricercaCanzoneAutoreAnno(String autore, int anno) throws RemoteException, SQLException{
+        Connection searchByTitle = null;
+        PreparedStatement preparedStatement = null;
+
+        List<Canzone> infoCanzone = new ArrayList<>();
+        try{
+            searchByTitle= new ConnessioneDBImpl().getConnection();
+            String query = "select * from canzone where autore= ? and anno= ? ";
+
+            preparedStatement = searchByTitle.prepareStatement(query);
+            preparedStatement.setString(1, autore);
+            preparedStatement.setInt(2, anno);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet != null ) {
+                while (resultSet.next()) {
+                    String titoloCanzone = resultSet.getString("titolo");
+                    String autoreCanzone = resultSet.getString("autore");
+                    int annoCanzone = resultSet.getInt("anno");
+
+                    Canzone canzone = new Canzone(titoloCanzone, autoreCanzone, annoCanzone);
+                    infoCanzone.add(canzone);
+
+                    //stampo i valori presi
+                    System.out.println("Titolo: " + titoloCanzone);
+                    System.out.println("Autore: " + autoreCanzone);
+                    System.out.println("Anno: " + annoCanzone);
+                    System.out.println();
+                }
+            }
+            else {
+                infoCanzone = null; // La canzone non è stata trovata, impostiamo l'array a null
+            }
+
+            return infoCanzone;
+        }catch(Exception e){
+            System.out.println("Errore durante la ricerca della canzone per titolo: " + e.getMessage());
+            throw new RemoteException("Canzone --> NON Trovata", e);
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (searchByTitle != null) {
+                searchByTitle.close();
+            }
+        }
+    }
+    public  synchronized void visualizzaEmozioni() {}
 
     /**
      * operazioni solo utente loggato

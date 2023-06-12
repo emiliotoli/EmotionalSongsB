@@ -11,6 +11,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.sql.SQLOutput;
+import java.util.List;
 import java.util.Scanner;
 
 import serverES.ServerInterfaceNonLoggato;
@@ -25,6 +26,10 @@ public class Client implements MetodiControlli_Client {
     BufferedReader br = new BufferedReader(isr);
     int sceltaUtente=-1;
     private String nome, cognome, codiceFiscale, via, numeroCivico, cap, comune, provincia, email, userID, password ;
+    private String titoloCanzone, autoreCanzone, annoCanzoneAutoreAnno;
+    private int annoCanzone;
+    private List<Canzone> informazioniCanzoneTitolo;
+    private List<Canzone> informazioniCanzoneAuoreAnno;
     private static int nameClient;
     private boolean utenteLoggato = false;
     ServerInterfaceNonLoggato serInterfaccia;
@@ -83,59 +88,89 @@ public class Client implements MetodiControlli_Client {
                     switch (sceltaUtente) {
                     case 1:
                         // Gestisci l'operazione per la ricerca per Titolo
-
+                        RicercaCanzoniTitolo();
                         break;
+
                     case 2:
                         // Gestisci l'operazione per la ricerca per Autore, Anno
+                        RicercaCanzoniAutoreAnno();
                         break;
+
                     case 3:
                         // Gestisci l'operazione per la registrazione
-
                         registrazione();
-
                         break;
+
                     case 4:
                         // Gestisci l'operazione per il login
                         login();
                         break;
+
                     case 5:
                         // Gestisci l'operazione per l'accesso all'area riservata
                         break;
+
                     case 6:
                         // Termina l'attività
                         break;
-
                 }
             } while (sceltaUtente != 6);
 
             // Chiudi lo scanner dopo aver terminato
             br.close();
-
-
-
-
-        /** una volta scelto l'operazione richiamo il metodo che si trova nell'interccia controllando che i dati inseriti siano corretti **/
-
-        /** se i dati sono corretti li restituisco al client **/
-
-        /** quei dati vengono serializzati e inviati al server **/
-
-        /** il client attenderà la risposta del server **/
-
     }
 
-    public void login() throws IOException {
-        boolean connesso;
-        System.out.print("Inserisci un nome utente per il login: ");
-        userID=br.readLine();
-        System.out.print("Inserisci la password per il login: ");
-        password=br.readLine();
-        connesso=serInterfaccia.login(userID,password);
-        if(connesso){
-            System.out.println("ok");
+
+    public void RicercaCanzoniTitolo() throws IOException, SQLException {
+
+        System.out.println("Inserisci titolo da cercare: ");
+        titoloCanzone = br.readLine();
+
+        //passo il titolo della canzone da ricercare
+        informazioniCanzoneTitolo = serInterfaccia.ricercaCanzoneTitolo(titoloCanzone);
+
+        //elaboro la risposta
+        if (!informazioniCanzoneTitolo.isEmpty()){
+            for (Canzone canzone : informazioniCanzoneTitolo) {
+                titoloCanzone = canzone.getTitoloCanzone();
+                autoreCanzone = canzone.getAutoreCanzone();
+                annoCanzone = canzone.getAnnoCanzone();
+
+                System.out.println("Titolo: " + titoloCanzone);
+                System.out.println("Autore: " + autoreCanzone);
+                System.out.println("Anno: " + annoCanzone);
+                System.out.println();
+            }
         }
-        else{
-            System.out.println("no");
+        else {
+            System.out.println("Canzone non trovata");
+        }
+    }
+    public void RicercaCanzoniAutoreAnno() throws IOException, SQLException {
+        System.out.println("Inserisci il nome dell'Autore da cercare: ");
+        autoreCanzone = br.readLine();
+
+        System.out.println("Inserisci l'Anno della canzone: ");
+        annoCanzoneAutoreAnno= br.readLine();
+        annoCanzone=Integer.parseInt(annoCanzoneAutoreAnno);
+
+        informazioniCanzoneAuoreAnno=serInterfaccia.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
+
+        //elaboro la risposta
+        if (!informazioniCanzoneAuoreAnno.isEmpty()){
+            for (Canzone canzone : informazioniCanzoneAuoreAnno) {
+                titoloCanzone = canzone.getTitoloCanzone();
+                autoreCanzone = canzone.getAutoreCanzone();
+                annoCanzone = canzone.getAnnoCanzone();
+
+                System.out.println("Titolo: " + titoloCanzone);
+                System.out.println("Autore: " + autoreCanzone);
+                System.out.println("Anno: " + annoCanzone);
+                System.out.println();
+            }
+        }
+        else {
+            System.out.println("Canzone non trovata");
         }
     }
     public void registrazione() throws NotBoundException, IOException, SQLException {
@@ -218,6 +253,22 @@ public class Client implements MetodiControlli_Client {
         }
 
     }
+    public void login() throws IOException {
+        boolean connesso;
+        System.out.print("Inserisci un nome utente per il login: ");
+        userID=br.readLine();
+        System.out.print("Inserisci la password per il login: ");
+        password=br.readLine();
+        connesso=serInterfaccia.login(userID,password);
+        if(connesso){
+            System.out.println("ok");
+        }
+        else{
+            System.out.println("no");
+        }
+    }
+
+
 
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException, SQLException {
         String identifier = null;
