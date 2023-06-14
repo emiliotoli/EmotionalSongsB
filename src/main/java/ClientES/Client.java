@@ -30,8 +30,9 @@ public class Client implements MetodiControlli_Client {
     private int annoCanzone;
     private List<Canzone> informazioniCanzoneTitolo;
     private List<Canzone> informazioniCanzoneAuoreAnno;
+    private List<Emozione> emozioniCanzone;
     private static int nameClient;
-    private boolean utenteLoggato = false;
+    private boolean isLoggato = false;
     ServerInterfaceNonLoggato serInterfaccia;
 
     /**
@@ -123,27 +124,80 @@ public class Client implements MetodiControlli_Client {
 
     public void RicercaCanzoniTitolo() throws IOException, SQLException {
 
-        System.out.println("Inserisci titolo da cercare: ");
-        titoloCanzone = br.readLine();
+        if(!isLoggato){
+            System.out.println("Inserisci titolo da cercare: ");
+            titoloCanzone = br.readLine();
 
-        //passo il titolo della canzone da ricercare
-        informazioniCanzoneTitolo = serInterfaccia.ricercaCanzoneTitolo(titoloCanzone);
+            //passo il titolo della canzone da ricercare
+            informazioniCanzoneTitolo = serInterfaccia.ricercaCanzoneTitolo(titoloCanzone);
 
-        //elaboro la risposta
-        if (!informazioniCanzoneTitolo.isEmpty()){
-            for (Canzone canzone : informazioniCanzoneTitolo) {
-                titoloCanzone = canzone.getTitoloCanzone();
-                autoreCanzone = canzone.getAutoreCanzone();
-                annoCanzone = canzone.getAnnoCanzone();
+            //elaboro la risposta
+            if (!informazioniCanzoneTitolo.isEmpty()){
+                for (Canzone canzone : informazioniCanzoneTitolo) {
+                    titoloCanzone = canzone.getTitoloCanzone();
+                    autoreCanzone = canzone.getAutoreCanzone();
+                    annoCanzone = canzone.getAnnoCanzone();
 
-                System.out.println("Titolo: " + titoloCanzone);
-                System.out.println("Autore: " + autoreCanzone);
-                System.out.println("Anno: " + annoCanzone);
-                System.out.println();
+                    System.out.println("Titolo: " + titoloCanzone);
+                    System.out.println("Autore: " + autoreCanzone);
+                    System.out.println("Anno: " + annoCanzone);
+                    System.out.println();
+                }
             }
+            else {
+                System.out.println("Canzone non trovata");
+            }
+
+            //faccio visualizzare le emozioni associate a quella canzone
+            visualizzaEmozioniCanzone();
         }
         else {
-            System.out.println("Canzone non trovata");
+
+            //visualizzo le info della canzone ricercata
+
+            //faccio visualizzare le emozioni della canzone
+
+            //se vuole l'utente, può inserire le emozioni su DB
+
+        }
+
+
+    }
+    public void visualizzaEmozioniCanzone() throws SQLException, RemoteException {
+        if(titoloCanzone != null && autoreCanzone != null){
+            emozioniCanzone = serInterfaccia.visualizzaEmozioni(titoloCanzone, autoreCanzone);
+
+            if (!emozioniCanzone.isEmpty()) {
+
+                int emozioniTotali=emozioniCanzone.size();
+                int i=1;
+                System.out.println("Emozione associata alla canzone: " + titoloCanzone + " sono: " + "\n");
+
+                for (Emozione emozione : emozioniCanzone) {
+
+                    System.out.println(i + " di " + emozioniTotali);
+                    String nomeEmozione = emozione.getNomeEmozione();
+                    //String tipoEmozione =emozione.getTipoEmozione();
+                    //String spiegazioneEmozione= emozione.getSpiegazioneEmozione();
+                    //int punteggioEmozione= emozione.getPunteggioEmozione();
+                    double percentualeEmozione=emozione.getPercentualeEmozione();
+
+                    System.out.println("la percentuale dell' emozione " +  "'" +nomeEmozione+ "'" + " è --> " + percentualeEmozione  );
+                    System.out.println("Emozione: " + nomeEmozione );
+                    //System.out.println("tipo: " + tipoEmozione);
+                    //System.out.println("Spiegazione: " + spiegazioneEmozione);
+                    //System.out.println("punteggio: " + punteggioEmozione);
+                    System.out.println("percentuale: " + percentualeEmozione +"\n");
+                    i++;
+
+                }
+            } else {
+                System.out.println("Nessuna emozione trovata per questa canzone.");
+            }
+
+        }
+        else{
+            System.out.println("Effettua prima una ricerca di una canzone.");
         }
     }
     public void RicercaCanzoniAutoreAnno() throws IOException, SQLException {
@@ -173,6 +227,7 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Canzone non trovata");
         }
     }
+
     public void registrazione() throws NotBoundException, IOException, SQLException {
 
         boolean inserimentoRiuscito=false;

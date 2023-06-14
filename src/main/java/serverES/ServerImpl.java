@@ -1,5 +1,6 @@
 package serverES;
 
+import ClientES.Emozione;
 import ClientES.Utente;
 import ClientES.Canzone;
 import DataBase.ConnessioneDBImpl;
@@ -277,7 +278,61 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-    public  synchronized void visualizzaEmozioni() {}
+    public  synchronized List<Emozione> visualizzaEmozioni(String titoloCanzone, String autoreCanzone) throws SQLException, RemoteException {
+        Connection searchEmozione = null;
+        PreparedStatement preparedStatement = null;
+        List<Emozione> infoEmozione = new ArrayList<>();
+        try {
+            searchEmozione= new ConnessioneDBImpl().getConnection();
+            String query = "SELECT Associa.titolo, Associa.autore, Associa.nome, COUNT(Associa.nome) AS num_emozioni, totali.numero_emozioni_totali, ROUND(((COUNT(Associa.nome)*1.0 /totali.numero_emozioni_totali * 1.0)*100),2) as percentuale\n" +
+                    "FROM Associa \n" +
+                    "JOIN (\n" +
+                    "  SELECT titolo, autore, COUNT(nome) AS numero_emozioni_totali\n" +
+                    "  FROM Associa \n" +
+                    "  WHERE titolo = ? AND autore = ? \n" +
+                    "  GROUP BY titolo, autore\n" +
+                    ") AS totali ON Associa.titolo = totali.titolo AND Associa.autore = totali.autore\n" +
+                    "WHERE Associa.titolo = ? AND Associa.autore = ? \n" +
+                    "GROUP BY Associa.titolo, Associa.autore, Associa.nome, totali.numero_emozioni_totali;";
+
+            //The Prisoner's Song
+            //Vernon Dalhart
+            preparedStatement = searchEmozione.prepareStatement(query);
+            preparedStatement.setString(1, titoloCanzone);
+            preparedStatement.setString(2, autoreCanzone);
+            preparedStatement.setString(3,titoloCanzone);
+            preparedStatement.setString(4,autoreCanzone);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet!=null){
+                while(resultSet.next()){
+                     String nomeEmozione=resultSet.getString("nome");
+                     //String tipoEmozione=resultSet.getString("tipo");
+                     //String spiegazioneEmozione=resultSet.getString("spiegazione");
+                     //int punteggioEmozione=resultSet.getInt("punteggio");
+                     double percentuale= resultSet.getDouble("percentuale");
+
+                     Emozione emozione = new Emozione (nomeEmozione, percentuale);
+                    infoEmozione.add(emozione);
+                }
+            }
+            else {
+                infoEmozione = null; // L'emozione non è stata trovata, impostiamo l'array a null
+            }
+            return infoEmozione;
+        }catch(Exception e){
+            System.out.println("Errore durante la ricerca della canzone per titolo: " + e.getMessage());
+            throw new RemoteException("Canzone --> NON Trovata", e);
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (searchEmozione != null) {
+                searchEmozione.close();
+            }
+        }
+    }
 
     /**
      * operazioni solo utente loggato

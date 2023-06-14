@@ -1,5 +1,6 @@
 package serverES;
 import ClientES.Canzone;
+import ClientES.Emozione;
 import ClientES.Utente;
 
 import java.rmi.Remote;
@@ -22,7 +23,7 @@ public interface ServerInterfaceNonLoggato extends Remote {
     /** operazioni che un utente può fare da loggato e non **/
     public List<Canzone> ricercaCanzoneTitolo(String titolo) throws RemoteException, SQLException;
     public List<Canzone> ricercaCanzoneAutoreAnno(String autore, int anno) throws RemoteException, SQLException;
-    public void visualizzaEmozioni()throws RemoteException,SQLException;
+    public List<Emozione> visualizzaEmozioni(String titoloCanzone, String autoreCanzone)throws RemoteException,SQLException;
 
 
 }
