@@ -295,8 +295,6 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
                     "WHERE Associa.titolo = ? AND Associa.autore = ? \n" +
                     "GROUP BY Associa.titolo, Associa.autore, Associa.nome, totali.numero_emozioni_totali;";
 
-            //The Prisoner's Song
-            //Vernon Dalhart
             preparedStatement = searchEmozione.prepareStatement(query);
             preparedStatement.setString(1, titoloCanzone);
             preparedStatement.setString(2, autoreCanzone);

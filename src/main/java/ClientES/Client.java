@@ -25,6 +25,7 @@ public class Client implements MetodiControlli_Client {
     InputStreamReader isr = new InputStreamReader(System.in);
     BufferedReader br = new BufferedReader(isr);
     int sceltaUtente=-1;
+    int sceltaUtenteAreaPersonale=-1;
     private String nome, cognome, codiceFiscale, via, numeroCivico, cap, comune, provincia, email, userID, password ;
     private String titoloCanzone, autoreCanzone, annoCanzoneAutoreAnno;
     private int annoCanzone;
@@ -32,6 +33,7 @@ public class Client implements MetodiControlli_Client {
     private List<Canzone> informazioniCanzoneAuoreAnno;
     private List<Emozione> emozioniCanzone;
     private static int nameClient;
+    private int numeroTentativi = 0;
     private boolean isLoggato = false;
     ServerInterfaceNonLoggato serInterfaccia;
 
@@ -62,10 +64,10 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Procedura di collegamento al Server --> Iniziata");
             serInterfaccia=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("ServerEmotionalSongs");
             System.out.println("Procedura di collegamento al Server --> Completata");
-            System.out.println("Collegameto al Server--> Riuscito");
+            System.out.println("Collegameto al Server--> Riuscito" + "\n");
         }catch (Exception e){
             e.getMessage();
-            System.out.println("Collegamento al Server-->fallito");
+            System.out.println("Collegamento al Server--> Fallito" +"\n");
 
         }
 
@@ -81,7 +83,7 @@ public class Client implements MetodiControlli_Client {
                 System.out.println("Digitare 4 --> per effetuare il Login.");
                 System.out.println("Digitare 5 --> per accedere all'area Riservata.");
                 System.out.println("Digitare 6 --> per Terminare l'attivita'.");
-                System.out.println("\nOperazione scelta: \n");
+                System.out.println("\nOperazione scelta: ");
 
                 boolean controlloScelta=false;
 
@@ -104,15 +106,137 @@ public class Client implements MetodiControlli_Client {
 
                     case 4:
                         // Gestisci l'operazione per il login
-                        login();
+                        if(!isLoggato){
+                            login();
+                        }
+                        else{
+                            System.out.println("Hai già effettuato l'accesso");
+                        }
+
                         break;
 
                     case 5:
                         // Gestisci l'operazione per l'accesso all'area riservata
-                        break;
 
+                        if(!isLoggato) {
+                            System.out.println("Devi essere loggato prima di accedere all'area personale");
+                            System.out.println("Inserisci le credenziali di accesso: ");
+                            login();
+                            if(!isLoggato){
+                                System.out.println("Non puoi accedere al menù principale");
+                                break;
+                            }
+                            else{
+                                System.out.println("puoi accedere all'area personale");
+
+                                 do{
+                                     System.out.println("----------------- MENU' AREA PERSONALE-----------------");
+                                     System.out.println("Digitare 1 --> per creare una playlist.");
+                                     System.out.println("Digitare 2 --> per visualizzare lista delle playlist.");
+                                     System.out.println("Digitare 3 --> per visualizzare le canzoni di  una playlist.");
+                                     System.out.println("Digitare 4 --> per aggiungere una canzone ad una playlist.");
+                                     System.out.println("Digitare 5 --> per rimuovere una canzone da una playlist.");
+                                     System.out.println("Digitare 6 --> per eliminare una playlist.");
+                                     System.out.println("Digitare 7 --> tornare al menù principale.");
+                                     System.out.println("Digitare 8 --> per eseguire il logout.");
+
+                                     System.out.println("\nOperazione scelta: ");
+                                     sceltaUtenteAreaPersonale = Integer.parseInt(br.readLine());
+
+                                     switch (sceltaUtente) {
+                                         case 1:
+                                             //Gestisci l'operazione per creare una Playlist
+                                             break;
+
+                                         case 2:
+                                             //Gestisci l'operazione per visualizzare la lista delle Playlist
+                                             break;
+
+                                         case 3:
+                                             //Gestisci l'operazione per visualizzare le canzoni di  una playlist
+                                             break;
+
+                                         case 4:
+                                             //Gestisci l'operazione per aggiungere una canzone ad una playlist
+                                             break;
+
+                                         case 5:
+                                             //Gestisci l'operazione per rimuovere una canzone da una playlist
+                                             break;
+
+                                         case 6:
+                                             //Gestisci l'operazione per per eliminare una playlist
+                                             break;
+
+                                         case 7:
+                                             //Gestisci l'operazione per tornare al menù principale
+                                             break;
+
+                                         case 8:
+                                             //Gestisci l'operazione per per eseguire il logout
+                                             break;
+
+                                     }
+                                 }while(sceltaUtente!=6);
+
+                            }
+                        }
+                        else{
+                            System.out.println("-------------ok----------------");
+
+                            do{
+                                System.out.println("----------------- MENU' AREA PERSONALE-----------------");
+                                System.out.println("Digitare 1 --> per creare una playlist.");
+                                System.out.println("Digitare 2 --> per visualizzare lista delle playlist.");
+                                System.out.println("Digitare 3 --> per visualizzare le canzoni di  una playlist.");
+                                System.out.println("Digitare 4 --> per aggiungere una canzone ad una playlist.");
+                                System.out.println("Digitare 5 --> per rimuovere una canzone da una playlist.");
+                                System.out.println("Digitare 6 --> per eliminare una playlist.");
+                                System.out.println("Digitare 7 --> tornare al menù principale.");
+                                System.out.println("Digitare 8 --> per eseguire il logout.");
+
+                                System.out.println("\nOperazione scelta: ");
+                                sceltaUtenteAreaPersonale = Integer.parseInt(br.readLine());
+
+                                switch (sceltaUtente) {
+                                    case 1:
+                                        //Gestisci l'operazione per creare una Playlist
+                                        break;
+
+                                    case 2:
+                                        //Gestisci l'operazione per visualizzare la lista delle Playlist
+                                        break;
+
+                                    case 3:
+                                        //Gestisci l'operazione per visualizzare le canzoni di  una playlist
+                                        break;
+
+                                    case 4:
+                                        //Gestisci l'operazione per aggiungere una canzone ad una playlist
+                                        break;
+
+                                    case 5:
+                                        //Gestisci l'operazione per rimuovere una canzone da una playlist
+                                        break;
+
+                                    case 6:
+                                        //Gestisci l'operazione per per eliminare una playlist
+                                        break;
+
+                                    case 7:
+                                        //Gestisci l'operazione per tornare al menù principale
+                                        break;
+
+                                    case 8:
+                                        //Gestisci l'operazione per per eseguire il logout
+                                        break;
+
+                                }
+                            }while(sceltaUtente!=6);
+                        }
                     case 6:
                         // Termina l'attività
+
                         break;
                 }
             } while (sceltaUtente != 6);
@@ -124,38 +248,36 @@ public class Client implements MetodiControlli_Client {
 
     public void RicercaCanzoniTitolo() throws IOException, SQLException {
 
+        System.out.println("Inserisci titolo da cercare: ");
+        titoloCanzone = br.readLine();
+
+        //passo il titolo della canzone da ricercare
+        informazioniCanzoneTitolo = serInterfaccia.ricercaCanzoneTitolo(titoloCanzone);
+
+        //elaboro la risposta
+        if (!informazioniCanzoneTitolo.isEmpty()){
+            for (Canzone canzone : informazioniCanzoneTitolo) {
+                titoloCanzone = canzone.getTitoloCanzone();
+                autoreCanzone = canzone.getAutoreCanzone();
+                annoCanzone = canzone.getAnnoCanzone();
+
+                System.out.println("Titolo: " + titoloCanzone);
+                System.out.println("Autore: " + autoreCanzone);
+                System.out.println("Anno: " + annoCanzone);
+                System.out.println();
+            }
+        }
+        else {
+            System.out.println("Canzone non trovata");
+        }
         if(!isLoggato){
-            System.out.println("Inserisci titolo da cercare: ");
-            titoloCanzone = br.readLine();
-
-            //passo il titolo della canzone da ricercare
-            informazioniCanzoneTitolo = serInterfaccia.ricercaCanzoneTitolo(titoloCanzone);
-
-            //elaboro la risposta
-            if (!informazioniCanzoneTitolo.isEmpty()){
-                for (Canzone canzone : informazioniCanzoneTitolo) {
-                    titoloCanzone = canzone.getTitoloCanzone();
-                    autoreCanzone = canzone.getAutoreCanzone();
-                    annoCanzone = canzone.getAnnoCanzone();
-
-                    System.out.println("Titolo: " + titoloCanzone);
-                    System.out.println("Autore: " + autoreCanzone);
-                    System.out.println("Anno: " + annoCanzone);
-                    System.out.println();
-                }
-            }
-            else {
-                System.out.println("Canzone non trovata");
-            }
 
             //faccio visualizzare le emozioni associate a quella canzone
             visualizzaEmozioniCanzone();
         }
         else {
-
-            //visualizzo le info della canzone ricercata
-
             //faccio visualizzare le emozioni della canzone
+            visualizzaEmozioniCanzone();
 
             //se vuole l'utente, può inserire le emozioni su DB
 
@@ -227,7 +349,6 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Canzone non trovata");
         }
     }
-
     public void registrazione() throws NotBoundException, IOException, SQLException {
 
         boolean inserimentoRiuscito=false;
@@ -235,7 +356,7 @@ public class Client implements MetodiControlli_Client {
         System.out.println("Inizio procedura di registrazione utente\n");
 
         System.out.print("Inserisci nome: ");
-        nome = br.readLine().toLowerCase();
+        nome = br.readLine();
         nome=MetodiControlli_Client.lunghezzaNominativo(nome);
 
         System.out.print("Inserisci cognome: ");
@@ -309,17 +430,43 @@ public class Client implements MetodiControlli_Client {
 
     }
     public void login() throws IOException {
-        boolean connesso;
-        System.out.print("Inserisci un nome utente per il login: ");
+        /*System.out.print("Inserisci un nome utente per il login: ");
         userID=br.readLine();
         System.out.print("Inserisci la password per il login: ");
         password=br.readLine();
-        connesso=serInterfaccia.login(userID,password);
-        if(connesso){
-            System.out.println("ok");
+        isLoggato=serInterfaccia.login(userID,password);
+        if(isLoggato){
+            System.out.println("Sei Loggato");
+            isLoggato=true;
         }
         else{
-            System.out.println("no");
+            System.out.println("Loging non riuscito");
+            System.out.println("Dati digiti non corretti");
+            isLoggato=false;
+        }*/
+
+        int maxTentativi = 3;
+        int tentativieffetuati = 0;
+
+        do {
+            System.out.print("Inserisci un nome utente per il login: ");
+            userID = br.readLine();
+            System.out.print("Inserisci la password per il login: ");
+            password = br.readLine();
+            isLoggato = serInterfaccia.login(userID, password);
+
+            if (isLoggato) {
+                System.out.println("Sei Loggato");
+                isLoggato = true;
+            } else {
+                tentativieffetuati++;
+                System.out.println("Login non riuscito");
+                System.out.println("Dati digitati non corretti. Tentativo " + tentativieffetuati + "/" + maxTentativi + "\n");
+            }
+        } while (!isLoggato && tentativieffetuati < maxTentativi);
+
+        if (!isLoggato) {
+            System.out.println("---------------Hai raggiunto il limite massimo di tentativi. Ritorno al menu principale.---------------" + "\n");
         }
     }
 
