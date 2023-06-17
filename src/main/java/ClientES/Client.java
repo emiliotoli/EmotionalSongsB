@@ -174,6 +174,7 @@ public class Client implements MetodiControlli_Client {
 
                                          case 8:
                                              //Gestisci l'operazione per per eseguire il logout
+                                             isLoggato=false;
                                              break;
 
                                      }
@@ -229,6 +230,7 @@ public class Client implements MetodiControlli_Client {
 
                                     case 8:
                                         //Gestisci l'operazione per per eseguire il logout
+                                        isLoggato=false;
                                         break;
 
                                 }
@@ -430,20 +432,6 @@ public class Client implements MetodiControlli_Client {
 
     }
     public void login() throws IOException {
-        /*System.out.print("Inserisci un nome utente per il login: ");
-        userID=br.readLine();
-        System.out.print("Inserisci la password per il login: ");
-        password=br.readLine();
-        isLoggato=serInterfaccia.login(userID,password);
-        if(isLoggato){
-            System.out.println("Sei Loggato");
-            isLoggato=true;
-        }
-        else{
-            System.out.println("Loging non riuscito");
-            System.out.println("Dati digiti non corretti");
-            isLoggato=false;
-        }*/
 
         int maxTentativi = 3;
         int tentativieffetuati = 0;

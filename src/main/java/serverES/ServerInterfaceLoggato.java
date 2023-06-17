@@ -12,7 +12,6 @@ import java.util.*;
  */
 public interface ServerInterfaceLoggato extends Remote {
     /** operazioni solo utente loggato**/
-    public void logOut(String userName, String pwd)throws RemoteException, SQLException;
     public void creaPlaylist()throws RemoteException, SQLException;
     public void eliminaPlaylist()throws RemoteException, SQLException;
     public void aggiuntaCanzoniPlaylist() throws RemoteException, SQLException;

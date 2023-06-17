@@ -335,7 +335,6 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
     /**
      * operazioni solo utente loggato
      **/
-    public synchronized void logOut(String userName, String pwd) {}
     public synchronized void creaPlaylist() {}
     public synchronized void eliminaPlaylist() {
 
