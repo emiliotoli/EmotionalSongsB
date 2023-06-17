@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * questa interfaccia serve per gestire le operazioni che l'utente può fare per loggarsi sull'applicazione
  */
-public interface ServerInterfaceNonLoggato extends Remote {
+public interface  ServerInterfaceNonLoggato extends Remote {
 
     /** operazioni utente non loggato**/
     public boolean registrazione(Utente utente) throws RemoteException, SQLException;
