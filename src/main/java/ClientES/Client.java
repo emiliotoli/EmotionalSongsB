@@ -311,6 +311,69 @@ public class Client implements MetodiControlli_Client {
             }
         }
     }
+    public void RicercaCanzoniAutoreAnno() throws IOException, SQLException {
+
+        System.out.println("Inserisci il nome dell'Autore da cercare: ");
+        autoreCanzone = br.readLine();
+
+        System.out.println("Inserisci l'Anno della canzone: ");
+        annoCanzoneAutoreAnno= br.readLine();
+        annoCanzone=Integer.parseInt(annoCanzoneAutoreAnno);
+
+        informazioniCanzoneAuoreAnno=interfaceNonLoggato.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
+
+        //elaboro la risposta
+        if (!informazioniCanzoneAuoreAnno.isEmpty()){
+            for (Canzone canzone : informazioniCanzoneAuoreAnno) {
+                titoloCanzone = canzone.getTitoloCanzone();
+                autoreCanzone = canzone.getAutoreCanzone();
+                annoCanzone = canzone.getAnnoCanzone();
+
+                System.out.println("Titolo: " + titoloCanzone);
+                System.out.println("Autore: " + autoreCanzone);
+                System.out.println("Anno: " + annoCanzone);
+                System.out.println();
+            }
+        }
+        else {
+            System.out.println("Canzone non trovata");
+        }
+        if(!isLoggato){
+
+            //faccio visualizzare le emozioni associate a quella canzone
+            visualizzaEmozioniCanzone();
+        }
+        else {
+            //faccio visualizzare le emozioni della canzone
+            visualizzaEmozioniCanzone();
+
+            //se vuole l'utente, può inserire le emozioni su DB
+            System.out.println("Desideri inserire una nuova emozione per questa canzone? (sì/no)");
+            while (true) {
+                System.out.println("Menu:");
+                System.out.println("1. Inserisci nuova emozione");
+                System.out.println("2. Esci");
+
+                try {
+                    String scelta = br.readLine().trim();
+
+                    switch (scelta) {
+                        case "1":
+                            inserisciNuovaEmozione();
+                            break;
+                        case "2":
+                            System.out.println("Uscita dal programma.");
+                            return;
+                        default:
+                            System.out.println("Scelta non valida. Riprova.");
+                            break;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     public void visualizzaEmozioniCanzone() throws SQLException, RemoteException {
         if(titoloCanzone != null && autoreCanzone != null){
             emozioniCanzone = interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
@@ -471,33 +534,6 @@ public class Client implements MetodiControlli_Client {
 
         else{
             System.out.println("Effettua prima una ricerca di una canzone.");
-        }
-    }
-    public void RicercaCanzoniAutoreAnno() throws IOException, SQLException {
-        System.out.println("Inserisci il nome dell'Autore da cercare: ");
-        autoreCanzone = br.readLine();
-
-        System.out.println("Inserisci l'Anno della canzone: ");
-        annoCanzoneAutoreAnno= br.readLine();
-        annoCanzone=Integer.parseInt(annoCanzoneAutoreAnno);
-
-        informazioniCanzoneAuoreAnno=interfaceNonLoggato.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
-
-        //elaboro la risposta
-        if (!informazioniCanzoneAuoreAnno.isEmpty()){
-            for (Canzone canzone : informazioniCanzoneAuoreAnno) {
-                titoloCanzone = canzone.getTitoloCanzone();
-                autoreCanzone = canzone.getAutoreCanzone();
-                annoCanzone = canzone.getAnnoCanzone();
-
-                System.out.println("Titolo: " + titoloCanzone);
-                System.out.println("Autore: " + autoreCanzone);
-                System.out.println("Anno: " + annoCanzone);
-                System.out.println();
-            }
-        }
-        else {
-            System.out.println("Canzone non trovata");
         }
     }
     public void registrazione() throws NotBoundException, IOException, SQLException {
