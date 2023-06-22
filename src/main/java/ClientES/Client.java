@@ -29,13 +29,18 @@ public class Client implements MetodiControlli_Client {
     private String nome, cognome, codiceFiscale, via, numeroCivico, cap, comune, provincia, email, userID, password ;
     private String titoloCanzone, autoreCanzone, annoCanzoneAutoreAnno;
     private int annoCanzone;
+    private String emozioneScelta="";
+    private String spiegazioneEmozione;
+    private String notaEmozione;
+    private int punteggioEmozione = 0;
+    private boolean controlloPunteggio;
     private List<Canzone> informazioniCanzoneTitolo;
     private List<Canzone> informazioniCanzoneAuoreAnno;
     private List<Emozione> emozioniCanzone;
-    private static int nameClient;
-    private int numeroTentativi = 0;
+    private Boolean inserimentoEmozione;
     private boolean isLoggato = false;
-    ServerInterfaceNonLoggato serInterfaccia;
+    ServerInterfaceNonLoggato interfaceNonLoggato;
+    ServerInterfaceLoggato interfaceLoggato;
 
     /**
      *
@@ -43,9 +48,7 @@ public class Client implements MetodiControlli_Client {
      * @author
      *
      */
-    public Client(){
-
-    }
+    public Client(){}
 
     /**
      * @author
@@ -62,7 +65,7 @@ public class Client implements MetodiControlli_Client {
 
         try{
             System.out.println("Procedura di collegamento al Server --> Iniziata");
-            serInterfaccia=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("ServerEmotionalSongs");
+            interfaceNonLoggato=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("ServerEmotionalSongs");
             System.out.println("Procedura di collegamento al Server --> Completata");
             System.out.println("Collegameto al Server--> Riuscito" + "\n");
         }catch (Exception e){
@@ -199,7 +202,7 @@ public class Client implements MetodiControlli_Client {
                                 System.out.println("\nOperazione scelta: ");
                                 sceltaUtenteAreaPersonale = Integer.parseInt(br.readLine());
 
-                                switch (sceltaUtente) {
+                                switch (sceltaUtenteAreaPersonale) {
                                     case 1:
                                         //Gestisci l'operazione per creare una Playlist
                                         break;
@@ -234,7 +237,7 @@ public class Client implements MetodiControlli_Client {
                                         break;
 
                                 }
-                            }while(sceltaUtente!=6);
+                            }while(sceltaUtenteAreaPersonale!=7);
                         }
                     case 6:
                         // Termina l'attività
@@ -254,7 +257,7 @@ public class Client implements MetodiControlli_Client {
         titoloCanzone = br.readLine();
 
         //passo il titolo della canzone da ricercare
-        informazioniCanzoneTitolo = serInterfaccia.ricercaCanzoneTitolo(titoloCanzone);
+        informazioniCanzoneTitolo = interfaceNonLoggato.ricercaCanzoneTitolo(titoloCanzone);
 
         //elaboro la risposta
         if (!informazioniCanzoneTitolo.isEmpty()){
@@ -282,14 +285,35 @@ public class Client implements MetodiControlli_Client {
             visualizzaEmozioniCanzone();
 
             //se vuole l'utente, può inserire le emozioni su DB
+            System.out.println("Desideri inserire una nuova emozione per questa canzone? (sì/no)");
+            while (true) {
+                System.out.println("Menu:");
+                System.out.println("1. Inserisci nuova emozione");
+                System.out.println("2. Esci");
 
+                try {
+                    String scelta = br.readLine().trim();
+
+                    switch (scelta) {
+                        case "1":
+                            inserisciNuovaEmozione();
+                            break;
+                        case "2":
+                            System.out.println("Uscita dal programma.");
+                            return;
+                        default:
+                            System.out.println("Scelta non valida. Riprova.");
+                            break;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
-
     }
     public void visualizzaEmozioniCanzone() throws SQLException, RemoteException {
         if(titoloCanzone != null && autoreCanzone != null){
-            emozioniCanzone = serInterfaccia.visualizzaEmozioni(titoloCanzone, autoreCanzone);
+            emozioniCanzone = interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
 
             if (!emozioniCanzone.isEmpty()) {
 
@@ -324,6 +348,131 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Effettua prima una ricerca di una canzone.");
         }
     }
+    public void inserisciNuovaEmozione() throws IOException, SQLException {
+
+        Registry registroLoggato= LocateRegistry.getRegistry(1099);
+
+        try{
+            System.out.println("Procedura di collegamento al Server --> Iniziata");
+            interfaceLoggato=(ServerInterfaceLoggato)registroLoggato.lookup("ServerEmotionalSongs");
+            System.out.println("Procedura di collegamento al Server --> Completata");
+            System.out.println("Collegameto al Server--> Riuscito" + "\n");
+        }catch (Exception e){
+            e.getMessage();
+            System.out.println("Collegamento al Server--> Fallito" +"\n");
+
+        }
+
+        if(titoloCanzone != null && autoreCanzone != null){
+
+            //Passo 1: inserre il nome dell'emozione da inserire (nome su DB)
+            System.out.println("Scegli l'emozione da inserire:\n");
+            String[] emozioni = {
+                    "Amazement",
+                    "Solemnity",
+                    "Tenderness",
+                    "Nostalgia",
+                    "Calmness",
+                    "Power",
+                    "Joy",
+                    "Tension",
+                    "Sadness"
+            };
+
+            for (int i = 0; i < emozioni.length; i++) {
+                System.out.println("Digitare " + (i + 1) + " per --> " + emozioni[i]);
+            }
+
+            System.out.print("Scelta: ");
+            int scelta = 0;
+
+            do {
+                try {
+                    scelta = Integer.parseInt(br.readLine());
+                } catch (Exception e) {
+                    System.out.println("Puoi inserire solo numeri compresi tra 1 e " + emozioni.length);
+                    System.out.print("Reinserisci la scelta: ");
+                    continue;
+                }
+
+                if (scelta < 1 || scelta > emozioni.length) {
+                    System.out.println("Scelta non valida, inserisci un numero compreso tra 1 e " + emozioni.length);
+                    System.out.print("Scelta: ");
+                }
+            } while (scelta < 1 || scelta > emozioni.length);
+
+            emozioneScelta = emozioni[scelta - 1];
+
+
+            // Passo 2: inserire una nota (nota su DB)
+            do {
+                System.out.println("Inserisci una breve nota (massimo 50 caratteri): ");
+                notaEmozione = br.readLine().toLowerCase();
+
+                if (notaEmozione.length() == 0) {
+                    //System.out.println("Devi inserire almeno una spiegazione.");
+                    System.out.println("Valore inserito--> NULL.");
+                    notaEmozione=null;
+                    break;
+
+                } else if (notaEmozione.length() > 50) {
+                    System.out.println("La spiegazione è troppo lunga. Inserisci al massimo 50 caratteri.");
+                } else {
+                    break;
+                }
+            } while (true);
+
+            // Passo 3: inserire una spiegazione (spiegazione su DB)
+            do {
+
+                System.out.println("Inserisci una spiegazione (massimo 250 caratteri): ");
+                spiegazioneEmozione = br.readLine().toLowerCase();
+
+                if (spiegazioneEmozione.length() == 0) {
+                    //System.out.println("Devi inserire almeno una spiegazione.");
+                    System.out.println("Valore inserito--> NULL.");
+                    spiegazioneEmozione=null;
+                    break;
+                }
+                if (spiegazioneEmozione.length() > 250) {
+                    System.out.println("La spiegazione è troppo lunga. Inserisci al massimo 50 caratteri.");
+                } else {
+                    break;
+                }
+            } while (true);
+
+            // passo 4: Inserire un punteggio associato alla canzone (punteggio su DB)
+            System.out.println("inserisci punteggio emopzione da 1 a 5: ");
+            do {
+                do {
+                    try {
+                        punteggioEmozione = Integer.parseInt(br.readLine());
+                        controlloPunteggio = true;
+                    } catch (Exception e) {
+                        System.out.println("Puoi inserire solo un numero da 1 a 5 ");
+                        System.out.println("reinserisci il punteggio: ");
+                        controlloPunteggio = false;
+                    }
+                } while (!controlloPunteggio);
+
+                // punteggio = br.read();
+                if (punteggioEmozione < 1 || punteggioEmozione > 5) {
+                    System.out.println("punteggio non valido, inserire da 1 a 5: ");
+                }
+            } while (punteggioEmozione < 1 || punteggioEmozione > 5);
+
+            inserimentoEmozione= interfaceLoggato.inserisciEmozione(userID,emozioneScelta,titoloCanzone,autoreCanzone,notaEmozione,spiegazioneEmozione,punteggioEmozione);
+            if (inserimentoEmozione) {
+                System.out.println("Inserimento dell' Emozione su db avvenuto con successo");
+            } else {
+                System.out.println("Inserimento dell' Emozione su db non avvenuto --> ERRORE ");
+            }
+        }
+
+        else{
+            System.out.println("Effettua prima una ricerca di una canzone.");
+        }
+    }
     public void RicercaCanzoniAutoreAnno() throws IOException, SQLException {
         System.out.println("Inserisci il nome dell'Autore da cercare: ");
         autoreCanzone = br.readLine();
@@ -332,7 +481,7 @@ public class Client implements MetodiControlli_Client {
         annoCanzoneAutoreAnno= br.readLine();
         annoCanzone=Integer.parseInt(annoCanzoneAutoreAnno);
 
-        informazioniCanzoneAuoreAnno=serInterfaccia.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
+        informazioniCanzoneAuoreAnno=interfaceNonLoggato.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
 
         //elaboro la risposta
         if (!informazioniCanzoneAuoreAnno.isEmpty()){
@@ -399,7 +548,7 @@ public class Client implements MetodiControlli_Client {
         do{
 
             //richiamo il medodo che ho nel servere per vedere se esiste l'utente  e aspetto la risposta del server
-            esiste=serInterfaccia.checkUserID(userID);
+            esiste=interfaceNonLoggato.checkUserID(userID);
             //se la risposta e negativa esco dal while; altrimenti
             if(!esiste){
                 break;
@@ -418,7 +567,7 @@ public class Client implements MetodiControlli_Client {
         System.out.println("Inizio procedura inserimento dati su DB");
 
         Utente utete=new Utente(nome, cognome,codiceFiscale,via,numeroCivico, cap,comune,provincia,email,userID,password);
-        inserimentoRiuscito=serInterfaccia.registrazione(utete);
+        inserimentoRiuscito=interfaceNonLoggato.registrazione(utete);
 
 
         //inserimentoRiuscito=serInterfaccia.registrazione(nome, cognome,codiceFiscale,via,numeroCivico, cap,comune,provincia,email,userID,password);
@@ -441,7 +590,7 @@ public class Client implements MetodiControlli_Client {
             userID = br.readLine();
             System.out.print("Inserisci la password per il login: ");
             password = br.readLine();
-            isLoggato = serInterfaccia.login(userID, password);
+            isLoggato = interfaceNonLoggato.login(userID, password);
 
             if (isLoggato) {
                 System.out.println("Sei Loggato");
@@ -463,10 +612,6 @@ public class Client implements MetodiControlli_Client {
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException, SQLException {
         String identifier = null;
             new Client().exec();
-
-        //for (int i=0;i<4;i++){
-           // new Client_Impl(i);
-        //}
 
     }
 }

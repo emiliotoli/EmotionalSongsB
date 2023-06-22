@@ -345,7 +345,45 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
     public synchronized void eliminaCanzoniPlaylist() {
 
     }
-    public synchronized void inserisciEmozione() {
+    public synchronized boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione,  int punteggioEmozione) throws SQLException {
+        Connection insertEmozione = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            //apro la connessione con il DB
+
+            insertEmozione = new ConnessioneDBImpl().getConnection();
+
+            String queryLogin= "INSERT INTO associa (idutente, nome, titolo, autore, nota, spiegazione, punteggio ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            preparedStatement=insertEmozione.prepareStatement(queryLogin);
+
+            preparedStatement.setString(1,userID);
+            preparedStatement.setString(2,emozioneScelta);
+            preparedStatement.setString(3,titoloCanzone);
+            preparedStatement.setString(4,autoreCanzone);
+            preparedStatement.setString(5,notaEmozione);
+            preparedStatement.setString(6,spiegazioneEmozione);
+            preparedStatement.setInt(7,punteggioEmozione);
+
+            //eseguo la query
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            insertEmozione.close();
+
+            return true;
+        }catch (Exception e) {
+            System.out.println("errore durante l'inserimento");
+            e.getMessage();
+            return false;
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (insertEmozione != null) {
+                insertEmozione.close();
+            }
+        }
 
     }
 

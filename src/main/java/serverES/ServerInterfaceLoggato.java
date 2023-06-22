@@ -16,5 +16,5 @@ public interface ServerInterfaceLoggato extends Remote {
     public void eliminaPlaylist()throws RemoteException, SQLException;
     public void aggiuntaCanzoniPlaylist() throws RemoteException, SQLException;
     public void eliminaCanzoniPlaylist()throws RemoteException, SQLException;
-    public void inserisciEmozione() throws RemoteException, SQLException;
+    public boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione, int punteggioEmozione) throws RemoteException, SQLException;
 }
