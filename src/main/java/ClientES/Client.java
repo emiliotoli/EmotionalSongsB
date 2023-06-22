@@ -32,12 +32,16 @@ public class Client implements MetodiControlli_Client {
     private String emozioneScelta="";
     private String spiegazioneEmozione;
     private String notaEmozione;
+    private String nomePalylist;
     private int punteggioEmozione = 0;
     private boolean controlloPunteggio;
     private List<Canzone> informazioniCanzoneTitolo;
     private List<Canzone> informazioniCanzoneAuoreAnno;
     private List<Emozione> emozioniCanzone;
-    private Boolean inserimentoEmozione;
+    private List<PlayList> playlistUtente;
+    private boolean inserimentoEmozione;
+    private  boolean creazionePlaylist;
+    private boolean inserimentoCanzonePlaylist;
     private boolean isLoggato = false;
     ServerInterfaceNonLoggato interfaceNonLoggato;
     ServerInterfaceLoggato interfaceLoggato;
@@ -146,13 +150,15 @@ public class Client implements MetodiControlli_Client {
                                      System.out.println("\nOperazione scelta: ");
                                      sceltaUtenteAreaPersonale = Integer.parseInt(br.readLine());
 
-                                     switch (sceltaUtente) {
+                                     switch (sceltaUtenteAreaPersonale) {
                                          case 1:
                                              //Gestisci l'operazione per creare una Playlist
+                                             creaPlayList();
                                              break;
 
                                          case 2:
                                              //Gestisci l'operazione per visualizzare la lista delle Playlist
+                                             visualizzaPlaylist();
                                              break;
 
                                          case 3:
@@ -173,15 +179,17 @@ public class Client implements MetodiControlli_Client {
 
                                          case 7:
                                              //Gestisci l'operazione per tornare al menù principale
+                                             sceltaUtenteAreaPersonale=0;
                                              break;
 
                                          case 8:
                                              //Gestisci l'operazione per per eseguire il logout
                                              isLoggato=false;
+                                             sceltaUtenteAreaPersonale=0;
                                              break;
 
                                      }
-                                 }while(sceltaUtente!=6);
+                                 }while(sceltaUtenteAreaPersonale!=0);
 
                             }
                         }
@@ -205,10 +213,12 @@ public class Client implements MetodiControlli_Client {
                                 switch (sceltaUtenteAreaPersonale) {
                                     case 1:
                                         //Gestisci l'operazione per creare una Playlist
+                                        creaPlayList();
                                         break;
 
                                     case 2:
                                         //Gestisci l'operazione per visualizzare la lista delle Playlist
+                                        visualizzaPlaylist();
                                         break;
 
                                     case 3:
@@ -229,19 +239,20 @@ public class Client implements MetodiControlli_Client {
 
                                     case 7:
                                         //Gestisci l'operazione per tornare al menù principale
+                                        sceltaUtenteAreaPersonale=0;
                                         break;
 
                                     case 8:
                                         //Gestisci l'operazione per per eseguire il logout
                                         isLoggato=false;
+                                        sceltaUtenteAreaPersonale=0;
                                         break;
 
                                 }
-                            }while(sceltaUtenteAreaPersonale!=7);
+                            }while(sceltaUtenteAreaPersonale!=0);
                         }
                     case 6:
                         // Termina l'attività
-
                         break;
                 }
             } while (sceltaUtente != 6);
@@ -640,6 +651,71 @@ public class Client implements MetodiControlli_Client {
 
         if (!isLoggato) {
             System.out.println("---------------Hai raggiunto il limite massimo di tentativi. Ritorno al menu principale.---------------" + "\n");
+        }
+    }
+    public void creaPlayList() throws IOException, SQLException {
+        Registry registroLoggato= LocateRegistry.getRegistry(1099);
+
+        try{
+            System.out.println("Procedura di collegamento al Server --> Iniziata");
+            interfaceLoggato=(ServerInterfaceLoggato)registroLoggato.lookup("ServerEmotionalSongs");
+            System.out.println("Procedura di collegamento al Server --> Completata");
+            System.out.println("Collegameto al Server--> Riuscito" + "\n");
+        }catch (Exception e){
+            e.getMessage();
+            System.out.println("Collegamento al Server--> Fallito" +"\n");
+
+        }
+
+        System.out.println("Digita il nome della Playlist da  creare: ");
+        nomePalylist= br.readLine();
+
+        boolean esisteNomePlaylist=false;
+        do{
+
+            //richiamo il medodo che ho nel servere per vedere se esiste il nome della playlist e aspetto la risposta del server
+            esisteNomePlaylist=interfaceLoggato.checkNomePlaylist(nomePalylist);
+
+            //se la risposta e negativa esco dal while; altrimenti
+            if(!esisteNomePlaylist){
+                break;
+            }
+            else{
+                System.out.println("nome utente appena inserito esiste gia'. ");
+                System.out.println("reinserire il nome utente");
+                nomePalylist= br.readLine();
+            }
+        }while(esisteNomePlaylist);
+
+        creazionePlaylist=interfaceLoggato.creaPlaylist(userID,nomePalylist);
+
+        if (creazionePlaylist) {
+            System.out.println("Creazione Playlist su db avvenuto con successo");
+        } else {
+            System.out.println("Creazione Playlist su db non avvenuto --> ERRORE ");
+        }
+    }
+    public void visualizzaPlaylist() throws RemoteException, SQLException {
+
+        Registry registroLoggato= LocateRegistry.getRegistry(1099);
+
+        try{
+            System.out.println("Procedura di collegamento al Server --> Iniziata");
+            interfaceLoggato=(ServerInterfaceLoggato)registroLoggato.lookup("ServerEmotionalSongs");
+            System.out.println("Procedura di collegamento al Server --> Completata");
+            System.out.println("Collegameto al Server--> Riuscito" + "\n");
+        }catch (Exception e){
+            e.getMessage();
+            System.out.println("Collegamento al Server--> Fallito" +"\n");
+
+        }
+        playlistUtente=interfaceLoggato.VisualizzaPlaylist(userID);
+
+        for (PlayList playList : playlistUtente) {
+
+            String nomePlaylisyUtente = playList.getnomePlalist();
+            System.out.println("Nome PlayList: " + nomePlaylisyUtente);
+
         }
     }
 

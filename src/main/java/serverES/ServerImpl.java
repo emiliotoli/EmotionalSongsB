@@ -1,6 +1,7 @@
 package serverES;
 
 import ClientES.Emozione;
+import ClientES.PlayList;
 import ClientES.Utente;
 import ClientES.Canzone;
 import DataBase.ConnessioneDBImpl;
@@ -335,16 +336,105 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
     /**
      * operazioni solo utente loggato
      **/
-    public synchronized void creaPlaylist() {}
-    public synchronized void eliminaPlaylist() {
+    public synchronized boolean creaPlaylist(String userID, String nomePlaylist) throws SQLException {
+        Connection insertPlaylist = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            //apro la connessione con il DB
 
-    }
-    public synchronized void aggiuntaCanzoniPlaylist() {
+            insertPlaylist = new ConnessioneDBImpl().getConnection();
 
-    }
-    public synchronized void eliminaCanzoniPlaylist() {
+            String queryLogin= "INSERT INTO playlist (idutente, nome) VALUES (?, ?)";
+            preparedStatement=insertPlaylist.prepareStatement(queryLogin);
 
+            preparedStatement.setString(1,userID);
+            preparedStatement.setString(2,nomePlaylist);
+
+            //eseguo la query
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            insertPlaylist.close();
+
+            return true;
+        }catch (Exception e) {
+            System.out.println("errore durante l'inserimento");
+            e.getMessage();
+            return false;
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (insertPlaylist != null) {
+                insertPlaylist.close();
+            }
+        }
     }
+    public synchronized boolean checkNomePlaylist(String nomePlaylist) throws SQLException{
+        try {
+            // Ottieni l'istanza di connessione al database
+            Connection connCheckID = ConnessioneDBImpl.getInstance().getConnection();
+            PreparedStatement preparedStatement=null;
+
+            String querycheck = " SELECT COUNT(*) FROM playlist where nome=? ";
+            preparedStatement = connCheckID.prepareStatement(querycheck);
+
+            preparedStatement.setString(1, nomePlaylist);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            int count = resultSet.getInt(1);
+            boolean exists = count > 0;
+
+            return exists;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public synchronized List<PlayList> VisualizzaPlaylist(String userID) throws RemoteException, SQLException {
+        Connection searchPlaylist = null;
+        PreparedStatement preparedStatement = null;
+        List<PlayList> infoPlalist = new ArrayList<>();
+        try {
+            searchPlaylist= new ConnessioneDBImpl().getConnection();
+            String query = "SELECT * FROM playlist WHERE idutente=?";
+
+            preparedStatement = searchPlaylist.prepareStatement(query);
+            preparedStatement.setString(1, userID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet!=null){
+                while(resultSet.next()){
+                    String nomePlalist=resultSet.getString("nome");
+                    String nomeUtente=resultSet.getString("idutente");
+
+                    PlayList playList = new PlayList (nomeUtente,nomePlalist);
+                    infoPlalist.add(playList);
+                }
+            }
+            else {
+                infoPlalist = null; // L'emozione non è stata trovata, impostiamo l'array a null
+            }
+            return infoPlalist;
+        }catch(Exception e){
+            System.out.println("Errore durante la ricerca della PlayList: " + e.getMessage());
+            throw new RemoteException(" PlayList--> NON Trovata", e);
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (searchPlaylist != null) {
+                searchPlaylist.close();
+            }
+        }
+    }
+    public synchronized void VisualizzaCanzoniPlaylist(){}
+    public synchronized void eliminaPlaylist() {}
+    public synchronized void aggiuntaCanzoniPlaylist() {}
+    public synchronized void eliminaCanzoniPlaylist() { }
     public synchronized boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione,  int punteggioEmozione) throws SQLException {
         Connection insertEmozione = null;
         PreparedStatement preparedStatement = null;

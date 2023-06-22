@@ -1,5 +1,7 @@
 package serverES;
 
+import ClientES.PlayList;
+
 import java.rmi.RemoteException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -12,9 +14,12 @@ import java.util.*;
  */
 public interface ServerInterfaceLoggato extends Remote {
     /** operazioni solo utente loggato**/
-    public void creaPlaylist()throws RemoteException, SQLException;
+    public boolean creaPlaylist(String userID, String nomePlaylist)throws RemoteException, SQLException;
+    public boolean checkNomePlaylist(String nomePlaylist)throws RemoteException, SQLException;
     public void eliminaPlaylist()throws RemoteException, SQLException;
     public void aggiuntaCanzoniPlaylist() throws RemoteException, SQLException;
     public void eliminaCanzoniPlaylist()throws RemoteException, SQLException;
+    public  void VisualizzaCanzoniPlaylist()throws RemoteException, SQLException;
+    public  List<PlayList> VisualizzaPlaylist(String userID)throws RemoteException, SQLException;
     public boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione, int punteggioEmozione) throws RemoteException, SQLException;
 }
