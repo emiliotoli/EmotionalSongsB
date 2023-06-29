@@ -16,7 +16,7 @@ public interface ServerInterfaceLoggato extends Remote {
     /** operazioni solo utente loggato**/
     public boolean creaPlaylist(String userID, String nomePlaylist)throws RemoteException, SQLException;
     public boolean checkNomePlaylist(String nomePlaylist)throws RemoteException, SQLException;
-    public void eliminaPlaylist()throws RemoteException, SQLException;
+    public boolean eliminaPlaylist(String userID, String nomePalylist)throws RemoteException, SQLException;
     public void aggiuntaCanzoniPlaylist() throws RemoteException, SQLException;
     public void eliminaCanzoniPlaylist()throws RemoteException, SQLException;
     public  void VisualizzaCanzoniPlaylist()throws RemoteException, SQLException;

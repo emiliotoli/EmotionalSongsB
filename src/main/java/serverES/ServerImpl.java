@@ -432,7 +432,41 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         }
     }
     public synchronized void VisualizzaCanzoniPlaylist(){}
-    public synchronized void eliminaPlaylist() {}
+    public synchronized boolean eliminaPlaylist(String userID, String nomePalylist)  throws RemoteException, SQLException {
+        Connection deletePlaylist = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            //apro la connessione con il DB
+
+            deletePlaylist = new ConnessioneDBImpl().getConnection();
+
+            String queryDelete= "DELETE FROM  playlist  WHERE idutente=? and nome= ? ";
+            preparedStatement=deletePlaylist.prepareStatement(queryDelete);
+
+            preparedStatement.setString(1,userID);
+            preparedStatement.setString(2,nomePalylist);
+
+            //eseguo la query
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            deletePlaylist.close();
+
+            return true;
+        }catch (Exception e) {
+            System.out.println("errore durante l'eliminazione della Playlist");
+            e.getMessage();
+            return false;
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (deletePlaylist != null) {
+                deletePlaylist.close();
+            }
+        }
+    }
     public synchronized void aggiuntaCanzoniPlaylist() {}
     public synchronized void eliminaCanzoniPlaylist() { }
     public synchronized boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione,  int punteggioEmozione) throws SQLException {

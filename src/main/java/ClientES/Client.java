@@ -75,6 +75,7 @@ public class Client implements MetodiControlli_Client {
         }catch (Exception e){
             e.getMessage();
             System.out.println("Collegamento al Server--> Fallito" +"\n");
+            return;
 
         }
 
@@ -175,6 +176,7 @@ public class Client implements MetodiControlli_Client {
 
                                          case 6:
                                              //Gestisci l'operazione per per eliminare una playlist
+                                             eliminaPlalist();
                                              break;
 
                                          case 7:
@@ -235,6 +237,7 @@ public class Client implements MetodiControlli_Client {
 
                                     case 6:
                                         //Gestisci l'operazione per per eliminare una playlist
+                                        eliminaPlalist();
                                         break;
 
                                     case 7:
@@ -260,7 +263,6 @@ public class Client implements MetodiControlli_Client {
             // Chiudi lo scanner dopo aver terminato
             br.close();
     }
-
 
     public void RicercaCanzoniTitolo() throws IOException, SQLException {
 
@@ -718,8 +720,33 @@ public class Client implements MetodiControlli_Client {
 
         }
     }
+    public void eliminaPlalist() throws IOException, SQLException {
+        Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
+        try{
+            System.out.println("Procedura di collegamento al Server --> Iniziata");
+            interfaceLoggato=(ServerInterfaceLoggato)registroLoggato.lookup("ServerEmotionalSongs");
+            System.out.println("Procedura di collegamento al Server --> Completata");
+            System.out.println("Collegameto al Server--> Riuscito" + "\n");
+        }catch (Exception e){
+            e.getMessage();
+            System.out.println("Collegamento al Server--> Fallito" +"\n");
 
+        }
+
+        System.out.println("Digita il nome della Playlist da Eliminare: ");
+        nomePalylist= br.readLine();
+
+        boolean esisteNomePlaylist=false;
+
+        creazionePlaylist=interfaceLoggato.eliminaPlaylist(userID,nomePalylist);
+
+        if (creazionePlaylist) {
+            System.out.println("Creazione Playlist su db avvenuto con successo");
+        } else {
+            System.out.println("Creazione Playlist su db non avvenuto --> ERRORE ");
+        }
+    }
 
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException, SQLException {
         String identifier = null;
