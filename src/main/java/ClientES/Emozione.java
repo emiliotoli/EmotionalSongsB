@@ -11,26 +11,40 @@ public class Emozione implements Serializable {
     private int punteggioEmozione;
     private double percentualeEmozione;
 
-
-    public Emozione(){
-    }
-    public Emozione(String nome, String tipo, String spiegazione, int valore, double percentuale){
-        this.nomeEmozione=nome;
-        this.tipoEmozione=tipo;
-        this.spiegazioneEmozione=spiegazione;
-        this.punteggioEmozione=valore;
-        this.percentualeEmozione=percentuale;
-    }
-    public Emozione (String nome, double percentuale){
-        this.nomeEmozione=nome;
-        this.percentualeEmozione=percentuale;
+    public Emozione() {
     }
 
-    public String getNomeEmozione(){return nomeEmozione;}
+    public Emozione(String nome, String tipo, String spiegazione, int valore, double percentuale) {
+        this.nomeEmozione = nome;
+        this.tipoEmozione = tipo;
+        this.spiegazioneEmozione = spiegazione;
+        this.punteggioEmozione = valore;
+        this.percentualeEmozione = percentuale;
+    }
 
-    public String getTipoEmozione(){return tipoEmozione;}
-    public String getSpiegazioneEmozione(){return spiegazioneEmozione;}
-    public int getPunteggioEmozione(){return punteggioEmozione;}
-    public double getPercentualeEmozione(){return  percentualeEmozione;}
+    public Emozione(String nome, double percentuale) {
+        this.nomeEmozione = nome;
+        this.percentualeEmozione = percentuale;
+    }
+
+    public String getNomeEmozione() {
+        return nomeEmozione;
+    }
+
+    public String getTipoEmozione() {
+        return tipoEmozione;
+    }
+
+    public String getSpiegazioneEmozione() {
+        return spiegazioneEmozione;
+    }
+
+    public int getPunteggioEmozione() {
+        return punteggioEmozione;
+    }
+
+    public double getPercentualeEmozione() {
+        return percentualeEmozione;
+    }
 
 }

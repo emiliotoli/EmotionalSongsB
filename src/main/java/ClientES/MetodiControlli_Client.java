@@ -19,17 +19,19 @@ public interface MetodiControlli_Client {
             if (nominativo.matches("[a-zA-Z]*${3,20}")) {
                 break;
             } else {
-                System.out.println("il nominativo appena inserito contiene numeri o caratteri speciali. Deve contenere lettere");
+                System.out.println(
+                        "il nominativo appena inserito contiene numeri o caratteri speciali. Deve contenere lettere");
                 System.out.println("digitare nuovamente il nominativo");
                 nominativo = read.readLine();
             }
         } while (!(nominativo.matches("[a-zA-Z]*${3,20}")));
         return nominativo;
     }
+
     static String lunghezzaNominativo(String nominativo) throws IOException {
         do {
             if (nominativo != null) {
-                if(nominativo.length() >= 3){
+                if (nominativo.length() >= 3) {
                     break;
                 }
             } else {
@@ -41,10 +43,11 @@ public interface MetodiControlli_Client {
         soloLettere(nominativo);
         return nominativo;
     }
+
     static String formatoCF(String codFisc) throws IOException {
         do {
-            if (codFisc.length() == cf_Lunghezza){
-                if(codFisc.matches("([A-Za-z]{6})([0-9]{2})([A-Za-z])([0-9]{2})([A-Za-z])([0-9]{3})([A-Za-z])")){
+            if (codFisc.length() == cf_Lunghezza) {
+                if (codFisc.matches("([A-Za-z]{6})([0-9]{2})([A-Za-z])([0-9]{2})([A-Za-z])([0-9]{3})([A-Za-z])")) {
                     break;
                 }
             } else {
@@ -52,11 +55,13 @@ public interface MetodiControlli_Client {
                 System.out.print("inserisci nuovamente il Codice Fiscale: ");
                 codFisc = read.readLine();
             }
-        } while ((codFisc.length() != cf_Lunghezza) && !codFisc.matches("([A-Za-z]{6})([0-9]{2})([A-Za-z])([0-9]{2})([A-Za-z])([0-9]{3})([A-Za-z])"));
+        } while ((codFisc.length() != cf_Lunghezza)
+                && !codFisc.matches("([A-Za-z]{6})([0-9]{2})([A-Za-z])([0-9]{2})([A-Za-z])([0-9]{3})([A-Za-z])"));
         return codFisc;
     }
-     static String formatoNumeroCivico(String numcivico)throws IOException {
-        while(!numcivico.matches("[0-9]+([A-Za-z]*)")) {
+
+    static String formatoNumeroCivico(String numcivico) throws IOException {
+        while (!numcivico.matches("[0-9]+([A-Za-z]*)")) {
             System.out.println("il numero civico inserito non rispetta il formato");
             System.out.println("Deve iniziare con un numero di lunghezza massima di tre cifre ed una lettera.");
             System.out.println("reinserire il numero civico");
@@ -64,24 +69,24 @@ public interface MetodiControlli_Client {
         }
         return numcivico;
     }
+
     static String formatoCAP(int cap) throws IOException {
 
         boolean check = false;
-        boolean checkLunghezzaCap=false;
+        boolean checkLunghezzaCap = false;
 
-        do{
+        do {
             if (cap == 5) {
-                checkLunghezzaCap=true;
+                checkLunghezzaCap = true;
                 break;
-            }
-            else {
+            } else {
                 System.out.println("Il CAP deve essere composto esattamente da 5 cifre.");
                 System.out.println("reinserire il cap");
-                cap= read.read();
+                cap = read.read();
             }
-        }while (!checkLunghezzaCap);
+        } while (!checkLunghezzaCap);
 
-        cap=isNumeric(cap);
+        cap = isNumeric(cap);
 
         do {
             if (cap < 10 || cap > 97100) {
@@ -102,53 +107,55 @@ public interface MetodiControlli_Client {
 
         return CAP.toString();
     }
+
     static int isNumeric(int cap) throws IOException {
         boolean chekNumeri = false;
-        do{
+        do {
             String capString = String.valueOf(cap);
             for (int i = 0; i < capString.length(); i++) {
                 if (Character.isDigit(capString.charAt(i))) {
-                    chekNumeri=true;
+                    chekNumeri = true;
                     break;
-                }
-                else{
+                } else {
                     System.out.println("Il CAP deve contenere solo caratteri numerici");
                     System.out.println("reinserire il cap");
-                    cap= Integer.parseInt(read.readLine());
+                    cap = Integer.parseInt(read.readLine());
                 }
             }
-        }while(!chekNumeri);
+        } while (!chekNumeri);
         return cap;
 
     }
+
     static String isNotNULL(String str) throws IOException {
-        do{
-            if(str.length()==0){
+        do {
+            if (str.length() == 0) {
                 System.out.println("non hai inserito niente.");
                 System.out.println("inserisci nuovamente il comune: ");
-                str =read.readLine();
-            }
-            else{
+                str = read.readLine();
+            } else {
                 break;
             }
-        }while(str.length()==0);
-        str=formatoComProv(str);
+        } while (str.length() == 0);
+        str = formatoComProv(str);
         return str;
     }
+
     private static String formatoComProv(String str) throws IOException {
-        do{
-            if(str.matches("[A-Za-z]*")){
+        do {
+            if (str.matches("[A-Za-z]*")) {
                 break;
-            }
-            else{
-                System.out.println("la stringa inserita non puo' contenerte dei caratteri numerici o  caratteri speciali");
+            } else {
+                System.out.println(
+                        "la stringa inserita non puo' contenerte dei caratteri numerici o  caratteri speciali");
                 System.out.println("reinserire la stringa: ");
-                str=read.readLine();
+                str = read.readLine();
             }
 
-        }while(!(str.matches("[A-Za-z]*")));
+        } while (!(str.matches("[A-Za-z]*")));
         return str;
     }
+
     static String formatoMail(String mail) throws IOException {
         do {
             if (mail.matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,3}")) {
@@ -161,7 +168,8 @@ public interface MetodiControlli_Client {
         } while (!mail.matches("[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,3}"));
         return mail;
     }
-     static String formatoUser(String user) throws IOException {
+
+    static String formatoUser(String user) throws IOException {
         do {
             if (user.matches("^[a-zA-Z0-9_-]{3,15}$")) {
                 break;
@@ -173,18 +181,19 @@ public interface MetodiControlli_Client {
         } while (!user.matches("^[a-zA-Z0-9_-]{3,15}$"));
         return user;
     }
+
     static String FormatoPassword(String pwdScelta) throws IOException {
         String confermaPwd;
         do {
-            if(pwdScelta!=null){
+            if (pwdScelta != null) {
                 break;
-            }else {
+            } else {
                 System.out.println("Non hai inserito la Password. Reinserire la password");
-                pwdScelta=read.readLine();
+                pwdScelta = read.readLine();
             }
-        }while(pwdScelta==null);
+        } while (pwdScelta == null);
 
-        pwdScelta=MetodiControlli_Client.checkFormato(pwdScelta);
+        pwdScelta = MetodiControlli_Client.checkFormato(pwdScelta);
 
         System.out.println("Conferma Password: ");
         confermaPwd = read.readLine();
@@ -192,19 +201,22 @@ public interface MetodiControlli_Client {
         MetodiControlli_Client.checkPassordUguale(pwdScelta, confermaPwd);
         return pwdScelta;
     }
+
     private static String checkFormato(String pass) throws IOException {
         do {
             if (pass.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!_.]).{8,20})")) {
                 break;
             } else {
                 System.out.println("inserimento  formato della password non valido");
-                System.out.println("La password deve contenere necessariamente una lettera maiuscola e un carattere speciale (esempio: . @ #) con lunghezza minima 8 e massima 20.");
+                System.out.println(
+                        "La password deve contenere necessariamente una lettera maiuscola e un carattere speciale (esempio: . @ #) con lunghezza minima 8 e massima 20.");
                 System.out.println("inserire la password:");
                 pass = read.readLine();
             }
         } while (!(pass.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!_.]).{8,20})")));
         return pass;
     }
+
     private static String checkPassordUguale(String pw1, String pw2) throws IOException {
         do {
             if (pw1.equals(pw2)) {
