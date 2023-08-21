@@ -39,6 +39,12 @@ public class MenuPrincipaleUI extends JFrame{
         setButtonSize(registrazioneButton);
         buttonPanel.add(registrazioneButton , gbc);
         gbc.gridy++;
+        registrazioneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                registrazione();
+            }
+        });
 
         JButton loginButton = new JButton("Effettua il Login");
         setButtonSize(loginButton);
@@ -88,6 +94,13 @@ public class MenuPrincipaleUI extends JFrame{
         else {
             JOptionPane.showMessageDialog(this, "Impossibile eseguire l'azione. \n Effettua prima il login.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void registrazione()
+    {
+        RegistrazioneUI registraUtente = new RegistrazioneUI();
+        registraUtente.registrazione();
+
     }
 
     public static void main(String[] args){

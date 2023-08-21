@@ -9,7 +9,7 @@ public class MenuAreaPersonaleUI extends JFrame {
     {
         setTitle("Emotional Songs - Area Personale");
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         JLabel label = new JLabel("Area Personale");

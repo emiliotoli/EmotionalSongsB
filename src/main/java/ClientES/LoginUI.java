@@ -12,31 +12,44 @@ public class LoginUI extends JFrame {
 
     public void LoginGUI() {
         setTitle("Login");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(300, 150);
         setLocationRelativeTo(null);
         setVisible(true);
+        setSize(400 , 200);
 
-        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets= new Insets(5,10,5,10);
 
         JLabel userIDLabel = new JLabel("User ID:");
-        userIDField = new JTextField();
-        panel.add(userIDLabel);
-        panel.add(userIDField);
+        userIDField = new JTextField(20);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(userIDLabel, gbc);
+        gbc.gridx = 1;
+        panel.add(userIDField, gbc);
 
         JLabel passwordLabel = new JLabel("Password:");
-        passwordField = new JPasswordField();
-        panel.add(passwordLabel);
-        panel.add(passwordField);
+        passwordField = new JPasswordField(20);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(passwordLabel, gbc);
+        gbc.gridx = 1;
+        panel.add(passwordField, gbc);
 
         JButton loginButton = new JButton("Login");
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER; // Ancoraggio al centro
+
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 performLogin();
             }
         });
-        panel.add(new JLabel());
-        panel.add(loginButton);
+        panel.add(loginButton, gbc);
 
         add(panel);
     }
