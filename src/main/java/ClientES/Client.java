@@ -17,6 +17,7 @@ import java.util.Scanner;
 import serverES.ServerInterfaceNonLoggato;
 import serverES.ServerInterfaceLoggato;
 
+import javax.swing.*;
 
 
 public class Client implements MetodiControlli_Client {
@@ -42,7 +43,7 @@ public class Client implements MetodiControlli_Client {
     private boolean inserimentoEmozione;
     private  boolean creazionePlaylist;
     private boolean inserimentoCanzonePlaylist;
-    private boolean isLoggato = false;
+    public static boolean isLoggato = false;
     ServerInterfaceNonLoggato interfaceNonLoggato;
     ServerInterfaceLoggato interfaceLoggato;
 
@@ -645,7 +646,7 @@ public class Client implements MetodiControlli_Client {
                 System.out.println("Sei Loggato");
                 isLoggato = true;
             } else {
-                tentativieffetuati++;
+                tentativieffetuati++ ;
                 System.out.println("Login non riuscito");
                 System.out.println("Dati digitati non corretti. Tentativo " + tentativieffetuati + "/" + maxTentativi + "\n");
             }
@@ -655,6 +656,8 @@ public class Client implements MetodiControlli_Client {
             System.out.println("---------------Hai raggiunto il limite massimo di tentativi. Ritorno al menu principale.---------------" + "\n");
         }
     }
+
+
     public void creaPlayList() throws IOException, SQLException {
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
@@ -751,6 +754,5 @@ public class Client implements MetodiControlli_Client {
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException, SQLException {
         String identifier = null;
             new Client().exec();
-
     }
 }
