@@ -44,6 +44,12 @@ public class MenuPrincipaleUI extends JFrame{
         setButtonSize(loginButton);
         buttonPanel.add(loginButton , gbc);
         gbc.gridy++;
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eseguiLogin();
+            }
+        });
 
         JButton areaPersonaleButton = new JButton("Area Personale");
         setButtonSize(areaPersonaleButton);
@@ -68,6 +74,11 @@ public class MenuPrincipaleUI extends JFrame{
     private void apriAreaPersonale(){
         MenuAreaPersonaleUI areaPersonale = new MenuAreaPersonaleUI();
         areaPersonale.areaPersonale();
+    }
+
+    private void eseguiLogin(){
+        LoginUI interfacciaLogin = new LoginUI();
+        interfacciaLogin.LoginGUI();
     }
 
     private void controlloLogin(boolean controllo){

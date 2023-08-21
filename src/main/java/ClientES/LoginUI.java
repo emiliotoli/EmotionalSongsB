@@ -15,6 +15,7 @@ public class LoginUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 150);
         setLocationRelativeTo(null);
+        setVisible(true);
 
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
 
@@ -47,15 +48,6 @@ public class LoginUI extends JFrame {
         // Esegui il processo di login, ad esempio chiamando i metodi del Client
 
         // Dopo il login avvenuto con successo, puoi chiudere la finestra di login o fare altre azioni
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                LoginUI loginGUI = new LoginUI();
-                loginGUI.setVisible(true);
-            }
-        });
     }
 }
 
