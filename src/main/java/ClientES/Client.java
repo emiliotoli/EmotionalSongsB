@@ -43,7 +43,7 @@ public class Client implements MetodiControlli_Client {
     private boolean inserimentoEmozione;
     private  boolean creazionePlaylist;
     private boolean inserimentoCanzonePlaylist;
-    public static boolean isLoggato = false;
+    public static boolean isLoggato = true;
     ServerInterfaceNonLoggato interfaceNonLoggato;
     ServerInterfaceLoggato interfaceLoggato;
 

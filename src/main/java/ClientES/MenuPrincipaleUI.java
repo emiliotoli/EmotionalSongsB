@@ -83,8 +83,13 @@ public class MenuPrincipaleUI extends JFrame{
     }
 
     private void eseguiLogin(){
-        LoginUI interfacciaLogin = new LoginUI();
-        interfacciaLogin.LoginGUI();
+        if(!Client.isLoggato) {
+            LoginUI interfacciaLogin = new LoginUI();
+            interfacciaLogin.LoginGUI();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Sei già loggato", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void controlloLogin(boolean controllo){

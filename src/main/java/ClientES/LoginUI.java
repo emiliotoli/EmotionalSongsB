@@ -59,7 +59,7 @@ public class LoginUI extends JFrame {
         String password = new String(passwordField.getPassword());
 
         // Esegui il processo di login, ad esempio chiamando i metodi del Client
-
+        //boolean permesso = Client.login(userID , password);
         // Dopo il login avvenuto con successo, puoi chiudere la finestra di login o fare altre azioni
     }
 }

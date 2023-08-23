@@ -38,6 +38,7 @@ public class RegistrazioneUI extends JFrame {
         labels[0].setText("Nome");
         labels[1].setText("Cognome");
         labels[2].setText("Codice Fiscale");
+        labels[3].setText("Indirizzo");
     }
 
     // Metodo per impostare il testo di un'etichetta dato l'indice
