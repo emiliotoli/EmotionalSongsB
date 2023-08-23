@@ -103,8 +103,9 @@ public class MenuPrincipaleUI extends JFrame{
 
     private void registrazione()
     {
+        int valoreControllo;
         RegistrazioneUI registraUtente = new RegistrazioneUI();
-        registraUtente.registrazione();
+        valoreControllo = registraUtente.registrazione();
 
     }
 
