@@ -40,6 +40,12 @@ public class MenuPrincipaleUI extends JFrame{
         setButtonSize(ricercaAutoreAnnoButton);
         buttonPanel.add(ricercaAutoreAnnoButton , gbc);
         gbc.gridy++;
+        ricercaAutoreAnnoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ricercaPerAutoreAnno();
+            }
+        });
 
         JButton registrazioneButton = new JButton("Registrati");
         setButtonSize(registrazioneButton);
@@ -118,6 +124,11 @@ public class MenuPrincipaleUI extends JFrame{
     {
         RicercaTitoloUI ricercaTitolo = new RicercaTitoloUI();
         ricercaTitolo.ricercaTitolo();
+    }
+    public void ricercaPerAutoreAnno(){
+        RicercaAutoreAnnoUI ricercaAutoreAnno = new RicercaAutoreAnnoUI();
+        ricercaAutoreAnno.ricercaCanzone();
+
     }
 
     public static void main(String[] args){
