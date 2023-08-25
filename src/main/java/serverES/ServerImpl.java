@@ -20,7 +20,7 @@ import java.util.List;
 public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNonLoggato, ServerInterfaceLoggato, Remote {
 
     private static final long serialVersionUid = 1L;
-
+    private boolean dbExists=false;
     protected ServerImpl() throws RemoteException {
         super();
     }
@@ -190,8 +190,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         List<Canzone> infoCanzone = new ArrayList<>();
         try{
             searchByTitle= new ConnessioneDBImpl().getConnection();
-            String query = "SELECT * FROM canzone WHERE titolo = ?";
-
+            String query = "SELECT * FROM canzone LIKE %?%";
             preparedStatement = searchByTitle.prepareStatement(query);
             preparedStatement.setString(1, titolo);
 
@@ -432,6 +431,13 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         }
     }
     public synchronized void VisualizzaCanzoniPlaylist(){}
+
+
+
+
+
+
+
     public synchronized boolean eliminaPlaylist(String userID, String nomePalylist)  throws RemoteException, SQLException {
         Connection deletePlaylist = null;
         PreparedStatement preparedStatement = null;
@@ -516,30 +522,28 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
 
         /**faccio partire il server**/
 
-        System.out.println("server in preparazione: ");
+        System.out.println("Server in preparazione: ");
         ServerImpl sevimpl = new ServerImpl();
         Registry registro;
         try {
             registro = LocateRegistry.createRegistry(1099);
             registro.rebind("ServerEmotionalSongs", sevimpl);
-            System.out.println("server partito");
+            System.out.println("Server avviato");
         } catch (Exception e) {
-            System.out.println("ERRORE!!! server non partito");
+            System.out.println("ERRORE!!! Server non Avviato");
             System.out.println(e.getMessage().toString());
         }
-        /** connessione DB parte quando patrte il server**/
-        //ConnessioneDB connection = new ConnessioneDB();
-        //connection.getConnectionIstance();
 
         /** connessione DB parte quando patrte il server**/
 
         ConnessioneDBImpl connection = new ConnessioneDBImpl();
         Connection dbConnection= connection.getConnection();
         if (dbConnection != null) {
-            System.out.println("Connessione al database riuscita");
+            System.out.println("Connessione al database effettuata con successo");
+
             // Fai altre operazioni necessarie con la connessione al database
         } else {
-            System.out.println("Connessione al database fallita");
+            System.out.println("Connessione al database NON effettuata");
             // Gestisci il fallimento della connessione al database
         }
 

@@ -10,14 +10,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.List;
-import java.util.Scanner;
 
 import serverES.ServerInterfaceNonLoggato;
 import serverES.ServerInterfaceLoggato;
-
-import javax.swing.*;
 
 
 public class Client implements MetodiControlli_Client {
@@ -27,25 +23,27 @@ public class Client implements MetodiControlli_Client {
     BufferedReader br = new BufferedReader(isr);
     int sceltaUtente=-1;
     int sceltaUtenteAreaPersonale=-1;
-    private String nome, cognome, codiceFiscale, via, numeroCivico, cap, comune, provincia, email, userID, password ;
-    private String titoloCanzone, autoreCanzone, annoCanzoneAutoreAnno;
-    private int annoCanzone;
-    private String emozioneScelta="";
-    private String spiegazioneEmozione;
-    private String notaEmozione;
+    private static String nome, cognome, codiceFiscale, via, numeroCivico, cap, comune, provincia, email, userID, password, p2;
+    private static String titoloCanzone;
+    private static String autoreCanzone;
+    private static String annoCanzoneAutoreAnno;
+    private static int annoCanzone;
+    private static String emozioneScelta="";
+    private static String spiegazioneEmozione;
+    private static String notaEmozione;
     private String nomePalylist;
-    private int punteggioEmozione = 0;
-    private boolean controlloPunteggio;
-    private List<Canzone> informazioniCanzoneTitolo;
-    private List<Canzone> informazioniCanzoneAuoreAnno;
-    private List<Emozione> emozioniCanzone;
+    private static int punteggioEmozione = 0;
+    private static boolean controlloPunteggio;
+    private static List<Canzone> informazioniCanzoneTitolo;
+    private static List<Canzone> informazioniCanzoneAuoreAnno;
+    private static List<Emozione> emozioniCanzone;
     private List<PlayList> playlistUtente;
-    private boolean inserimentoEmozione;
+    private static boolean inserimentoEmozione;
     private  boolean creazionePlaylist;
     private boolean inserimentoCanzonePlaylist;
     public static boolean isLoggato = true;
-    ServerInterfaceNonLoggato interfaceNonLoggato;
-    ServerInterfaceLoggato interfaceLoggato;
+    static ServerInterfaceNonLoggato interfaceNonLoggato;
+    static ServerInterfaceLoggato interfaceLoggato;
 
     /**
      *
@@ -100,23 +98,23 @@ public class Client implements MetodiControlli_Client {
                     switch (sceltaUtente) {
                     case 1:
                         // Gestisci l'operazione per la ricerca per Titolo
-                        RicercaCanzoniTitolo();
+                        RicercaCanzoniTitolo(titoloCanzone);
                         break;
 
                     case 2:
                         // Gestisci l'operazione per la ricerca per Autore, Anno
-                        RicercaCanzoniAutoreAnno();
+                        RicercaCanzoniAutoreAnno(autoreCanzone, annoCanzone);
                         break;
 
                     case 3:
                         // Gestisci l'operazione per la registrazione
-                        registrazione();
+                        registrazione(nome, cognome, codiceFiscale, via, numeroCivico, cap, comune, provincia, email, userID, password, p2);
                         break;
 
                     case 4:
                         // Gestisci l'operazione per il login
                         if(!isLoggato){
-                            login();
+                            login(userID, password);
                         }
                         else{
                             System.out.println("Hai già effettuato l'accesso");
@@ -130,7 +128,7 @@ public class Client implements MetodiControlli_Client {
                         if(!isLoggato) {
                             System.out.println("Devi essere loggato prima di accedere all'area personale");
                             System.out.println("Inserisci le credenziali di accesso: ");
-                            login();
+                            login(userID, password);
                             if(!isLoggato){
                                 System.out.println("Non puoi accedere al menù principale");
                                 break;
@@ -265,10 +263,7 @@ public class Client implements MetodiControlli_Client {
             br.close();
     }
 
-    public void RicercaCanzoniTitolo() throws IOException, SQLException {
-
-        System.out.println("Inserisci titolo da cercare: ");
-        titoloCanzone = br.readLine();
+    public static void RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
 
         //passo il titolo della canzone da ricercare
         informazioniCanzoneTitolo = interfaceNonLoggato.ricercaCanzoneTitolo(titoloCanzone);
@@ -325,14 +320,14 @@ public class Client implements MetodiControlli_Client {
             }
         }
     }
-    public void RicercaCanzoniAutoreAnno() throws IOException, SQLException {
+    public static void RicercaCanzoniAutoreAnno(String autoreCanzone, int annoCanzone) throws IOException, SQLException {
 
-        System.out.println("Inserisci il nome dell'Autore da cercare: ");
+        /*System.out.println("Inserisci il nome dell'Autore da cercare: ");
         autoreCanzone = br.readLine();
 
         System.out.println("Inserisci l'Anno della canzone: ");
         annoCanzoneAutoreAnno= br.readLine();
-        annoCanzone=Integer.parseInt(annoCanzoneAutoreAnno);
+        annoCanzone=Integer.parseInt(annoCanzoneAutoreAnno);*/
 
         informazioniCanzoneAuoreAnno=interfaceNonLoggato.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
 
@@ -388,7 +383,7 @@ public class Client implements MetodiControlli_Client {
             }
         }
     }
-    public void visualizzaEmozioniCanzone() throws SQLException, RemoteException {
+    public static void  visualizzaEmozioniCanzone() throws SQLException, RemoteException {
         if(titoloCanzone != null && autoreCanzone != null){
             emozioniCanzone = interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
 
@@ -425,7 +420,7 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Effettua prima una ricerca di una canzone.");
         }
     }
-    public void inserisciNuovaEmozione() throws IOException, SQLException {
+    public static void inserisciNuovaEmozione() throws IOException, SQLException {
 
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
@@ -550,69 +545,60 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Effettua prima una ricerca di una canzone.");
         }
     }
-    public void registrazione() throws NotBoundException, IOException, SQLException {
+    public static int registrazione(String nome, String cognome, String codiceFiscale, String via, String  numeroCivico, String cap, String comune, String provincia, String email, String userID, String password, String p2) throws NotBoundException, IOException, SQLException {
 
         boolean inserimentoRiuscito=false;
 
         System.out.println("Inizio procedura di registrazione utente\n");
 
-        System.out.print("Inserisci nome: ");
-        nome = br.readLine();
-        nome=MetodiControlli_Client.lunghezzaNominativo(nome);
+        if(!MetodiControlli_Client.lunghezzaNominativo(nome)) {
+            return 1;
+        }
 
-        System.out.print("Inserisci cognome: ");
-        cognome = br.readLine();
-        cognome = MetodiControlli_Client.lunghezzaNominativo(cognome);
+        if(!MetodiControlli_Client.lunghezzaNominativo(cognome)) {
+             return 2;
+        }
 
-        System.out.print("Inserisci codice fiscale: ");
-        codiceFiscale = br.readLine().toLowerCase();
-        codiceFiscale = MetodiControlli_Client.formatoCF(codiceFiscale);
+        if(!MetodiControlli_Client.formatoCF(codiceFiscale)){
+            return 3;
+        }
 
-        System.out.print("Inserisci indirizzo: ");
-        via= br.readLine();
+        if(!MetodiControlli_Client.formatoNumeroCivico(numeroCivico)){
+            return 4;
+        }
+        if(!MetodiControlli_Client.formatoCAP(Integer.parseInt(cap))){
+            return 5;
+        }
+        if(!MetodiControlli_Client.isNotNULL(comune)){
+            return 6;
+        }
 
-        System.out.print("Inserisci numero civico: ");
-        numeroCivico = br.readLine();
-        numeroCivico = MetodiControlli_Client.formatoNumeroCivico(numeroCivico);
+        if(!MetodiControlli_Client.isNotNULL(provincia)){
+            return 7;
+        }
+         if(!MetodiControlli_Client.formatoMail(email)){
+             return 8;
+         }
 
-        System.out.print("Inserisci CAP: ");
-        cap = br.readLine();
-        cap = MetodiControlli_Client.formatoNumeroCivico(String.valueOf(Integer.parseInt(cap)));
+         if(!MetodiControlli_Client.formatoUser(userID)){
+             return 9;
+         }
+        boolean esiste;
 
-        System.out.print("Inserisci il comune: ");
-        comune = br.readLine();
-        comune =MetodiControlli_Client.isNotNULL(comune);
+        //richiamo il medodo che ho nel servere per vedere se esiste l'utente  e aspetto la risposta del server
+        esiste=interfaceNonLoggato.checkUserID(userID);
+        //se la risposta e negativa esco dal while; altrimenti
+        if(esiste){
+            return 10;
+        }
 
-        System.out.print("Inserisci la provincia: ");
-        provincia = br.readLine();
-        provincia = MetodiControlli_Client.isNotNULL(provincia);
+        if(!MetodiControlli_Client.FormatoPassword(password)){
+            return 11;
+        }
 
-        System.out.print("Inserisci e-mail: ");
-        email = br.readLine();
-        email=MetodiControlli_Client.formatoMail(email);
-
-        System.out.print("Inserisci un nome utente per il login: ");
-        userID=br.readLine();
-        userID=MetodiControlli_Client.formatoUser(userID);
-        boolean esiste=false;
-        do{
-
-            //richiamo il medodo che ho nel servere per vedere se esiste l'utente  e aspetto la risposta del server
-            esiste=interfaceNonLoggato.checkUserID(userID);
-            //se la risposta e negativa esco dal while; altrimenti
-            if(!esiste){
-                break;
-            }
-            else{
-                System.out.println("nome utente appena inserito esiste gia'. ");
-                System.out.println("reinserire il nome utente");
-                userID=br.readLine();
-            }
-        }while(esiste);
-
-        System.out.println("Inserisci password: ");
-        password = br.readLine();
-        password = MetodiControlli_Client.FormatoPassword(password);
+        if(!MetodiControlli_Client.checkPassordUguale(password,p2)){
+            return 12;
+        }
 
         System.out.println("Inizio procedura inserimento dati su DB");
 
@@ -629,29 +615,19 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Inserimento dati su DB --> Fallito");
         }
 
+        return 0;
     }
-    public void login() throws IOException {
+    public static void login(String userID, String password) throws IOException {
 
-        int maxTentativi = 3;
-        int tentativieffetuati = 0;
-
-        do {
-            System.out.print("Inserisci un nome utente per il login: ");
-            userID = br.readLine();
-            System.out.print("Inserisci la password per il login: ");
-            password = br.readLine();
             isLoggato = interfaceNonLoggato.login(userID, password);
 
             if (isLoggato) {
                 System.out.println("Sei Loggato");
                 isLoggato = true;
             } else {
-                tentativieffetuati++ ;
-                System.out.println("Login non riuscito");
-                System.out.println("Dati digitati non corretti. Tentativo " + tentativieffetuati + "/" + maxTentativi + "\n");
-            }
-        } while (!isLoggato && tentativieffetuati < maxTentativi);
 
+                System.out.println("Login non riuscito");
+            }
         if (!isLoggato) {
             System.out.println("---------------Hai raggiunto il limite massimo di tentativi. Ritorno al menu principale.---------------" + "\n");
         }
@@ -675,7 +651,7 @@ public class Client implements MetodiControlli_Client {
         System.out.println("Digita il nome della Playlist da  creare: ");
         nomePalylist= br.readLine();
 
-        boolean esisteNomePlaylist=false;
+        boolean esisteNomePlaylist;
         do{
 
             //richiamo il medodo che ho nel servere per vedere se esiste il nome della playlist e aspetto la risposta del server

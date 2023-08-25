@@ -9,10 +9,14 @@ import java.sql.*;
 
 
 public class ConnessioneDBImpl extends UnicastRemoteObject implements ConnessioneDBInterface {
+    //private static final String DB_URL = "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B";
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "Kira0109@!";
     private static ConnessioneDBImpl instance;
+    static String nameDB = "EmotionalSongs_lab_B";
+
+
 
     public ConnessioneDBImpl() throws RemoteException {
         super();
@@ -38,11 +42,12 @@ public class ConnessioneDBImpl extends UnicastRemoteObject implements Connession
         Connection connection = null;
 
         try {
+            //connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            System.out.println("Connessione al DB riuscita");
-            System.out.println("Connesso al DB");
+            System.out.println("Connessione al DATA_BASE riuscita");
+            System.out.println("Connesso al DATA_BASE");
         } catch (SQLException e) {
-            System.out.println("Connessione al DB fallita");
+            System.out.println("ERRORE-->Connessione al DATA_BASE fallita");
             e.printStackTrace();
         }
         return connection;
