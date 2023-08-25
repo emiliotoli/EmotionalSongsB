@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import serverES.ServerInterfaceNonLoggato;
@@ -38,6 +39,8 @@ public class Client implements MetodiControlli_Client {
     private static List<Canzone> informazioniCanzoneAuoreAnno;
     private static List<Emozione> emozioniCanzone;
     private static List<PlayList> playlistUtente;
+    private  static  List<List<Emozione>> emozioniPerCanzoni = new ArrayList<>();
+    private static List<Emozione> emozioniDellaCanzone = new ArrayList<>();
     private static boolean inserimentoEmozione;
     private static boolean creazionePlaylist;
     private boolean inserimentoCanzonePlaylist;
@@ -262,8 +265,7 @@ public class Client implements MetodiControlli_Client {
             // Chiudi lo scanner dopo aver terminato
             br.close();
     }
-
-    public static void RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
+        public static List<Canzone> RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
 
         //passo il titolo della canzone da ricercare
         informazioniCanzoneTitolo = interfaceNonLoggato.ricercaCanzoneTitolo(titoloCanzone);
@@ -284,43 +286,9 @@ public class Client implements MetodiControlli_Client {
         else {
             System.out.println("Canzone non trovata");
         }
-        if(!isLoggato){
-
-            //faccio visualizzare le emozioni associate a quella canzone
-            visualizzaEmozioniCanzone(titoloCanzone, autoreCanzone);
-        }
-        else {
-            //faccio visualizzare le emozioni della canzone
-            visualizzaEmozioniCanzone(titoloCanzone, autoreCanzone);
-
-            //se vuole l'utente, può inserire le emozioni su DB
-            System.out.println("Desideri inserire una nuova emozione per questa canzone? (sì/no)");
-            /*while (true) {
-                System.out.println("Menu:");
-                System.out.println("1. Inserisci nuova emozione");
-                System.out.println("2. Esci");
-
-                try {
-                    String scelta = br.readLine().trim();
-
-                    switch (scelta) {
-                        case "1":
-                            inserisciNuovaEmozione();
-                            break;
-                        case "2":
-                            System.out.println("Uscita dal programma.");
-                            return;
-                        default:
-                            System.out.println("Scelta non valida. Riprova.");
-                            break;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
-        }
+        return informazioniCanzoneTitolo ;
     }
-    public static void RicercaCanzoniAutoreAnno(String autoreCanzone, int annoCanzone) throws IOException, SQLException {
+    public static  List<Canzone> RicercaCanzoniAutoreAnno(String autoreCanzone, int annoCanzone) throws IOException, SQLException {
 
         /*System.out.println("Inserisci il nome dell'Autore da cercare: ");
         autoreCanzone = br.readLine();
@@ -347,43 +315,10 @@ public class Client implements MetodiControlli_Client {
         else {
             System.out.println("Canzone non trovata");
         }
-        if(!isLoggato){
 
-            //faccio visualizzare le emozioni associate a quella canzone
-            visualizzaEmozioniCanzone(titoloCanzone, autoreCanzone );
-        }
-        else {
-            //faccio visualizzare le emozioni della canzone
-            visualizzaEmozioniCanzone(titoloCanzone, autoreCanzone);
-
-            //se vuole l'utente, può inserire le emozioni su DB
-            System.out.println("Desideri inserire una nuova emozione per questa canzone? (sì/no)");
-           /* while (true) {
-                System.out.println("Menu:");
-                System.out.println("1. Inserisci nuova emozione");
-                System.out.println("2. Esci");
-
-                try {
-                    String scelta = br.readLine().trim();
-
-                    switch (scelta) {
-                        case "1":
-                            inserisciNuovaEmozione();
-                            break;
-                        case "2":
-                            System.out.println("Uscita dal programma.");
-                            return;
-                        default:
-                            System.out.println("Scelta non valida. Riprova.");
-                            break;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
-        }
+        return informazioniCanzoneAuoreAnno;
     }
-    public static void  visualizzaEmozioniCanzone(String titoloCanzone, String autoreCanzone ) throws SQLException, RemoteException {
+    public static List<Emozione> visualizzaEmozioniCanzone(String titoloCanzone, String autoreCanzone ) throws SQLException, RemoteException {
         if(titoloCanzone != null && autoreCanzone != null){
             emozioniCanzone = interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
 
@@ -408,6 +343,7 @@ public class Client implements MetodiControlli_Client {
                     //System.out.println("Spiegazione: " + spiegazioneEmozione);
                     //System.out.println("punteggio: " + punteggioEmozione);
                     System.out.println("percentuale: " + percentualeEmozione +"\n");
+                    emozioniDellaCanzone.add(emozione);
                     i++;
 
                 }
@@ -419,6 +355,7 @@ public class Client implements MetodiControlli_Client {
         else{
             System.out.println("Effettua prima una ricerca di una canzone.");
         }
+        return emozioniDellaCanzone;
     }
     /*public static void inserisciNuovaEmozione() throws IOException, SQLException {
 
