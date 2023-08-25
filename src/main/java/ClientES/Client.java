@@ -35,12 +35,12 @@ public class Client implements MetodiControlli_Client {
     private static String nomePlaylist;
     private static int punteggioEmozione = 0;
     private static boolean controlloPunteggio;
-    private static List<Canzone> informazioniCanzoneTitolo;
-    private static List<Canzone> informazioniCanzoneAuoreAnno;
-    private static List<Emozione> emozioniCanzone;
-    private static List<PlayList> playlistUtente;
-    private  static  List<List<Emozione>> emozioniPerCanzoni = new ArrayList<>();
-    private static List<Emozione> emozioniDellaCanzone = new ArrayList<>();
+    private static ArrayList<Canzone> informazioniCanzoneTitolo;
+    private static ArrayList<Canzone> informazioniCanzoneAuoreAnno;
+    private static ArrayList<Emozione> emozioniCanzone;
+    private static ArrayList<PlayList> playlistUtente;
+    private  static  ArrayList<List<Emozione>> emozioniPerCanzoni = new ArrayList<>();
+    private static ArrayList<Emozione> emozioniDellaCanzone = new ArrayList<>();
     private static boolean inserimentoEmozione;
     private static boolean creazionePlaylist;
     private boolean inserimentoCanzonePlaylist;
@@ -265,10 +265,10 @@ public class Client implements MetodiControlli_Client {
             // Chiudi lo scanner dopo aver terminato
             br.close();
     }
-        public static List<Canzone> RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
+        public static ArrayList<Canzone> RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
 
         //passo il titolo della canzone da ricercare
-        informazioniCanzoneTitolo = interfaceNonLoggato.ricercaCanzoneTitolo(titoloCanzone);
+        informazioniCanzoneTitolo = (ArrayList<Canzone>) interfaceNonLoggato.ricercaCanzoneTitolo(titoloCanzone);
 
         //elaboro la risposta
         if (!informazioniCanzoneTitolo.isEmpty()){
@@ -286,7 +286,7 @@ public class Client implements MetodiControlli_Client {
         else {
             System.out.println("Canzone non trovata");
         }
-        return informazioniCanzoneTitolo ;
+        return informazioniCanzoneTitolo;
     }
     public static  List<Canzone> RicercaCanzoniAutoreAnno(String autoreCanzone, int annoCanzone) throws IOException, SQLException {
 
@@ -297,7 +297,7 @@ public class Client implements MetodiControlli_Client {
         annoCanzoneAutoreAnno= br.readLine();
         annoCanzone=Integer.parseInt(annoCanzoneAutoreAnno);*/
 
-        informazioniCanzoneAuoreAnno=interfaceNonLoggato.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
+        informazioniCanzoneAuoreAnno= (ArrayList<Canzone>) interfaceNonLoggato.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
 
         //elaboro la risposta
         if (!informazioniCanzoneAuoreAnno.isEmpty()){
@@ -320,7 +320,7 @@ public class Client implements MetodiControlli_Client {
     }
     public static List<Emozione> visualizzaEmozioniCanzone(String titoloCanzone, String autoreCanzone ) throws SQLException, RemoteException {
         if(titoloCanzone != null && autoreCanzone != null){
-            emozioniCanzone = interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
+            emozioniCanzone = (ArrayList<Emozione>) interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
 
             if (!emozioniCanzone.isEmpty()) {
 
@@ -612,7 +612,7 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Collegamento al Server--> Fallito" +"\n");
 
         }
-        playlistUtente=interfaceLoggato.VisualizzaPlaylist(userID);
+        playlistUtente= (ArrayList<PlayList>) interfaceLoggato.VisualizzaPlaylist(userID);
 
         for (PlayList playList : playlistUtente) {
 
