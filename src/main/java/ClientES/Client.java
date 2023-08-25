@@ -31,15 +31,15 @@ public class Client implements MetodiControlli_Client {
     private static String emozioneScelta="";
     private static String spiegazioneEmozione;
     private static String notaEmozione;
-    private String nomePalylist;
+    private static String nomePlaylist;
     private static int punteggioEmozione = 0;
     private static boolean controlloPunteggio;
     private static List<Canzone> informazioniCanzoneTitolo;
     private static List<Canzone> informazioniCanzoneAuoreAnno;
     private static List<Emozione> emozioniCanzone;
-    private List<PlayList> playlistUtente;
+    private static List<PlayList> playlistUtente;
     private static boolean inserimentoEmozione;
-    private  boolean creazionePlaylist;
+    private static boolean creazionePlaylist;
     private boolean inserimentoCanzonePlaylist;
     public static boolean isLoggato = true;
     static ServerInterfaceNonLoggato interfaceNonLoggato;
@@ -153,12 +153,12 @@ public class Client implements MetodiControlli_Client {
                                      switch (sceltaUtenteAreaPersonale) {
                                          case 1:
                                              //Gestisci l'operazione per creare una Playlist
-                                             creaPlayList();
+                                             creaPlayList(nomePlaylist);
                                              break;
 
                                          case 2:
                                              //Gestisci l'operazione per visualizzare la lista delle Playlist
-                                             visualizzaPlaylist();
+                                             visualizzaPlaylist(nomePlaylist);
                                              break;
 
                                          case 3:
@@ -175,7 +175,7 @@ public class Client implements MetodiControlli_Client {
 
                                          case 6:
                                              //Gestisci l'operazione per per eliminare una playlist
-                                             eliminaPlalist();
+                                             eliminaPlalist(nomePlaylist);
                                              break;
 
                                          case 7:
@@ -214,12 +214,12 @@ public class Client implements MetodiControlli_Client {
                                 switch (sceltaUtenteAreaPersonale) {
                                     case 1:
                                         //Gestisci l'operazione per creare una Playlist
-                                        creaPlayList();
+                                        creaPlayList(nomePlaylist);
                                         break;
 
                                     case 2:
                                         //Gestisci l'operazione per visualizzare la lista delle Playlist
-                                        visualizzaPlaylist();
+                                        visualizzaPlaylist(nomePlaylist);
                                         break;
 
                                     case 3:
@@ -236,7 +236,7 @@ public class Client implements MetodiControlli_Client {
 
                                     case 6:
                                         //Gestisci l'operazione per per eliminare una playlist
-                                        eliminaPlalist();
+                                        eliminaPlalist(nomePlaylist);
                                         break;
 
                                     case 7:
@@ -287,15 +287,15 @@ public class Client implements MetodiControlli_Client {
         if(!isLoggato){
 
             //faccio visualizzare le emozioni associate a quella canzone
-            visualizzaEmozioniCanzone();
+            visualizzaEmozioniCanzone(titoloCanzone, autoreCanzone);
         }
         else {
             //faccio visualizzare le emozioni della canzone
-            visualizzaEmozioniCanzone();
+            visualizzaEmozioniCanzone(titoloCanzone, autoreCanzone);
 
             //se vuole l'utente, può inserire le emozioni su DB
             System.out.println("Desideri inserire una nuova emozione per questa canzone? (sì/no)");
-            while (true) {
+            /*while (true) {
                 System.out.println("Menu:");
                 System.out.println("1. Inserisci nuova emozione");
                 System.out.println("2. Esci");
@@ -317,7 +317,7 @@ public class Client implements MetodiControlli_Client {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
         }
     }
     public static void RicercaCanzoniAutoreAnno(String autoreCanzone, int annoCanzone) throws IOException, SQLException {
@@ -350,15 +350,15 @@ public class Client implements MetodiControlli_Client {
         if(!isLoggato){
 
             //faccio visualizzare le emozioni associate a quella canzone
-            visualizzaEmozioniCanzone();
+            visualizzaEmozioniCanzone(titoloCanzone, autoreCanzone );
         }
         else {
             //faccio visualizzare le emozioni della canzone
-            visualizzaEmozioniCanzone();
+            visualizzaEmozioniCanzone(titoloCanzone, autoreCanzone);
 
             //se vuole l'utente, può inserire le emozioni su DB
             System.out.println("Desideri inserire una nuova emozione per questa canzone? (sì/no)");
-            while (true) {
+           /* while (true) {
                 System.out.println("Menu:");
                 System.out.println("1. Inserisci nuova emozione");
                 System.out.println("2. Esci");
@@ -380,10 +380,10 @@ public class Client implements MetodiControlli_Client {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
         }
     }
-    public static void  visualizzaEmozioniCanzone() throws SQLException, RemoteException {
+    public static void  visualizzaEmozioniCanzone(String titoloCanzone, String autoreCanzone ) throws SQLException, RemoteException {
         if(titoloCanzone != null && autoreCanzone != null){
             emozioniCanzone = interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
 
@@ -420,7 +420,7 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Effettua prima una ricerca di una canzone.");
         }
     }
-    public static void inserisciNuovaEmozione() throws IOException, SQLException {
+    /*public static void inserisciNuovaEmozione() throws IOException, SQLException {
 
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
@@ -544,7 +544,8 @@ public class Client implements MetodiControlli_Client {
         else{
             System.out.println("Effettua prima una ricerca di una canzone.");
         }
-    }
+    }*/
+
     public static int registrazione(String nome, String cognome, String codiceFiscale, String via, String  numeroCivico, String cap, String comune, String provincia, String email, String userID, String password, String p2) throws NotBoundException, IOException, SQLException {
 
         boolean inserimentoRiuscito=false;
@@ -632,9 +633,7 @@ public class Client implements MetodiControlli_Client {
             System.out.println("---------------Hai raggiunto il limite massimo di tentativi. Ritorno al menu principale.---------------" + "\n");
         }
     }
-
-
-    public void creaPlayList() throws IOException, SQLException {
+    public static int creaPlayList(String nomePlaylist) throws IOException, SQLException {
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
         try{
@@ -647,36 +646,22 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Collegamento al Server--> Fallito" +"\n");
 
         }
-
         System.out.println("Digita il nome della Playlist da  creare: ");
-        nomePalylist= br.readLine();
-
         boolean esisteNomePlaylist;
-        do{
 
-            //richiamo il medodo che ho nel servere per vedere se esiste il nome della playlist e aspetto la risposta del server
-            esisteNomePlaylist=interfaceLoggato.checkNomePlaylist(nomePalylist);
-
-            //se la risposta e negativa esco dal while; altrimenti
-            if(!esisteNomePlaylist){
-                break;
-            }
-            else{
-                System.out.println("nome utente appena inserito esiste gia'. ");
-                System.out.println("reinserire il nome utente");
-                nomePalylist= br.readLine();
-            }
-        }while(esisteNomePlaylist);
-
-        creazionePlaylist=interfaceLoggato.creaPlaylist(userID,nomePalylist);
+        //richiamo il medodo che ho nel servere per vedere se esiste il nome della playlist e aspetto la risposta del server
+        if(esisteNomePlaylist=interfaceLoggato.checkNomePlaylist(nomePlaylist)){
+            return 1;
+        }
+        creazionePlaylist=interfaceLoggato.creaPlaylist(userID,nomePlaylist);
 
         if (creazionePlaylist) {
-            System.out.println("Creazione Playlist su db avvenuto con successo");
+            return 0;
         } else {
-            System.out.println("Creazione Playlist su db non avvenuto --> ERRORE ");
+            return -1;
         }
     }
-    public void visualizzaPlaylist() throws RemoteException, SQLException {
+    public static void visualizzaPlaylist(String userID) throws RemoteException, SQLException {
 
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
@@ -699,7 +684,7 @@ public class Client implements MetodiControlli_Client {
 
         }
     }
-    public void eliminaPlalist() throws IOException, SQLException {
+    public  static void eliminaPlalist(String nomePalylist) throws IOException, SQLException {
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
         try{
@@ -714,12 +699,8 @@ public class Client implements MetodiControlli_Client {
         }
 
         System.out.println("Digita il nome della Playlist da Eliminare: ");
-        nomePalylist= br.readLine();
-
         boolean esisteNomePlaylist=false;
-
         creazionePlaylist=interfaceLoggato.eliminaPlaylist(userID,nomePalylist);
-
         if (creazionePlaylist) {
             System.out.println("Creazione Playlist su db avvenuto con successo");
         } else {
