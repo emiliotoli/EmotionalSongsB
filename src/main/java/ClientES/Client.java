@@ -288,7 +288,7 @@ public class Client implements MetodiControlli_Client {
         }
         return informazioniCanzoneTitolo;
     }
-    public static  List<Canzone> RicercaCanzoniAutoreAnno(String autoreCanzone, int annoCanzone) throws IOException, SQLException {
+    public static  ArrayList<Canzone> RicercaCanzoniAutoreAnno(String autoreCanzone, int annoCanzone) throws IOException, SQLException {
 
         /*System.out.println("Inserisci il nome dell'Autore da cercare: ");
         autoreCanzone = br.readLine();
@@ -318,7 +318,7 @@ public class Client implements MetodiControlli_Client {
 
         return informazioniCanzoneAuoreAnno;
     }
-    public static List<Emozione> visualizzaEmozioniCanzone(String titoloCanzone, String autoreCanzone ) throws SQLException, RemoteException {
+    public static ArrayList<Emozione> visualizzaEmozioniCanzone(String titoloCanzone, String autoreCanzone ) throws SQLException, RemoteException {
         if(titoloCanzone != null && autoreCanzone != null){
             emozioniCanzone = (ArrayList<Emozione>) interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
 
