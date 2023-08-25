@@ -190,9 +190,9 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         List<Canzone> infoCanzone = new ArrayList<>();
         try{
             searchByTitle= new ConnessioneDBImpl().getConnection();
-            String query = "SELECT * FROM canzone LIKE %?%";
+            String query = "SELECT * FROM canzone WHERE titolo LIKE ?";
             preparedStatement = searchByTitle.prepareStatement(query);
-            preparedStatement.setString(1, titolo);
+            preparedStatement.setString(1, "%" + titolo + "%");
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet != null ) {
@@ -431,13 +431,6 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         }
     }
     public synchronized void VisualizzaCanzoniPlaylist(){}
-
-
-
-
-
-
-
     public synchronized boolean eliminaPlaylist(String userID, String nomePalylist)  throws RemoteException, SQLException {
         Connection deletePlaylist = null;
         PreparedStatement preparedStatement = null;
