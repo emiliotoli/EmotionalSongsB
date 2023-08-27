@@ -60,6 +60,7 @@ public class RicercaTitoloUI extends JFrame {
             textArea.setLineWrap(true);
             textArea.setEditable(false);
 
+
             JScrollPane scrollPane = new JScrollPane(textArea);
             JButton visualizzaEmozioniButton = new JButton("Visualizza Emozioni");
 
