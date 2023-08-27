@@ -12,6 +12,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class MenuPrincipaleUI extends JFrame{
+    private static ServerInterfaceNonLoggato interfaceNonLoggato;
+    private static ServerInterfaceLoggato interfaceLoggato;
+
 
     public void mainMenu() throws RemoteException {
 
@@ -36,6 +39,16 @@ public class MenuPrincipaleUI extends JFrame{
         setButtonSize(ricercaTitoloButton);
         buttonPanel.add(ricercaTitoloButton , gbc);
         gbc.gridy++;
+
+        try {
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            interfaceNonLoggato = (ServerInterfaceNonLoggato) registry.lookup("ServerEmotionalSongs");
+            // Inizializza l'interfaccia nel ClientBridge
+            ClientBridge.setInterfaceNonLoggato(interfaceNonLoggato);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         ricercaTitoloButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

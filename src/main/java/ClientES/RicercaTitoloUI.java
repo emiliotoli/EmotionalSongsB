@@ -1,16 +1,24 @@
 package ClientES;
 
+import serverES.ServerInterfaceLoggato;
+import serverES.ServerInterfaceNonLoggato;
+import ClientES.ClientBridge;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class RicercaTitoloUI extends JFrame {
     private JTextField songNameField;
     private JButton submitButton;
+    static ServerInterfaceNonLoggato interfaceNonLoggato;
+    static ServerInterfaceLoggato interfaceLoggato;
 
     public void ricercaTitolo() {
 
@@ -49,9 +57,10 @@ public class RicercaTitoloUI extends JFrame {
     }
 
     private void handleSubmit() throws IOException, SQLException {
+
         String songName = songNameField.getText();
-       // ArrayList<Canzone> canzoni = new ArrayList<Canzone>(); //client.searchSongs(songName);
-        ArrayList<Canzone> canzoni = Client.RicercaCanzoniTitolo(songName);
+        ArrayList<Canzone> canzoni = (ArrayList<Canzone>) ClientBridge.getInterfaceNonLoggato().ricercaCanzoneTitolo(songName);
+        //canzoni = Client.RicercaCanzoniTitolo(songName);
         if (!canzoni.isEmpty()) {
             StringBuilder message = new StringBuilder("Canzoni corrispondenti:\n");
             for (Canzone c : canzoni) {
