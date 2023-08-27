@@ -2,6 +2,8 @@ package ClientES;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MenuAreaPersonaleUI extends JFrame {
 
@@ -28,6 +30,12 @@ public class MenuAreaPersonaleUI extends JFrame {
         setButtonSize(creaPlaylistButton);
         buttonPanel.add(creaPlaylistButton , gbc);
         gbc.gridy++;
+        creaPlaylistButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                creaPlaylist();
+            }
+        });
 
         JButton visualizzaPlaylistButton = new JButton("Visualizza le tue playlist");
         setButtonSize(visualizzaPlaylistButton);
@@ -55,6 +63,11 @@ public class MenuAreaPersonaleUI extends JFrame {
     private void setButtonSize(JButton button)
     {
         button.setPreferredSize(new Dimension(250 , 50));
+    }
+
+    private void creaPlaylist(){
+        NuovaPlaylistUI nuovaPlaylist = new NuovaPlaylistUI();
+        nuovaPlaylist.nuovaPlaylist();
     }
 
 }

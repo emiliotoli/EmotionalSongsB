@@ -596,14 +596,14 @@ public class Client implements MetodiControlli_Client {
 
         //richiamo il medodo che ho nel servere per vedere se esiste il nome della playlist e aspetto la risposta del server
         if(esisteNomePlaylist=interfaceLoggato.checkNomePlaylist(nomePlaylist)){
-            return 1;
+            return 1; //nome già esistente
         }
         creazionePlaylist=interfaceLoggato.creaPlaylist(userID,nomePlaylist);
 
         if (creazionePlaylist) {
-            return 0;
+            return 0; //playlist ok
         } else {
-            return -1;
+            return -1; //creazione non riuscita
         }
     }
     public static void visualizzaPlaylist(String userID) throws RemoteException, SQLException {

@@ -190,9 +190,10 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         List<Canzone> infoCanzone = new ArrayList<>();
         try{
             searchByTitle= new ConnessioneDBImpl().getConnection();
-            String query = "SELECT * FROM canzone WHERE titolo LIKE ?";
+            String query = "SELECT * FROM canzone WHERE titolo = ?";
             preparedStatement = searchByTitle.prepareStatement(query);
-            preparedStatement.setString(1, "%" + titolo + "%");
+            preparedStatement.setString(1, titolo);
+            //preparedStatement.setString(1, "%" + titolo + "%");
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet != null ) {

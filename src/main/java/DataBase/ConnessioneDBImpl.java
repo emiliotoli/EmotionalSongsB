@@ -11,9 +11,9 @@ import java.sql.*;
 
 public class ConnessioneDBImpl extends UnicastRemoteObject implements ConnessioneDBInterface {
     //private static final String DB_URL = "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/EmotionalSongsDB";
     private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "Kira0109@!";
+    private static final String PASSWORD = "Emilio3103";
     private static ConnessioneDBImpl instance;
 
 
