@@ -1,13 +1,20 @@
 package ClientES;
 
+import serverES.ServerInterfaceLoggato;
+import serverES.ServerInterfaceNonLoggato;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class MenuPrincipaleUI extends JFrame{
 
-    public void mainMenu(){
+    public void mainMenu() throws RemoteException {
+
         setTitle("Emotional Songs - Main Menu'");
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -131,7 +138,7 @@ public class MenuPrincipaleUI extends JFrame{
 
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws RemoteException {
         MenuPrincipaleUI m = new MenuPrincipaleUI();
         m.mainMenu();
     }

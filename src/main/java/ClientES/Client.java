@@ -54,7 +54,10 @@ public class Client implements MetodiControlli_Client {
      * @author
      *
      */
-    public Client(){}
+    public Client(){
+        interfaceNonLoggato = null; // Inizializza con null
+        interfaceLoggato = null; // Inizializza con null
+    }
 
     /**
      * @author
@@ -71,7 +74,8 @@ public class Client implements MetodiControlli_Client {
 
         try{
             System.out.println("Procedura di collegamento al Server --> Iniziata");
-            interfaceNonLoggato=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("ServerEmotionalSongs");
+            //interfaceNonLoggato=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("ServerEmotionalSongs");
+            interfaceNonLoggato = (ServerInterfaceNonLoggato) registroNonLoggato.lookup("ServerEmotionalSongs");
             System.out.println("Procedura di collegamento al Server --> Completata");
             System.out.println("Collegameto al Server--> Riuscito" + "\n");
         }catch (Exception e){
@@ -267,6 +271,10 @@ public class Client implements MetodiControlli_Client {
     }
         public static ArrayList<Canzone> RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
 
+            if (interfaceNonLoggato == null) {
+                System.out.println("L'interfaccia non è stata inizializzata correttamente");
+                return new ArrayList<>(); // o gestisci l'errore come meglio credi
+            }
         //passo il titolo della canzone da ricercare
         informazioniCanzoneTitolo = (ArrayList<Canzone>) interfaceNonLoggato.ricercaCanzoneTitolo(titoloCanzone);
 
