@@ -4,16 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.sql.SQLException;
 
 public class RegistrazioneUI extends JFrame {
-    private JLabel[] labels; // Array per memorizzare le etichette
-    private JButton submitButton;
-    private JTextField userIDField;
-    private JPasswordField passwordField;
-    private int controlloErrore;
+    private JTextField[] textFields; // Array per memorizzare le caselle di testo
+    int val;
 
     public int registrazione() {
-
         setTitle("Registrazione");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 600);
@@ -24,65 +23,87 @@ public class RegistrazioneUI extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
 
-        labels = new JLabel[11]; // Inizializza l'array
+        String[] labelNames = {
+                "Nome", "Cognome", "Codice Fiscale", "Indirizzo", "Numero civico",
+                "CAP", "Comune", "Provincia", "Email", "Nome Utente", "PASSWORD" , "Reinserisci password"
+        };
 
-        for (int i = 0; i < 11; i++) {
-            labels[i] = new JLabel("Campo " + (i + 1)); // Memorizza l'etichetta nell'array
-            gbc.gridx = 0;
+        textFields = new JTextField[labelNames.length]; // Inizializza l'array
+
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.gridx = 0;
+
+        for (int i = 0; i < labelNames.length; i++) {
+            JLabel label = new JLabel(labelNames[i]);
             gbc.gridy = i;
-            gbc.anchor = GridBagConstraints.EAST;
-            panel.add(labels[i], gbc);
+            panel.add(label, gbc);
 
-            JTextField textField = new JTextField(15);
             gbc.gridx = 1;
             gbc.anchor = GridBagConstraints.WEST;
+
+            JTextField textField = new JTextField(15);
+            textFields[i] = textField; // Memorizza la casella di testo nell'array
+            if (i == 10) { // Se è l'ultima casella di testo, fai sì che premere "Enter" invii il modulo
+                textField.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            handleSubmit();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        } catch (NotBoundException notBoundException) {
+                            notBoundException.printStackTrace();
+                        }
+                    }
+                });
+            }
             panel.add(textField, gbc);
+
+            gbc.gridx = 0;
         }
-
-        add(panel);
-
-        labels[0].setText("Nome");
-        labels[1].setText("Cognome");
-        labels[2].setText("Codice Fiscale");
-        labels[3].setText("Indirizzo");
-        labels[4].setText("Numero civico");
-        labels[5].setText("CAP");
-        labels[6].setText("Comune");
-        labels[7].setText("Provincia");
-        labels[8].setText("Email");
-        labels[9].setText("Nome Utente");
-        labels[10].setText("PASSWORD");
-
-        JButton loginButton = new JButton("Login");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
+        JButton submitButton = new JButton("Submit");
+        gbc.gridy = labelNames.length;
         gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.PAGE_END; // Ancoraggio al centro
-
-        submitButton = new JButton("Submit"); // Crea il pulsante di submit
-        gbc.gridx = 0;
-        gbc.gridy = 11; // Posiziona il pulsante sotto le caselle di testo
-        gbc.gridwidth = 2; // Larghezza di due colonne
-        gbc.anchor = GridBagConstraints.PAGE_END; // Ancoraggio in basso
+        gbc.anchor = GridBagConstraints.PAGE_END;
+        submitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    val= handleSubmit();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (NotBoundException notBoundException) {
+                    notBoundException.printStackTrace();
+                }
+            }
+        });
         panel.add(submitButton, gbc);
 
         add(panel);
 
-        submitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controlloErrore= handleSubmit(); // Chiamato quando il pulsante di submit è premuto
-            }
-        });
-        return controlloErrore;
+        return val;
     }
 
-    private int handleSubmit(){
-        //Controllo con if se la registrazione è andata a buon fine con codice 0. altrimenti metti alert su errore!
-        return 0;
+    private int handleSubmit() throws IOException, SQLException, NotBoundException {
+        String nome = textFields[0].getText();
+        String cognome = textFields[1].getText();
+        String codiceFiscale = textFields[2].getText();
+        String indirizzo = textFields[3].getText();
+        String numeroCivico = textFields[4].getText();
+        String cap = textFields[5].getText();
+        String comune = textFields[6].getText();
+        String provincia = textFields[7].getText();
+        String email = textFields[8].getText();
+        String nomeUtente = textFields[9].getText();
+        String password = textFields[10].getText();
+        String password2 = textFields[11].getText();
+
+        int val = Client.registrazione(nome,cognome,codiceFiscale,indirizzo,numeroCivico,cap, comune, provincia,email,nomeUtente , password , password2);
+        dispose();
+        return val;
+
     }
 
-
-
-
-    // Resto del codice...
 }

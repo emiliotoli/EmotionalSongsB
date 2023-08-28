@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class RicercaAutoreAnnoUI extends JFrame {
     private JTextField autoreField;
@@ -55,7 +58,13 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                handleSearch();
+                try {
+                    handleSearch();
+                } catch (RemoteException remoteException) {
+                    remoteException.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
 
@@ -64,15 +73,86 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
     // Resto del codice...
 
-    private void handleSearch() {
+    private void handleSearch() throws RemoteException, SQLException {
         String autore = autoreField.getText();
         int anno = Integer.parseInt(annoField.getText()); // Assumendo che l'anno sia un intero
 
         //Song[] matchingSongs = client.searchSongsByAuthorAndYear(autore, anno);
 
-        // Puoi gestire i risultati come preferisci
-        // Ad esempio, puoi visualizzarli in una nuova finestra o in un elenco
+        ArrayList<Canzone> canzoni = (ArrayList<Canzone>) ClientBridge.getInterfaceNonLoggato().ricercaCanzoneAutoreAnno(autore , anno);
+        if (!canzoni.isEmpty()) {
+            StringBuilder message = new StringBuilder("Canzoni corrispondenti:\n");
+            for (Canzone c : canzoni) {
+                message.append(c.getTitoloCanzone()).append(" | ").append(c.getAutoreCanzone()).append(" | ").append(c.getAnnoCanzone()).append("\n");
+            }
+
+            JTextArea textArea = new JTextArea(message.toString(), 10, 30);
+            textArea.setWrapStyleWord(true);
+            textArea.setLineWrap(true);
+            textArea.setEditable(false);
+
+
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            JButton visualizzaEmozioniButton = new JButton("Visualizza Emozioni");
+
+            visualizzaEmozioniButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        handleVisualizzaEmozioni();
+                    } catch (RemoteException remoteException) {
+                        remoteException.printStackTrace();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+            });
+
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.add(visualizzaEmozioniButton);
+
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            mainPanel.add(scrollPane, BorderLayout.CENTER);
+            mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+            JOptionPane.showMessageDialog(this, mainPanel, "Risultati della ricerca", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Nessuna canzone corrispondente trovata.", "Risultati della ricerca", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
+
+    private void handleVisualizzaEmozioni() throws RemoteException, SQLException {
+        JTextField titoloField = new JTextField(20);
+        JTextField autoreField = new JTextField(20);
+
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(2, 2));
+        inputPanel.add(new JLabel("Titolo:"));
+        inputPanel.add(titoloField);
+        inputPanel.add(new JLabel("Autore:"));
+        inputPanel.add(autoreField);
+
+        int result = JOptionPane.showConfirmDialog(this, inputPanel, "Inserisci Titolo e Autore",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String titolo = titoloField.getText();
+            String autore = autoreField.getText();
+
+            ArrayList<Emozione> emozioni = (ArrayList<Emozione>) ClientBridge.getInterfaceNonLoggato().visualizzaEmozioni(titolo, autore);
+
+            if (!emozioni.isEmpty()) {
+                StringBuilder emozioniMessage = new StringBuilder("Emozioni corrispondenti:\n");
+                for (Emozione e : emozioni) {
+                    emozioniMessage.append(e.getNomeEmozione()).append("\n").append(e.getPercentualeEmozione()).append("\n");
+                }
+
+                JOptionPane.showMessageDialog(this, emozioniMessage.toString(), "Emozioni", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Nessuna emozione corrispondente trovata.", "Emozioni", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
 
 }
 

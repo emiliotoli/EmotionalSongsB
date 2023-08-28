@@ -563,7 +563,7 @@ public class Client implements MetodiControlli_Client {
 
         //inserimentoRiuscito=serInterfaccia.registrazione(nome, cognome,codiceFiscale,via,numeroCivico, cap,comune,provincia,email,userID,password);
 
-        if(inserimentoRiuscito=true){
+        if(inserimentoRiuscito){
             System.out.println("Inserimento dati su DB --> Riuscito");
         }
         else{
