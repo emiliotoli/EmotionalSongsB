@@ -64,7 +64,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
                     handleSearch();
                 } catch (RemoteException remoteException) {
                     remoteException.printStackTrace();
-                } catch (SQLException throwables) {
+                } catch (SQLException | IOException throwables) {
                     throwables.printStackTrace();
                 }
             }
