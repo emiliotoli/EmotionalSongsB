@@ -269,7 +269,7 @@ public class Client implements MetodiControlli_Client {
             // Chiudi lo scanner dopo aver terminato
             br.close();
     }
-        public static ArrayList<Canzone> RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
+    public static ArrayList<Canzone> RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
             accessoServerNonLoggato();
             if (interfaceNonLoggato == null) {
                 System.out.println("L'interfaccia non è stata inizializzata correttamente");
