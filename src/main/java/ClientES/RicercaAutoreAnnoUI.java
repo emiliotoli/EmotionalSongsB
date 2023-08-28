@@ -1,9 +1,11 @@
 package ClientES;
+import ClientES.Client;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -73,13 +75,13 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
     // Resto del codice...
 
-    private void handleSearch() throws RemoteException, SQLException {
+    private void handleSearch() throws IOException, SQLException {
         String autore = autoreField.getText();
         int anno = Integer.parseInt(annoField.getText()); // Assumendo che l'anno sia un intero
 
         //Song[] matchingSongs = client.searchSongsByAuthorAndYear(autore, anno);
 
-        ArrayList<Canzone> canzoni = (ArrayList<Canzone>) ClientBridge.getInterfaceNonLoggato().ricercaCanzoneAutoreAnno(autore , anno);
+        ArrayList<Canzone> canzoni = Client.RicercaCanzoniAutoreAnno(autore,anno);
         if (!canzoni.isEmpty()) {
             StringBuilder message = new StringBuilder("Canzoni corrispondenti:\n");
             for (Canzone c : canzoni) {
@@ -138,7 +140,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
             String titolo = titoloField.getText();
             String autore = autoreField.getText();
 
-            ArrayList<Emozione> emozioni = (ArrayList<Emozione>) ClientBridge.getInterfaceNonLoggato().visualizzaEmozioni(titolo, autore);
+            ArrayList<Emozione> emozioni = Client.visualizzaEmozioniCanzone(titolo,autore);
 
             if (!emozioni.isEmpty()) {
                 StringBuilder emozioniMessage = new StringBuilder("Emozioni corrispondenti:\n");

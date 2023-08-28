@@ -107,7 +107,7 @@ public class RicercaTitoloUI extends JFrame {
             String titolo = titoloField.getText();
             String autore = autoreField.getText();
 
-            ArrayList<Emozione> emozioni = (ArrayList<Emozione>) ClientBridge.getInterfaceNonLoggato().visualizzaEmozioni(titolo, autore);
+            ArrayList<Emozione> emozioni = Client.visualizzaEmozioniCanzone(titolo,autore);
 
             if (!emozioni.isEmpty()) {
                 StringBuilder emozioniMessage = new StringBuilder("Emozioni corrispondenti:\n");
