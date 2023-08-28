@@ -270,7 +270,7 @@ public class Client implements MetodiControlli_Client {
             br.close();
     }
         public static ArrayList<Canzone> RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
-
+            accessoServerNonLoggato();
             if (interfaceNonLoggato == null) {
                 System.out.println("L'interfaccia non è stata inizializzata correttamente");
                 return new ArrayList<>(); // o gestisci l'errore come meglio credi
@@ -305,6 +305,11 @@ public class Client implements MetodiControlli_Client {
         annoCanzoneAutoreAnno= br.readLine();
         annoCanzone=Integer.parseInt(annoCanzoneAutoreAnno);*/
 
+        accessoServerNonLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return new ArrayList<>(); // o gestisci l'errore come meglio credi
+        }
         informazioniCanzoneAuoreAnno= (ArrayList<Canzone>) interfaceNonLoggato.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
 
         //elaboro la risposta
@@ -492,7 +497,11 @@ public class Client implements MetodiControlli_Client {
     }*/
 
     public static int registrazione(String nome, String cognome, String codiceFiscale, String via, String  numeroCivico, String cap, String comune, String provincia, String email, String userID, String password, String p2) throws NotBoundException, IOException, SQLException {
-
+        accessoServerNonLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return -1;
+        }
         boolean inserimentoRiuscito=false;
 
         System.out.println("Inizio procedura di registrazione utente\n");
@@ -652,6 +661,35 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Creazione Playlist su db non avvenuto --> ERRORE ");
         }
     }
+    private static void accessoServerNonLoggato() throws RemoteException {
+        Registry registroNonLoggato= LocateRegistry.getRegistry(1099);
+
+        try{
+            System.out.println("Procedura di collegamento al Server --> Iniziata");
+            //interfaceNonLoggato=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("ServerEmotionalSongs");
+            interfaceNonLoggato = (ServerInterfaceNonLoggato) registroNonLoggato.lookup("ServerEmotionalSongs");
+            System.out.println("Procedura di collegamento al Server --> Completata");
+            System.out.println("Collegameto al Server--> Riuscito" + "\n");
+        }catch (Exception e){
+            e.getMessage();
+            System.out.println("Collegamento al Server--> Fallito" +"\n");
+        }
+    }
+    private static void accessoServerLoggato() throws RemoteException {
+        Registry registroLoggato= LocateRegistry.getRegistry(1099);
+
+        try{
+            System.out.println("Procedura di collegamento al Server --> Iniziata");
+            //interfaceNonLoggato=(ServerInterfaceNonLoggato)registroNonLoggato.lookup("ServerEmotionalSongs");
+            interfaceLoggato = (ServerInterfaceLoggato) registroLoggato.lookup("ServerEmotionalSongs");
+            System.out.println("Procedura di collegamento al Server --> Completata");
+            System.out.println("Collegameto al Server--> Riuscito" + "\n");
+        }catch (Exception e){
+            e.getMessage();
+            System.out.println("Collegamento al Server--> Fallito" +"\n");
+        }
+    }
+
 
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException, SQLException {
         String identifier = null;
