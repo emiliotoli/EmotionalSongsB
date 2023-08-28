@@ -2,6 +2,7 @@ package ClientES;
 
 
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,6 +46,7 @@ public class Client implements MetodiControlli_Client {
     private static boolean creazionePlaylist;
     private boolean inserimentoCanzonePlaylist;
     public static boolean isLoggato = true;
+    public static String idGlobale;
     static ServerInterfaceNonLoggato interfaceNonLoggato;
     static ServerInterfaceLoggato interfaceLoggato;
 
@@ -332,6 +334,11 @@ public class Client implements MetodiControlli_Client {
         return informazioniCanzoneAuoreAnno;
     }
     public static ArrayList<Emozione> visualizzaEmozioniCanzone(String titoloCanzone, String autoreCanzone ) throws SQLException, RemoteException {
+        accessoServerNonLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return new ArrayList<>(); // o gestisci l'errore come meglio credi
+        }
         if(titoloCanzone != null && autoreCanzone != null){
             emozioniCanzone = (ArrayList<Emozione>) interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
 
@@ -579,6 +586,7 @@ public class Client implements MetodiControlli_Client {
             if (isLoggato) {
                 System.out.println("Sei Loggato");
                 isLoggato = true;
+                idGlobale=userID;
             } else {
 
                 System.out.println("Login non riuscito");
