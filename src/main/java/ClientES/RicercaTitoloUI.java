@@ -47,7 +47,7 @@ public class RicercaTitoloUI extends JFrame {
 
     private void handleSubmit() throws IOException, SQLException {
         String songName = songNameField.getText();
-        ArrayList<Canzone> canzoni = (ArrayList<Canzone>) ClientBridge.getInterfaceNonLoggato().ricercaCanzoneTitolo(songName);
+        ArrayList<Canzone> canzoni = (ArrayList<Canzone>) Client.RicercaCanzoniTitolo(songName);
 
         if (!canzoni.isEmpty()) {
             StringBuilder message = new StringBuilder("Canzoni corrispondenti:\n");
