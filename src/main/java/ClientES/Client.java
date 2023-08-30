@@ -2,7 +2,6 @@ package ClientES;
 
 
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +11,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import serverES.ServerInterfaceNonLoggato;
 import serverES.ServerInterfaceLoggato;
@@ -40,7 +38,7 @@ public class Client implements MetodiControlli_Client {
     private static ArrayList<Canzone> informazioniCanzoneAuoreAnno;
     private static ArrayList<Emozione> emozioniCanzone;
     private static ArrayList<PlayList> playlistUtente;
-    private  static  ArrayList<List<Emozione>> emozioniPerCanzoni = new ArrayList<>();
+    private  static boolean emozioniPerCanzone;
     private static ArrayList<Emozione> emozioniDellaCanzone = new ArrayList<>();
     private static boolean inserimentoEmozione;
     private static boolean creazionePlaylist;
@@ -377,131 +375,35 @@ public class Client implements MetodiControlli_Client {
         }
         return emozioniDellaCanzone;
     }
-    /*public static void inserisciNuovaEmozione() throws IOException, SQLException {
+    public static boolean inserisciNuovaEmozione(String emozioneScelta, String notaEmozione ) throws IOException, SQLException {
+
 
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
-        try{
-            System.out.println("Procedura di collegamento al Server --> Iniziata");
-            interfaceLoggato=(ServerInterfaceLoggato)registroLoggato.lookup("ServerEmotionalSongs");
-            System.out.println("Procedura di collegamento al Server --> Completata");
-            System.out.println("Collegameto al Server--> Riuscito" + "\n");
-        }catch (Exception e){
-            e.getMessage();
-            System.out.println("Collegamento al Server--> Fallito" +"\n");
+        if(isLoggato){
+            try{
+                System.out.println("Procedura di collegamento al Server --> Iniziata");
+                interfaceLoggato=(ServerInterfaceLoggato)registroLoggato.lookup("ServerEmotionalSongs");
+                System.out.println("Procedura di collegamento al Server --> Completata");
+                System.out.println("Collegameto al Server--> Riuscito" + "\n");
+            }catch (Exception e){
+                e.getMessage();
+                System.out.println("Collegamento al Server--> Fallito" +"\n");
 
-        }
-
-        if(titoloCanzone != null && autoreCanzone != null){
-
-            //Passo 1: inserre il nome dell'emozione da inserire (nome su DB)
-            System.out.println("Scegli l'emozione da inserire:\n");
-            String[] emozioni = {
-                    "Amazement",
-                    "Solemnity",
-                    "Tenderness",
-                    "Nostalgia",
-                    "Calmness",
-                    "Power",
-                    "Joy",
-                    "Tension",
-                    "Sadness"
-            };
-
-            for (int i = 0; i < emozioni.length; i++) {
-                System.out.println("Digitare " + (i + 1) + " per --> " + emozioni[i]);
             }
+            if(titoloCanzone != null && autoreCanzone != null){
 
-            System.out.print("Scelta: ");
-            int scelta = 0;
-
-            do {
-                try {
-                    scelta = Integer.parseInt(br.readLine());
-                } catch (Exception e) {
-                    System.out.println("Puoi inserire solo numeri compresi tra 1 e " + emozioni.length);
-                    System.out.print("Reinserisci la scelta: ");
-                    continue;
-                }
-
-                if (scelta < 1 || scelta > emozioni.length) {
-                    System.out.println("Scelta non valida, inserisci un numero compreso tra 1 e " + emozioni.length);
-                    System.out.print("Scelta: ");
-                }
-            } while (scelta < 1 || scelta > emozioni.length);
-
-            emozioneScelta = emozioni[scelta - 1];
-
-
-            // Passo 2: inserire una nota (nota su DB)
-            do {
-                System.out.println("Inserisci una breve nota (massimo 50 caratteri): ");
-                notaEmozione = br.readLine().toLowerCase();
-
-                if (notaEmozione.length() == 0) {
-                    //System.out.println("Devi inserire almeno una spiegazione.");
-                    System.out.println("Valore inserito--> NULL.");
-                    notaEmozione=null;
-                    break;
-
-                } else if (notaEmozione.length() > 50) {
-                    System.out.println("La spiegazione è troppo lunga. Inserisci al massimo 50 caratteri.");
-                } else {
-                    break;
-                }
-            } while (true);
-
-            // Passo 3: inserire una spiegazione (spiegazione su DB)
-            do {
-
-                System.out.println("Inserisci una spiegazione (massimo 250 caratteri): ");
-                spiegazioneEmozione = br.readLine().toLowerCase();
-
-                if (spiegazioneEmozione.length() == 0) {
-                    //System.out.println("Devi inserire almeno una spiegazione.");
-                    System.out.println("Valore inserito--> NULL.");
-                    spiegazioneEmozione=null;
-                    break;
-                }
-                if (spiegazioneEmozione.length() > 250) {
-                    System.out.println("La spiegazione è troppo lunga. Inserisci al massimo 50 caratteri.");
-                } else {
-                    break;
-                }
-            } while (true);
-
-            // passo 4: Inserire un punteggio associato alla canzone (punteggio su DB)
-            System.out.println("inserisci punteggio emopzione da 1 a 5: ");
-            do {
-                do {
-                    try {
-                        punteggioEmozione = Integer.parseInt(br.readLine());
-                        controlloPunteggio = true;
-                    } catch (Exception e) {
-                        System.out.println("Puoi inserire solo un numero da 1 a 5 ");
-                        System.out.println("reinserisci il punteggio: ");
-                        controlloPunteggio = false;
-                    }
-                } while (!controlloPunteggio);
-
-                // punteggio = br.read();
-                if (punteggioEmozione < 1 || punteggioEmozione > 5) {
-                    System.out.println("punteggio non valido, inserire da 1 a 5: ");
-                }
-            } while (punteggioEmozione < 1 || punteggioEmozione > 5);
-
-            inserimentoEmozione= interfaceLoggato.inserisciEmozione(userID,emozioneScelta,titoloCanzone,autoreCanzone,notaEmozione,spiegazioneEmozione,punteggioEmozione);
-            if (inserimentoEmozione) {
-                System.out.println("Inserimento dell' Emozione su db avvenuto con successo");
-            } else {
-                System.out.println("Inserimento dell' Emozione su db non avvenuto --> ERRORE ");
+                emozioniPerCanzone= interfaceLoggato.inserisciEmozione(userID,emozioneScelta,titoloCanzone,autoreCanzone,notaEmozione,spiegazioneEmozione,punteggioEmozione);
+                return true;
             }
         }
-
         else{
-            System.out.println("Effettua prima una ricerca di una canzone.");
+            System.out.println("Effetta prima il login");
+            return false;
+
         }
-    }*/
+        return false;
+    }
 
     public static int registrazione(String nome, String cognome, String codiceFiscale, String via, String  numeroCivico, String cap, String comune, String provincia, String email, String userID, String password, String p2) throws NotBoundException, IOException, SQLException {
         accessoServerNonLoggato();
