@@ -393,7 +393,7 @@ public class Client implements MetodiControlli_Client {
             }
             if(titoloCanzone != null && autoreCanzone != null){
 
-                emozioniPerCanzone= interfaceLoggato.inserisciEmozione(userID,emozioneScelta,titoloCanzone,autoreCanzone,notaEmozione,spiegazioneEmozione,punteggioEmozione);
+                emozioniPerCanzone= interfaceLoggato.inserisciEmozione(idGlobale,emozioneScelta,titoloCanzone,autoreCanzone,notaEmozione,spiegazioneEmozione,punteggioEmozione);
                 return true;
             }
         }
