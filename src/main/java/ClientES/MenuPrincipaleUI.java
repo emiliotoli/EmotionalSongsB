@@ -135,51 +135,51 @@ public class MenuPrincipaleUI extends JFrame{
 
     private void registrazione()
     {
-        int valoreControllo;
         RegistrazioneUI registraUtente = new RegistrazioneUI();
-        valoreControllo = registraUtente.registrazioneUI();
-        switch (valoreControllo){
-            case 0:
-                JOptionPane.showMessageDialog(this, "Registrazione andata a buon fine", "Errore", JOptionPane.ERROR_MESSAGE);
-            break;
-            case 1:
-                JOptionPane.showMessageDialog(this, "Errore nel formato del nome", "Errore", JOptionPane.ERROR_MESSAGE);
-            break;
-            case 2:
-                JOptionPane.showMessageDialog(this, "Errore nel formato del cognome", "Errore", JOptionPane.ERROR_MESSAGE);
-                break;
-            case 3:
-                JOptionPane.showMessageDialog(this, "Errore nel formato del Codice Fiscale", "Errore", JOptionPane.ERROR_MESSAGE);
-                break;
-            case 4:
-                JOptionPane.showMessageDialog(this, "Errore nel formato del Numero Civico", "Errore", JOptionPane.ERROR_MESSAGE);
-                break;
-            case 5:
-                JOptionPane.showMessageDialog(this, "Errore nel formato del CAP", "Errore", JOptionPane.ERROR_MESSAGE);
-                break;
-            case 6:
-                JOptionPane.showMessageDialog(this, "Errore nell'inserimento del comune", "Errore", JOptionPane.ERROR_MESSAGE);
-                break;
-            case 7:
-                JOptionPane.showMessageDialog(this, "Errore nell'inserimento della provincia", "Errore", JOptionPane.ERROR_MESSAGE);
-                break;
-            case 8:
-                JOptionPane.showMessageDialog(this, "Errore nel formato della email", "Errore", JOptionPane.ERROR_MESSAGE);
-                break;
-            case 9:
-                JOptionPane.showMessageDialog(this, "Errore nel formato del nome utente", "Errore", JOptionPane.ERROR_MESSAGE);
-                break;
-            case 10:
-                JOptionPane.showMessageDialog(this, "ID utente gia' esistente", "Errore", JOptionPane.ERROR_MESSAGE);
-                break;
-            case 11:
-                JOptionPane.showMessageDialog(this, "Errore nel formato della password", "Errore", JOptionPane.ERROR_MESSAGE);
-            case 12:
-                JOptionPane.showMessageDialog(this, "Le due password non coincidono. Reinserire due password identiche", "Errore", JOptionPane.ERROR_MESSAGE);
-
-
-        }
-
+        registraUtente.registrazioneUI(new RegistrazioneCallback() {
+            @Override
+            public void registrazioneCompleted(int result) {
+                switch (result) {
+                    case 0:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Registrazione andata a buon fine", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    case 1:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del nome", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 2:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del cognome", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 3:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del Codice Fiscale", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 4:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del Numero Civico", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 5:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del CAP", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 6:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nell'inserimento del comune", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 7:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nell'inserimento della provincia", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 8:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato della email", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 9:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del nome utente", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 10:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "ID utente gia' esistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 11:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato della password", "Errore", JOptionPane.ERROR_MESSAGE);
+                    case 12:
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Le due password non coincidono. Reinserire due password identiche", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
     public void ricercaPerTitolo()
     {
