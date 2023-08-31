@@ -9,8 +9,9 @@ public class LoginUI extends JFrame {
 
     private JTextField userIDField;
     private JPasswordField passwordField;
+    boolean valLogin;
 
-    public void LoginGUI() {
+    public boolean LoginGUI() {
         setTitle("Login");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(300, 150);
@@ -46,21 +47,23 @@ public class LoginUI extends JFrame {
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                performLogin();
+                valLogin =performLogin();
             }
         });
         panel.add(loginButton, gbc);
 
         add(panel);
+        return valLogin;
     }
 
-    private void performLogin() {
+    private boolean performLogin() {
         String userID = userIDField.getText();
         String password = new String(passwordField.getPassword());
 
         // Esegui il processo di login, ad esempio chiamando i metodi del Client
         //boolean permesso = Client.login(userID , password);
         // Dopo il login avvenuto con successo, puoi chiudere la finestra di login o fare altre azioni
+        return true;
     }
 }
 
