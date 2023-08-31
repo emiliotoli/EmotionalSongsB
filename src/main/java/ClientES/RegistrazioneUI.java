@@ -11,9 +11,12 @@ import java.util.ArrayList;
 
 public class RegistrazioneUI extends JFrame {
     private JTextField[] textFields; // Array per memorizzare le caselle di testo
+    private RegistrazioneCallback callback;
     int val;
 
-    public int registrazioneUI() {
+    public void registrazioneUI(RegistrazioneCallback callback) {
+        this.callback = callback;
+
         setTitle("Registrazione");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 600);
@@ -54,7 +57,7 @@ public class RegistrazioneUI extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    val= handleSubmit();
+                    handleSubmit();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 } catch (SQLException throwables) {
@@ -67,11 +70,9 @@ public class RegistrazioneUI extends JFrame {
         panel.add(submitButton, gbc);
 
         add(panel);
-
-        return val;
     }
 
-    private int handleSubmit() throws IOException, SQLException, NotBoundException {
+    private void handleSubmit() throws IOException, SQLException, NotBoundException {
 
 
         String nome = textFields[0].getText();
@@ -87,8 +88,10 @@ public class RegistrazioneUI extends JFrame {
         String password = textFields[10].getText();
         String password2 = textFields[11].getText();
         int val = Client.registrazione(nome,cognome,codiceFiscale,indirizzo,numeroCivico,cap, comune, provincia,email,nomeUtente , password , password2);
-        dispose();
-        return val;
+        //dispose();
+        if (callback != null) {
+            callback.registrazioneCompleted(val);
+        }
 
     }
 
