@@ -137,7 +137,7 @@ public class MenuPrincipaleUI extends JFrame{
     {
         int valoreControllo;
         RegistrazioneUI registraUtente = new RegistrazioneUI();
-        valoreControllo = registraUtente.registrazione();
+        valoreControllo = registraUtente.registrazioneUI();
         switch (valoreControllo){
             case 0:
                 JOptionPane.showMessageDialog(this, "Registrazione andata a buon fine", "Errore", JOptionPane.ERROR_MESSAGE);
