@@ -190,10 +190,10 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         List<Canzone> infoCanzone = new ArrayList<>();
         try{
             searchByTitle= new ConnessioneDBImpl().getConnection();
-            String query = "SELECT * FROM canzone WHERE titolo = ?";
+            String query = "SELECT * FROM canzone WHERE titolo LIKE ?";
             preparedStatement = searchByTitle.prepareStatement(query);
-            preparedStatement.setString(1, titolo);
-            //preparedStatement.setString(1, "%" + titolo + "%");
+            //preparedStatement.setString(1, titolo);
+            preparedStatement.setString(1, "%" + titolo + "%");
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet != null ) {
@@ -431,7 +431,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-    public synchronized void VisualizzaCanzoniPlaylist(){}
+    public synchronized void VisualizzaCanzoniPlaylist(){} //tabella playlist
     public synchronized boolean eliminaPlaylist(String userID, String nomePalylist)  throws RemoteException, SQLException {
         Connection deletePlaylist = null;
         PreparedStatement preparedStatement = null;
@@ -467,7 +467,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-    public synchronized void aggiuntaCanzoniPlaylist() {}
+    public synchronized void aggiuntaCanzoniPlaylist() {} //aggiungi canzone in tabella composta
     public synchronized void eliminaCanzoniPlaylist() { }
     public synchronized boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione,  int punteggioEmozione) throws SQLException {
         Connection insertEmozione = null;

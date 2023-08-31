@@ -7,12 +7,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class RegistrazioneUI extends JFrame {
     private JTextField[] textFields; // Array per memorizzare le caselle di testo
     int val;
 
-    public int registrazione() {
+    public int registrazioneUI() {
         setTitle("Registrazione");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 600);
@@ -43,23 +44,7 @@ public class RegistrazioneUI extends JFrame {
 
             JTextField textField = new JTextField(15);
             textFields[i] = textField; // Memorizza la casella di testo nell'array
-            if (i == 10) { // Se è l'ultima casella di testo, fai sì che premere "Enter" invii il modulo
-                textField.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        try {
-                            handleSubmit();
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        } catch (NotBoundException notBoundException) {
-                            notBoundException.printStackTrace();
-                        }
-                    }
-                });
-            }
             panel.add(textField, gbc);
-
             gbc.gridx = 0;
         }
         JButton submitButton = new JButton("Submit");
@@ -87,6 +72,8 @@ public class RegistrazioneUI extends JFrame {
     }
 
     private int handleSubmit() throws IOException, SQLException, NotBoundException {
+
+
         String nome = textFields[0].getText();
         String cognome = textFields[1].getText();
         String codiceFiscale = textFields[2].getText();
@@ -99,7 +86,6 @@ public class RegistrazioneUI extends JFrame {
         String nomeUtente = textFields[9].getText();
         String password = textFields[10].getText();
         String password2 = textFields[11].getText();
-
         int val = Client.registrazione(nome,cognome,codiceFiscale,indirizzo,numeroCivico,cap, comune, provincia,email,nomeUtente , password , password2);
         dispose();
         return val;
