@@ -71,13 +71,7 @@ public class MenuAreaPersonaleUI extends JFrame {
         eliminaPlaylist.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean res = eliminaPlaylist();
-                if(res){
-                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Playlist eliminata con successo", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
-                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore nella cancellazione o nome playlist inesistente", "Errore", JOptionPane.INFORMATION_MESSAGE);
-                }
+                eliminaPlaylist();
             }
         });
 
@@ -108,21 +102,27 @@ public class MenuAreaPersonaleUI extends JFrame {
             }
         });
     }
-
     private void aggiungiAllaPlaylist(){
         AggiungiCanzonePlaylist acp = new AggiungiCanzonePlaylist();
         acp.aggiungiCanzoniAPlaylist();
     }
-
     private void visualizzaPlaylist(){
         VisualizzaPlaylistUI vp = new VisualizzaPlaylistUI();
         vp.visualizzaPlaylist();
     }
 
-    private boolean eliminaPlaylist(){
+    private void eliminaPlaylist(){
         EliminaPlaylistUI ep = new EliminaPlaylistUI();
-        boolean res = ep.eliminaPlaylistUI();
-        return res;
+        ep.eliminaPlaylistUI(new PlaylistDeletionCallback() {
+            @Override
+            public void onPlaylistDeletionResult(boolean result) {
+                if (result) {
+                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Playlist eliminata con successo", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore nella cancellazione o nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 
 }

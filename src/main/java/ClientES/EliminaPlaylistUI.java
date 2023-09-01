@@ -10,11 +10,10 @@ import java.sql.SQLException;
 public class EliminaPlaylistUI extends JFrame {
     private JTextField nomePlaylistField;
     private JButton submitButton;
-    private Client client;
-    private PlaylistCreationCallback callback;
     boolean res;
-
-    public boolean eliminaPlaylistUI() {
+    private PlaylistDeletionCallback callback;
+    public void eliminaPlaylistUI(PlaylistDeletionCallback callback) {
+        this.callback = callback;
 
         setTitle("Elimina Playlist");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -33,7 +32,7 @@ public class EliminaPlaylistUI extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    res = handleSubmit();
+                    handleSubmit();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 } catch (SQLException throwables) {
@@ -43,13 +42,11 @@ public class EliminaPlaylistUI extends JFrame {
         });
 
         add(panel);
-        return res;
     }
 
-    private boolean handleSubmit() throws IOException, SQLException {
-        boolean res;
+    private void handleSubmit() throws IOException, SQLException {
         String nomePlaylist = nomePlaylistField.getText();
-        res= Client.eliminaPlaylist(nomePlaylist);
-        return res;
+        boolean res = Client.eliminaPlaylist(nomePlaylist);
+        callback.onPlaylistDeletionResult(res);
     }
 }
