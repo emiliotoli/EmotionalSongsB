@@ -216,7 +216,8 @@ public class MenuPrincipaleUI extends JFrame{
             JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Logout effettuato con successo!", "LOGOUT ", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Impossibile effettuare l'operazione \nNon sei loggato", "LOGOUT ", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Impossibile effettuare l'operazione \n" +
+                    "Non sei loggato", "LOGOUT ", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
