@@ -529,19 +529,12 @@ public class Client implements MetodiControlli_Client {
             return -1; //creazione non riuscita
         }
     }
-    public static void visualizzaPlaylist(String userID) throws RemoteException, SQLException {
+    public static ArrayList<PlayList> visualizzaPlaylist(String userID) throws RemoteException, SQLException {
 
-        Registry registroLoggato= LocateRegistry.getRegistry(1099);
-
-        try{
-            System.out.println("Procedura di collegamento al Server --> Iniziata");
-            interfaceLoggato=(ServerInterfaceLoggato)registroLoggato.lookup("ServerEmotionalSongs");
-            System.out.println("Procedura di collegamento al Server --> Completata");
-            System.out.println("Collegameto al Server--> Riuscito" + "\n");
-        }catch (Exception e){
-            e.getMessage();
-            System.out.println("Collegamento al Server--> Fallito" +"\n");
-
+        accessoServerLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return new ArrayList<>(); // o gestisci l'errore come meglio credi
         }
         playlistUtente= (ArrayList<PlayList>) interfaceLoggato.VisualizzaPlaylist(userID);
 
@@ -551,6 +544,7 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Nome PlayList: " + nomePlaylisyUtente);
 
         }
+        return playlistUtente;
     }
     public  static void eliminaPlalist(String nomePalylist) throws IOException, SQLException {
         Registry registroLoggato= LocateRegistry.getRegistry(1099);

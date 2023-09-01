@@ -75,7 +75,7 @@ public class MenuAreaPersonaleUI extends JFrame {
         NuovaPlaylistUI nuovaPlaylist = new NuovaPlaylistUI();
         nuovaPlaylist.nuovaPlaylistUI(new PlaylistCreationCallback() {
 
-            public void onPlaylistCreationResult(int result) {
+            public void onPlaylistCreationResult(int result)  {
                 if (result == 0) {
                     // La playlist è stata creata con successo
                     // Puoi gestire il successo qui, ad esempio aggiornando l'interfaccia utente

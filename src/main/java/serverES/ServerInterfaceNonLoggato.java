@@ -24,6 +24,4 @@ public interface  ServerInterfaceNonLoggato extends Remote {
     public List<Canzone> ricercaCanzoneTitolo(String titolo) throws RemoteException, SQLException;
     public List<Canzone> ricercaCanzoneAutoreAnno(String autore, int anno) throws RemoteException, SQLException;
     public List<Emozione> visualizzaEmozioni(String titoloCanzone, String autoreCanzone)throws RemoteException,SQLException;
-
-
 }

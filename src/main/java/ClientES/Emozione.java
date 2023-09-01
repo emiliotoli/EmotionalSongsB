@@ -2,7 +2,7 @@ package ClientES;
 
 import java.io.Serializable;
 
-public class Emozione implements Serializable {
+public class  Emozione implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String nomeEmozione;
