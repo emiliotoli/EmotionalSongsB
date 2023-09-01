@@ -566,17 +566,18 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-    public synchronized List<Canzone> ricercaCanzoneTitoloInPlaylist(String titolo, String autore) throws RemoteException, SQLException {
+    public synchronized List<Canzone> ricercaCanzoneTitoloInPlaylist(String idUtente, String titolo, String autore) throws RemoteException, SQLException {
         Connection searchByTitle = null;
         PreparedStatement preparedStatement = null;
 
         List<Canzone> infoCanzone = new ArrayList<>();
         try{
             searchByTitle= new ConnessioneDBImpl().getConnection();
-            String query = "SELECT * FROM composta WHERE titolo =? and autore=?";
+            String query = "SELECT * FROM composta WHERE idutente=? titolo =? and autore=?";
             preparedStatement = searchByTitle.prepareStatement(query);
-            preparedStatement.setString(1, titolo);
-            preparedStatement.setString(2,autore);
+            preparedStatement.setString(1,idUtente);
+            preparedStatement.setString(2, titolo);
+            preparedStatement.setString(3,autore);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

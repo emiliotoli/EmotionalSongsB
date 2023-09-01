@@ -639,13 +639,13 @@ public class Client implements MetodiControlli_Client {
         }
     }
 
-    private static ArrayList<Canzone> ricercaCanzoneTitoloInPlaylist(String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
+    private static ArrayList<Canzone> ricercaCanzoneTitoloInPlaylist(String idUtente, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
         accessoServerLoggato();
         if (interfaceNonLoggato == null) {
             System.out.println("L'interfaccia non è stata inizializzata correttamente");
             return new ArrayList<>(); // o gestisci l'errore come meglio credi
         }
-        informazioniCanzoneTitoloinPlaylist = (ArrayList<Canzone>) interfaceLoggato.ricercaCanzoneTitoloInPlaylist(titoloCanzone, autoreCanzone);
+        informazioniCanzoneTitoloinPlaylist = (ArrayList<Canzone>) interfaceLoggato.ricercaCanzoneTitoloInPlaylist(idUtente, titoloCanzone, autoreCanzone);
 
         //elaboro la risposta
         if (!informazioniCanzoneTitoloinPlaylist.isEmpty()){
