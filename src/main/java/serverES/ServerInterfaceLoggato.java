@@ -20,7 +20,7 @@ public interface ServerInterfaceLoggato extends Remote {
     public boolean eliminaPlaylist(String userID, String nomePalylist)throws RemoteException, SQLException;
     public boolean aggiuntaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException;
     public boolean eliminaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone, String autoreCanzone)throws RemoteException, SQLException;
-    public  void VisualizzaCanzoniPlaylist()throws RemoteException, SQLException;
+    public  List<Canzone> VisualizzaCanzoniPlaylist(String nomePlaylist, String userID)throws RemoteException, SQLException;
     public  List<PlayList> VisualizzaPlaylist(String userID)throws RemoteException, SQLException;
     public boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione, int punteggioEmozione) throws RemoteException, SQLException;
 

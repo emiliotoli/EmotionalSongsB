@@ -15,6 +15,11 @@ public class Canzone implements Serializable {
         annoCanzone=anno;
     }
 
+    public Canzone (String name, String autore){
+        titoloCanzone=name;
+        autoreCanzone=autore;
+    }
+
     public  String getTitoloCanzone(){return titoloCanzone;}
     public  String getAutoreCanzone(){return autoreCanzone;}
     public  int getAnnoCanzone(){return annoCanzone;}

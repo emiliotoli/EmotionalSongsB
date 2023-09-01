@@ -36,7 +36,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         int capValue;
         try{
 
-           // Connection con=ConnessioneDB.istance.getConnectionIstance();
+            // Connection con=ConnessioneDB.istance.getConnectionIstance();
             connInsertUtente=new ConnessioneDBImpl().getConnection();
 
             String queryInsert = "INSERT INTO utentiregistrati (nome, cognome, codicefiscale, via, numerocivico, comune, provincia, cap, userid, email, password) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
@@ -167,7 +167,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             Connection connCheckID = ConnessioneDBImpl.getInstance().getConnection();
             PreparedStatement preparedStatement=null;
             String querycheck = "SELECT COUNT(*) FROM utentiregistrati WHERE  userid= ? ";
-             preparedStatement = connCheckID.prepareStatement(querycheck);
+            preparedStatement = connCheckID.prepareStatement(querycheck);
             preparedStatement.setString(1, userID);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -305,13 +305,13 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet!=null){
                 while(resultSet.next()){
-                     String nomeEmozione=resultSet.getString("nome");
-                     //String tipoEmozione=resultSet.getString("tipo");
-                     //String spiegazioneEmozione=resultSet.getString("spiegazione");
-                     //int punteggioEmozione=resultSet.getInt("punteggio");
-                     double percentuale= resultSet.getDouble("percentuale");
+                    String nomeEmozione=resultSet.getString("nome");
+                    //String tipoEmozione=resultSet.getString("tipo");
+                    //String spiegazioneEmozione=resultSet.getString("spiegazione");
+                    //int punteggioEmozione=resultSet.getInt("punteggio");
+                    double percentuale= resultSet.getDouble("percentuale");
 
-                     Emozione emozione = new Emozione (nomeEmozione, percentuale);
+                    Emozione emozione = new Emozione (nomeEmozione, percentuale);
                     infoEmozione.add(emozione);
                 }
             }
@@ -431,7 +431,45 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-    public synchronized void VisualizzaCanzoniPlaylist(){} //tabella playlist
+    public synchronized List<Canzone> VisualizzaCanzoniPlaylist(String nomePlaylist, String userID) throws RemoteException, SQLException {
+        Connection searchSong = null;
+        PreparedStatement preparedStatement = null;
+        List<Canzone> infoSongInPlaylist = new ArrayList<>();
+        try {
+            searchSong= new ConnessioneDBImpl().getConnection();
+            String query = "SELECT titolo, autore FROM Composta WHERE nome = ? AND idUtente = ?";
+
+            preparedStatement = searchSong.prepareStatement(query);
+            preparedStatement.setString(1, nomePlaylist);
+            preparedStatement.setString(2, userID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet!=null){
+                while(resultSet.next()){
+                    String titoloCanzone = resultSet.getString("titolo");
+                    String autore = resultSet.getString("autore");
+
+                    Canzone canzone = new Canzone (titoloCanzone,autore);
+                    infoSongInPlaylist.add(canzone);
+                }
+            }
+            else {
+                infoSongInPlaylist = null;
+            }
+            return infoSongInPlaylist;
+        }catch(Exception e){
+            System.out.println("Errore durante la ricerca della PlayList: " + e.getMessage());
+            throw new RemoteException(" PlayList--> NON Trovata", e);
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (searchSong != null) {
+                searchSong.close();
+            }
+        }
+    }
     public synchronized boolean eliminaPlaylist(String nomePalylist, String userID )  throws RemoteException, SQLException {
         Connection deletePlaylist = null;
         PreparedStatement preparedStatement = null;
@@ -480,7 +518,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             preparedStatement.setString(3, titoloCanzone);
             preparedStatement.setString(4, autoreCanzone);
 
-           preparedStatement.executeUpdate(); // Esegui l'inserimento e ottieni il numero di righe interessate
+            preparedStatement.executeUpdate(); // Esegui l'inserimento e ottieni il numero di righe interessate
             System.out.println("inserimento canzone nella playlist" + nomePlaylist + " andato a buon fine");
             return true;
         } catch (Exception e) {
