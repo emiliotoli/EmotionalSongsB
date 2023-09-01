@@ -73,7 +73,22 @@ public class MenuAreaPersonaleUI extends JFrame {
 
     private void creaPlaylist(){
         NuovaPlaylistUI nuovaPlaylist = new NuovaPlaylistUI();
-        nuovaPlaylist.nuovaPlaylist();
+        nuovaPlaylist.nuovaPlaylistUI(new PlaylistCreationCallback() {
+
+            public void onPlaylistCreationResult(int result) {
+                if (result == 0) {
+                    // La playlist è stata creata con successo
+                    // Puoi gestire il successo qui, ad esempio aggiornando l'interfaccia utente
+                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Playlist creata con successo", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                } else if (result == 1) {
+                    // Playlist già esistente, mostra un messaggio di errore
+                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Playlist già esistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    // Altri casi di errore, gestisci secondo necessità
+                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore durante la creazione della playlist", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 
     private void aggiungiAllaPlaylist(){

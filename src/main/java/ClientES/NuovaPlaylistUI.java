@@ -11,8 +11,10 @@ public class NuovaPlaylistUI extends JFrame {
     private JTextField nomePlaylistField;
     private JButton submitButton;
     private Client client;
+    private PlaylistCreationCallback callback;
 
-    public void nuovaPlaylist() {
+    public void nuovaPlaylistUI(PlaylistCreationCallback callback) {
+        this.callback = callback;
 
         setTitle("Nuova Playlist");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -45,16 +47,9 @@ public class NuovaPlaylistUI extends JFrame {
 
     private void handleSubmit() throws IOException, SQLException {
         String nomePlaylist = nomePlaylistField.getText();
-        int isPlaylistCreated = Client.creaPlayList(nomePlaylist);
+        int isPlaylistCreated = Client.creaPlayList(nomePlaylist, Client.idGlobale);
 
-        if (isPlaylistCreated == 0) {
-            dispose();
-        } else {
-            if(isPlaylistCreated==1)
-                JOptionPane.showMessageDialog(this, "Playlist già esistente", "Errore", JOptionPane.ERROR_MESSAGE);
-            else
-                JOptionPane.showMessageDialog(this, "Playlist non creata correttamente", "Errore2", JOptionPane.ERROR_MESSAGE);
-        }
+        callback.onPlaylistCreationResult(isPlaylistCreated);
     }
 }
 

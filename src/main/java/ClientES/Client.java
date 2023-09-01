@@ -160,7 +160,7 @@ public class Client implements MetodiControlli_Client {
                                      switch (sceltaUtenteAreaPersonale) {
                                          case 1:
                                              //Gestisci l'operazione per creare una Playlist
-                                             creaPlayList(nomePlaylist);
+                                             //creaPlayList(nomePlaylist);
                                              break;
 
                                          case 2:
@@ -221,7 +221,7 @@ public class Client implements MetodiControlli_Client {
                                 switch (sceltaUtenteAreaPersonale) {
                                     case 1:
                                         //Gestisci l'operazione per creare una Playlist
-                                        creaPlayList(nomePlaylist);
+                                        //creaPlayList(nomePlaylist);
                                         break;
 
                                     case 2:
@@ -501,7 +501,7 @@ public class Client implements MetodiControlli_Client {
             return false;
         }
     }
-    public static int creaPlayList(String nomePlaylist) throws IOException, SQLException {
+    public static int creaPlayList(String nomePlaylist, String userID) throws IOException, SQLException {
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
         try{
@@ -521,7 +521,7 @@ public class Client implements MetodiControlli_Client {
         if(esisteNomePlaylist=interfaceLoggato.checkNomePlaylist(nomePlaylist)){
             return 1; //nome già esistente
         }
-        creazionePlaylist=interfaceLoggato.creaPlaylist(userID,nomePlaylist);
+        creazionePlaylist=interfaceLoggato.creaPlaylist(nomePlaylist, userID);
 
         if (creazionePlaylist) {
             return 0; //playlist ok
@@ -574,6 +574,19 @@ public class Client implements MetodiControlli_Client {
         } else {
             System.out.println("Creazione Playlist su db non avvenuto --> ERRORE ");
         }
+    }
+    public static void aggiuntaCanzoniPlaylist (String nomePlaylist, String userID, String titoloCanzone, String autoreCanzone) throws RemoteException {
+        accessoServerLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return;
+        }
+        //controllo playlist
+
+        //controllo canzone
+
+        //
+
     }
     private static void accessoServerNonLoggato() throws RemoteException {
         Registry registroNonLoggato= LocateRegistry.getRegistry(1099);

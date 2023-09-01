@@ -336,7 +336,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
     /**
      * operazioni solo utente loggato
      **/
-    public synchronized boolean creaPlaylist(String userID, String nomePlaylist) throws SQLException {
+    public synchronized boolean creaPlaylist( String nomePlaylist, String userID) throws SQLException {
         Connection insertPlaylist = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -344,11 +344,11 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
 
             insertPlaylist = new ConnessioneDBImpl().getConnection();
 
-            String queryLogin= "INSERT INTO playlist (idutente, nome) VALUES (?, ?)";
+            String queryLogin= "INSERT INTO playlist (nome, idutente ) VALUES (?, ?)";
             preparedStatement=insertPlaylist.prepareStatement(queryLogin);
 
-            preparedStatement.setString(1,userID);
-            preparedStatement.setString(2,nomePlaylist);
+            preparedStatement.setString(1,nomePlaylist);
+            preparedStatement.setString(2,userID );
 
             //eseguo la query
             preparedStatement.executeUpdate();
@@ -467,7 +467,34 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-    public synchronized void aggiuntaCanzoniPlaylist() {} //aggiungi canzone in tabella composta
+    public synchronized void aggiuntaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
+
+        Connection aggiungiCanzone = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            aggiungiCanzone= new ConnessioneDBImpl().getConnection();
+            String query = "INSERT INTO Composta (nome, idUtente, titolo, autore) VALUES (?, ?, ?, ?)";
+
+            preparedStatement = aggiungiCanzone.prepareStatement(query);
+            preparedStatement.setString(1, nomePlaylist);
+            preparedStatement.setString(2, idUtente);
+            preparedStatement.setString(3,titoloCanzone);
+            preparedStatement.setString(4,autoreCanzone);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+        }catch(Exception e){
+            System.out.println("Errore durante l'inserimento della canzone nella playlist: " + e.getMessage());
+            throw new RemoteException("Song Insert --> Failure", e);
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (aggiungiCanzone != null) {
+                aggiungiCanzone.close();
+            }
+        }
+    }
     public synchronized void eliminaCanzoniPlaylist() { }
     public synchronized boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione,  int punteggioEmozione) throws SQLException {
         Connection insertEmozione = null;
