@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class EliminaCanzonePlaylistUI extends JFrame {
     private JTextField playlistNameField;
     private JTextField songTitleField;
     private JTextField songAuthorField;
+    private int val;
 
     public void eliminaCanzoneDaPlaylist() {
         setTitle("Elimina canzone dalla Playlist");
@@ -47,7 +49,7 @@ public class EliminaCanzonePlaylistUI extends JFrame {
                 if (title != null && !title.isEmpty()) {
                     ArrayList<Canzone> songList = null; // Sostituisci con il metodo corretto
                     try {
-                        songList = Client.RicercaCanzoniTitolo(title);
+                        songList = Client.ricercaCanzoneTitoloInPlaylist(Client.idGlobale , songTitleField.getText() , songAuthorField.getText());
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     } catch (SQLException throwables) {
@@ -65,13 +67,19 @@ public class EliminaCanzonePlaylistUI extends JFrame {
                 String songAuthor = songAuthorField.getText();
 
                 if (!playlistName.isEmpty() && !songTitle.isEmpty() && !songAuthor.isEmpty()) {
-                    // Chiamare il metodo del Client per aggiungere la canzone alla playlist
-                    boolean success = true;//Client.aggiungiCanzoneAPlaylist(playlistName, songTitle, songAuthor);
-                    if (success) {
-                        JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Canzone Eliminata dalla playlist!" , "Successo" , JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nella rimozione della canzone dalla playlist", "Errore", JOptionPane.ERROR_MESSAGE);
+                    try {
+                        val=Client.eliminaCanzoniPlaylist(playlistName , Client.idGlobale , songTitle , songAuthor);
+                    } catch (RemoteException | SQLException remoteException) {
+                        remoteException.printStackTrace();
                     }
+                    switch (val) {
+                        case 0 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Canzone rimossa con successo dalla playlist", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                        case -1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case 1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nella rimozione della canzone al database. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case -2 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+
+
                 } else {
                     JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Riempi tutti i campi prima di procedere", "Errore", JOptionPane.WARNING_MESSAGE);
                 }
