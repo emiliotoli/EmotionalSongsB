@@ -45,11 +45,13 @@ public class EliminaCanzonePlaylistUI extends JFrame {
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String title = JOptionPane.showInputDialog(EliminaCanzonePlaylistUI.this, "Inserisci il titolo della canzone da rimuovere dalla playlist :");
+                String title = JOptionPane.showInputDialog(EliminaCanzonePlaylistUI.this,
+                        "Inserisci il titolo della canzone da rimuovere dalla playlist :");
                 if (title != null && !title.isEmpty()) {
                     ArrayList<Canzone> songList = null; // Sostituisci con il metodo corretto
                     try {
-                        songList = Client.ricercaCanzoneTitoloInPlaylist(Client.idGlobale , songTitleField.getText() , songAuthorField.getText());
+                        songList = Client.ricercaCanzoneTitoloInPlaylist(Client.idGlobale, songTitleField.getText(),
+                                songAuthorField.getText());
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     } catch (SQLException throwables) {
@@ -68,20 +70,26 @@ public class EliminaCanzonePlaylistUI extends JFrame {
 
                 if (!playlistName.isEmpty() && !songTitle.isEmpty() && !songAuthor.isEmpty()) {
                     try {
-                        val=Client.eliminaCanzoniPlaylist(playlistName , Client.idGlobale , songTitle , songAuthor);
+                        val = Client.eliminaCanzoniPlaylist(playlistName, Client.idGlobale, songTitle, songAuthor);
                     } catch (RemoteException | SQLException remoteException) {
                         remoteException.printStackTrace();
                     }
                     switch (val) {
-                        case 0 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Canzone rimossa con successo dalla playlist", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                        case -1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
-                        case 1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nella rimozione della canzone al database. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
-                        case -2 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case 0 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                                "Canzone rimossa con successo dalla playlist", "Successo",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        case -1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                                "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case 1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                                "Errore nella rimozione della canzone al database. Riprova", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
+                        case -2 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                                "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
 
-
                 } else {
-                    JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Riempi tutti i campi prima di procedere", "Errore", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                            "Riempi tutti i campi prima di procedere", "Errore", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -109,6 +117,5 @@ public class EliminaCanzonePlaylistUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
 
 }
