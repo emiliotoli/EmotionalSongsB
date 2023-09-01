@@ -540,23 +540,30 @@ public class Client implements MetodiControlli_Client {
         }
         return playlistUtente;
     }
-    public static boolean eliminaPlaylist(String nomePlaylist) throws IOException, SQLException {
+    public static int eliminaPlaylist(String nomePlaylist) throws IOException, SQLException {
 
         accessoServerLoggato();
         if (interfaceNonLoggato == null) {
             System.out.println("L'interfaccia non è stata inizializzata correttamente");
-            return false; // o gestisci l'errore come meglio credi
+            return -2; // o gestisci l'errore come meglio credi
         }
         System.out.println("Digita il nome della Playlist da Eliminare: ");
-        //boolean esisteNomePlaylist;
-        cancellaPlaylist=interfaceLoggato.eliminaPlaylist(nomePlaylist, Client.idGlobale);
-        if (cancellaPlaylist) {
-            System.out.println("Creazione Playlist su db avvenuto con successo");
-            return true;
-        } else {
-            System.out.println("Creazione Playlist su db non avvenuto --> ERRORE ");
-            return false;
+        boolean esisteNomePlaylist;
+        esisteNomePlaylist=interfaceLoggato.checkNomePlaylist(nomePlaylist);
+        if(esisteNomePlaylist){
+            cancellaPlaylist=interfaceLoggato.eliminaPlaylist(nomePlaylist, Client.idGlobale);
+            if (cancellaPlaylist) {
+                System.out.println("Cancellazione Playlist su db avvenuto con successo");
+                return 0;
+            } else {
+                System.out.println("Cancellazione Playlist su db non avvenuto --> ERRORE ");
+                return 1;
+            }
         }
+        else{
+            return -1;
+        }
+
     }
     public static void aggiuntaCanzoniPlaylist (String nomePlaylist, String userID, String titoloCanzone, String autoreCanzone) throws RemoteException {
         accessoServerLoggato();

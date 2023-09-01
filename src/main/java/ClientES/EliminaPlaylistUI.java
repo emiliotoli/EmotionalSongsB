@@ -46,7 +46,8 @@ public class EliminaPlaylistUI extends JFrame {
 
     private void handleSubmit() throws IOException, SQLException {
         String nomePlaylist = nomePlaylistField.getText();
-        boolean res = Client.eliminaPlaylist(nomePlaylist);
+        int res = Client.eliminaPlaylist(nomePlaylist);
         callback.onPlaylistDeletionResult(res);
+        dispose();
     }
 }

@@ -111,15 +111,24 @@ public class MenuAreaPersonaleUI extends JFrame {
         vp.visualizzaPlaylist();
     }
 
-    private void eliminaPlaylist(){
+    private void eliminaPlaylist() {
         EliminaPlaylistUI ep = new EliminaPlaylistUI();
         ep.eliminaPlaylistUI(new PlaylistDeletionCallback() {
             @Override
-            public void onPlaylistDeletionResult(boolean result) {
-                if (result) {
-                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Playlist eliminata con successo", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore nella cancellazione o nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
+            public void onPlaylistDeletionResult(int result) {
+                switch (result) {
+                    case 0:
+                        JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Playlist eliminata con successo", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    case 1:
+                        JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore nella cancellazione della PlayList", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case -1:
+                        JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore! Nome Plalist non trovato", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case -2:
+                        JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore durante l'inizializzazione dell'interfaccia", "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
                 }
             }
         });

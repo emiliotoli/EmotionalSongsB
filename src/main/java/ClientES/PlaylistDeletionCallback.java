@@ -1,5 +1,5 @@
 package ClientES;
 
 public interface PlaylistDeletionCallback {
-    void onPlaylistDeletionResult(boolean result);
+    void onPlaylistDeletionResult(int result);
 }
