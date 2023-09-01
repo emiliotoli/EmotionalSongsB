@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class AggiungiCanzonePlaylist extends JFrame {
+public class EliminaCanzonePlaylistUI extends JFrame {
     private JTextField playlistNameField;
     private JTextField songTitleField;
     private JTextField songAuthorField;
 
-    public void aggiungiCanzoniAPlaylist() {
-        setTitle("Aggiungi Canzone alla Playlist");
+    public void eliminaCanzoneDaPlaylist() {
+        setTitle("Elimina canzone dalla Playlist");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null);
@@ -43,7 +43,7 @@ public class AggiungiCanzonePlaylist extends JFrame {
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String title = JOptionPane.showInputDialog(AggiungiCanzonePlaylist.this, "Inserisci il titolo della canzone da cercare:");
+                String title = JOptionPane.showInputDialog(EliminaCanzonePlaylistUI.this, "Inserisci il titolo della canzone da rimuovere dalla playlist :");
                 if (title != null && !title.isEmpty()) {
                     ArrayList<Canzone> songList = null; // Sostituisci con il metodo corretto
                     try {
@@ -68,12 +68,12 @@ public class AggiungiCanzonePlaylist extends JFrame {
                     // Chiamare il metodo del Client per aggiungere la canzone alla playlist
                     boolean success = true;//Client.aggiungiCanzoneAPlaylist(playlistName, songTitle, songAuthor);
                     if (success) {
-                        JOptionPane.showMessageDialog(AggiungiCanzonePlaylist.this, "Canzone aggiunta alla playlist!");
+                        JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Canzone Eliminata dalla playlist!" , "Successo" , JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        JOptionPane.showMessageDialog(AggiungiCanzonePlaylist.this, "Errore nell'aggiunta della canzone alla playlist.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nella rimozione della canzone dalla playlist", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(AggiungiCanzonePlaylist.this, "Riempi tutti i campi prima di procedere.", "Errore", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Riempi tutti i campi prima di procedere", "Errore", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -81,11 +81,11 @@ public class AggiungiCanzonePlaylist extends JFrame {
 
     private void showSongListPopup(ArrayList<Canzone> songList) {
         if (songList.isEmpty()) {
-            JOptionPane.showMessageDialog(AggiungiCanzonePlaylist.this, "Nessuna canzone trovata.");
+            JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Nessuna canzone trovata.");
         } else {
             StringBuilder message = new StringBuilder("Lista Canzoni:\n");
             for (Canzone song : songList) {
-                message.append(song.getTitoloCanzone()).append(song.getAutoreCanzone()).append("\n");
+                message.append(song.getTitoloCanzone()).append(" ").append(song.getAutoreCanzone()).append("\n");
             }
 
             JTextArea textArea = new JTextArea(message.toString(), 10, 30);
@@ -95,7 +95,7 @@ public class AggiungiCanzonePlaylist extends JFrame {
 
             JScrollPane scrollPane = new JScrollPane(textArea);
 
-            JOptionPane.showMessageDialog(AggiungiCanzonePlaylist.this,
+            JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
                     scrollPane,
                     "Lista Canzoni",
                     JOptionPane.INFORMATION_MESSAGE);

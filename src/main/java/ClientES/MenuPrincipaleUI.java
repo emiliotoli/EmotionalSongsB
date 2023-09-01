@@ -199,12 +199,12 @@ public class MenuPrincipaleUI extends JFrame{
             }
         });
     }
-    public void ricercaPerTitolo()
+    private void ricercaPerTitolo()
     {
         RicercaTitoloUI ricercaTitolo = new RicercaTitoloUI();
         ricercaTitolo.ricercaTitolo();
     }
-    public void ricercaPerAutoreAnno(){
+    private void ricercaPerAutoreAnno(){
         RicercaAutoreAnnoUI ricercaAutoreAnno = new RicercaAutoreAnnoUI();
         ricercaAutoreAnno.ricercaCanzone();
 
@@ -220,7 +220,6 @@ public class MenuPrincipaleUI extends JFrame{
                     "Non sei loggato", "LOGOUT ", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
 
     public static void main(String[] args) throws RemoteException {
         MenuPrincipaleUI m = new MenuPrincipaleUI();

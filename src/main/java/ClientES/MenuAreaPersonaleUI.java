@@ -63,6 +63,12 @@ public class MenuAreaPersonaleUI extends JFrame {
         setButtonSize(rimuoviCanzonePlaylist);
         buttonPanel.add(rimuoviCanzonePlaylist , gbc);
         gbc.gridy++;
+        rimuoviCanzonePlaylist.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminaCanzoneDaPlaylist();
+            }
+        });
 
         JButton eliminaPlaylist = new JButton("Elimina Playlist");
         setButtonSize(eliminaPlaylist);
@@ -103,7 +109,7 @@ public class MenuAreaPersonaleUI extends JFrame {
         });
     }
     private void aggiungiAllaPlaylist(){
-        AggiungiCanzonePlaylist acp = new AggiungiCanzonePlaylist();
+        AggiungiCanzonePlaylistUI acp = new AggiungiCanzonePlaylistUI();
         acp.aggiungiCanzoniAPlaylist();
     }
     private void visualizzaPlaylist(){
@@ -132,6 +138,11 @@ public class MenuAreaPersonaleUI extends JFrame {
                 }
             }
         });
+    }
+
+    private void eliminaCanzoneDaPlaylist(){
+        EliminaCanzonePlaylistUI edp = new EliminaCanzonePlaylistUI();
+        edp.eliminaCanzoneDaPlaylist();
     }
 
 }
