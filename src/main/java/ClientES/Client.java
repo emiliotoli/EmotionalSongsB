@@ -598,7 +598,7 @@ public class Client implements MetodiControlli_Client {
        controlloNomePlaylist= interfaceLoggato.checkNomePlaylist(nomePlaylist);
        if(controlloNomePlaylist){
            cancellazioneCanzonePlaylist= interfaceLoggato.eliminaCanzoniPlaylist(nomePlaylist,userID,titoloCanzone,autoreCanzone);
-           if(cancellaPlaylist){
+           if(cancellazioneCanzonePlaylist){
                return 0; //cancellazione effettuata con successo
            }
            else{

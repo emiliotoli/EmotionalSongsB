@@ -550,7 +550,10 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             preparedStatement.setString(3,titoloCanzone);
             preparedStatement.setString(4,autoreCanzone);
 
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            eliminaCanzone.close();
             System.out.println("cancellazione della canzone dalla playlist effettuata: ");
             return true;
         }catch(Exception e){
