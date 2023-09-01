@@ -100,6 +100,17 @@ public class MenuPrincipaleUI extends JFrame{
             }
         });
 
+        JButton logoutButton = new JButton("Logout");
+        setButtonSize(logoutButton);
+        buttonPanel.add(logoutButton , gbc);
+        gbc.gridy++;
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logout();
+            }
+        });
+
 
         add(buttonPanel , BorderLayout.CENTER);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -198,6 +209,17 @@ public class MenuPrincipaleUI extends JFrame{
         ricercaAutoreAnno.ricercaCanzone();
 
     }
+    public void logout(){
+
+        if(Client.isLoggato) {
+            Client.isLoggato = false;
+            JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Logout effettuato con successo!", "LOGOUT ", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Impossibile effettuare l'operazione \nNon sei loggato", "LOGOUT ", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
 
     public static void main(String[] args) throws RemoteException {
         MenuPrincipaleUI m = new MenuPrincipaleUI();
