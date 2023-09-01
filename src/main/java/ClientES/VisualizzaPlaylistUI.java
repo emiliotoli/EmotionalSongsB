@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class VisualizzaPlaylistUI extends JFrame {
@@ -28,19 +30,26 @@ public class VisualizzaPlaylistUI extends JFrame {
 
         viewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //ArrayList<String> playlist = Client.visualizzaPlaylist(Client.id); // Sostituisci con il metodo corretto
-                //updatePlaylistTextArea(playlist);
+                ArrayList<PlayList> playlist = null; // Sostituisci con il metodo corretto
+                try {
+                    playlist = Client.visualizzaPlaylist(Client.idGlobale);
+                } catch (RemoteException remoteException) {
+                    remoteException.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                updatePlaylistTextArea(playlist);
             }
         });
     }
 
-    private void updatePlaylistTextArea(ArrayList<String> playlist) {
+    private void updatePlaylistTextArea(ArrayList<PlayList> playlist) {
         playlistTextArea.setText("");
         if (playlist.isEmpty()) {
             playlistTextArea.append("Nessuna playlist disponibile.");
         } else {
-            for (String playlistName : playlist) {
-                playlistTextArea.append(playlistName + "\n");
+            for (PlayList pl : playlist) {
+                playlistTextArea.append(pl.getnomePlalist() + "\n");
             }
         }
     }
