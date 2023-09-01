@@ -68,6 +68,18 @@ public class MenuAreaPersonaleUI extends JFrame {
         setButtonSize(eliminaPlaylist);
         buttonPanel.add(eliminaPlaylist , gbc);
         gbc.gridy++;
+        eliminaPlaylist.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean res = eliminaPlaylist();
+                if(res){
+                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Playlist eliminata con successo", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore nella cancellazione o nome playlist inesistente", "Errore", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
 
         add(buttonPanel , BorderLayout.CENTER);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -105,6 +117,12 @@ public class MenuAreaPersonaleUI extends JFrame {
     private void visualizzaPlaylist(){
         VisualizzaPlaylistUI vp = new VisualizzaPlaylistUI();
         vp.visualizzaPlaylist();
+    }
+
+    private boolean eliminaPlaylist(){
+        EliminaPlaylistUI ep = new EliminaPlaylistUI();
+        boolean res = ep.eliminaPlaylistUI();
+        return res;
     }
 
 }
