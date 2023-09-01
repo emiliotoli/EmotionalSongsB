@@ -117,15 +117,17 @@ public class MenuPrincipaleUI extends JFrame{
     private void eseguiLogin(){
         if(!Client.isLoggato) {
             LoginUI interfacciaLogin = new LoginUI();
-            boolean valLogin = interfacciaLogin.LoginGUI();
-            if(valLogin){
-                JOptionPane.showMessageDialog(this, "Login andato a buon fine", "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                JOptionPane.showMessageDialog(this, "Credenziali errate", "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        else{
+            interfacciaLogin.LoginGUI(new LoginCallback() {
+                @Override
+                public void onLoginResult(boolean success) {
+                    if (success) {
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Login andato a buon fine", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Credenziali errate", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+        } else {
             JOptionPane.showMessageDialog(this, "Sei già loggato", "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -139,8 +141,7 @@ public class MenuPrincipaleUI extends JFrame{
         }
     }
 
-    private void registrazione()
-    {
+    private void registrazione(){
         RegistrazioneUI registraUtente = new RegistrazioneUI();
         registraUtente.registrazioneUI(new RegistrazioneCallback() {
             @Override

@@ -43,7 +43,7 @@ public class Client implements MetodiControlli_Client {
     private static boolean inserimentoEmozione;
     private static boolean creazionePlaylist;
     private boolean inserimentoCanzonePlaylist;
-    public static boolean isLoggato = true;
+    public static boolean isLoggato = false;
     public static String idGlobale;
     static ServerInterfaceNonLoggato interfaceNonLoggato;
     static ServerInterfaceLoggato interfaceLoggato;
@@ -481,20 +481,24 @@ public class Client implements MetodiControlli_Client {
 
         return 0;
     }
-    public static void login(String userID, String password) throws IOException {
+    public static boolean login(String userID, String password) throws IOException {
 
-            isLoggato = interfaceNonLoggato.login(userID, password);
+        accessoServerNonLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return false; // o gestisci l'errore come meglio credi
+        }
+        isLoggato = interfaceNonLoggato.login(userID, password);
 
-            if (isLoggato) {
-                System.out.println("Sei Loggato");
-                isLoggato = true;
-                idGlobale=userID;
-            } else {
+        if (isLoggato) {
+            System.out.println("Sei Loggato");
+            isLoggato = true;
+            idGlobale=userID;
+            return true;
+        } else {
 
-                System.out.println("Login non riuscito");
-            }
-        if (!isLoggato) {
-            System.out.println("---------------Hai raggiunto il limite massimo di tentativi. Ritorno al menu principale.---------------" + "\n");
+            System.out.println("Login non riuscito");
+            return false;
         }
     }
     public static int creaPlayList(String nomePlaylist) throws IOException, SQLException {

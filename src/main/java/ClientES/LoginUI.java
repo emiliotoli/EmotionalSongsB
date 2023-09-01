@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class LoginUI extends JFrame {
 
@@ -11,7 +12,7 @@ public class LoginUI extends JFrame {
     private JPasswordField passwordField;
     boolean valLogin;
 
-    public boolean LoginGUI() {
+    public void LoginGUI(LoginCallback callback) {
         setTitle("Login");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(300, 150);
@@ -47,23 +48,32 @@ public class LoginUI extends JFrame {
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                valLogin =performLogin();
+                try {
+                    boolean valLogin = performLogin();
+                    if(valLogin){
+                        dispose();// Login riuscito, chiudi la finestra di login
+                    }
+                     else {
+                    // Login non riuscito, reimposta i campi di input
+                    userIDField.setText("");
+                    passwordField.setText("");
+                    }
+                    callback.onLoginResult(valLogin);
+
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         panel.add(loginButton, gbc);
-
         add(panel);
-        return valLogin;
     }
 
-    private boolean performLogin() {
+    private boolean performLogin() throws IOException {
         String userID = userIDField.getText();
         String password = new String(passwordField.getPassword());
-
         // Esegui il processo di login, ad esempio chiamando i metodi del Client
-        //boolean permesso = Client.login(userID , password);
-        // Dopo il login avvenuto con successo, puoi chiudere la finestra di login o fare altre azioni
-        return true;
+        return Client.login(userID, password);
     }
 }
 
