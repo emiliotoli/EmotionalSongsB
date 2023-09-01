@@ -42,7 +42,7 @@ public class Client implements MetodiControlli_Client {
     private static ArrayList<Emozione> emozioniDellaCanzone = new ArrayList<>();
     private static boolean inserimentoEmozione;
     private static boolean creazionePlaylist;
-    private boolean inserimentoCanzonePlaylist;
+    private static boolean inserimentoCanzonePlaylist;
     private static boolean cancellaPlaylist;
     public static boolean isLoggato = false;
     public static String idGlobale;
@@ -565,18 +565,28 @@ public class Client implements MetodiControlli_Client {
         }
 
     }
-    public static void aggiuntaCanzoniPlaylist (String nomePlaylist, String userID, String titoloCanzone, String autoreCanzone) throws RemoteException {
+    public static int aggiuntaCanzoniPlaylist (String nomePlaylist, String userID, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
         accessoServerLoggato();
         if (interfaceNonLoggato == null) {
             System.out.println("L'interfaccia non è stata inizializzata correttamente");
-            return;
+            return -2;
         }
         //controllo playlist
-
-        //controllo canzone
-
-        //
-
+        boolean controlloNomePlaylist;
+        controlloNomePlaylist= interfaceLoggato.checkNomePlaylist(nomePlaylist);
+        if(controlloNomePlaylist){
+            //ricerca canzone e aggiungi
+            inserimentoCanzonePlaylist=interfaceLoggato.aggiuntaCanzoniPlaylist(nomePlaylist,userID,titoloCanzone,autoreCanzone);
+            if(inserimentoCanzonePlaylist){
+                return 0;// inserimanto efetuato con successo
+            }
+            else {
+                return 1;//erore durante l'inserimento
+            }
+        }
+        else{
+            return -1; //nome playlist inesistente
+        }
     }
     private static void accessoServerNonLoggato() throws RemoteException {
         Registry registroNonLoggato= LocateRegistry.getRegistry(1099);

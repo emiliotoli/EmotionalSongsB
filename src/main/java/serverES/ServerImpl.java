@@ -467,26 +467,26 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-    public synchronized void aggiuntaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
-
+    public synchronized boolean aggiuntaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
         Connection aggiungiCanzone = null;
         PreparedStatement preparedStatement = null;
         try {
-            aggiungiCanzone= new ConnessioneDBImpl().getConnection();
+            aggiungiCanzone = new ConnessioneDBImpl().getConnection();
             String query = "INSERT INTO Composta (nome, idUtente, titolo, autore) VALUES (?, ?, ?, ?)";
 
             preparedStatement = aggiungiCanzone.prepareStatement(query);
             preparedStatement.setString(1, nomePlaylist);
             preparedStatement.setString(2, idUtente);
-            preparedStatement.setString(3,titoloCanzone);
-            preparedStatement.setString(4,autoreCanzone);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.setString(3, titoloCanzone);
+            preparedStatement.setString(4, autoreCanzone);
 
-        }catch(Exception e){
+           preparedStatement.executeUpdate(); // Esegui l'inserimento e ottieni il numero di righe interessate
+            System.out.println("inserimento canzone nella playlist" + nomePlaylist + " andato a buon fine");
+            return true;
+        } catch (Exception e) {
             System.out.println("Errore durante l'inserimento della canzone nella playlist: " + e.getMessage());
-            throw new RemoteException("Song Insert --> Failure", e);
-        }
-        finally {
+            return false;
+        } finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
