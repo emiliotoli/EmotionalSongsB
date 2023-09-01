@@ -43,6 +43,7 @@ public class Client implements MetodiControlli_Client {
     private static boolean inserimentoEmozione;
     private static boolean creazionePlaylist;
     private boolean inserimentoCanzonePlaylist;
+    private static boolean cancellaPlaylist;
     public static boolean isLoggato = false;
     public static String idGlobale;
     static ServerInterfaceNonLoggato interfaceNonLoggato;
@@ -182,7 +183,7 @@ public class Client implements MetodiControlli_Client {
 
                                          case 6:
                                              //Gestisci l'operazione per per eliminare una playlist
-                                             eliminaPlalist(nomePlaylist);
+                                             //eliminaPlalist(nomePlaylist);
                                              break;
 
                                          case 7:
@@ -243,7 +244,7 @@ public class Client implements MetodiControlli_Client {
 
                                     case 6:
                                         //Gestisci l'operazione per per eliminare una playlist
-                                        eliminaPlalist(nomePlaylist);
+                                        //eliminaPlalist(nomePlaylist);
                                         break;
 
                                     case 7:
@@ -297,13 +298,6 @@ public class Client implements MetodiControlli_Client {
         return informazioniCanzoneTitolo;
     }
     public static  ArrayList<Canzone> RicercaCanzoniAutoreAnno(String autoreCanzone, int annoCanzone) throws IOException, SQLException {
-
-        /*System.out.println("Inserisci il nome dell'Autore da cercare: ");
-        autoreCanzone = br.readLine();
-
-        System.out.println("Inserisci l'Anno della canzone: ");
-        annoCanzoneAutoreAnno= br.readLine();
-        annoCanzone=Integer.parseInt(annoCanzoneAutoreAnno);*/
 
         accessoServerNonLoggato();
         if (interfaceNonLoggato == null) {
@@ -546,24 +540,17 @@ public class Client implements MetodiControlli_Client {
         }
         return playlistUtente;
     }
-    public  static void eliminaPlalist(String nomePalylist) throws IOException, SQLException {
-        Registry registroLoggato= LocateRegistry.getRegistry(1099);
+    public  static void eliminaPlaylist(String nomePalylist) throws IOException, SQLException {
 
-        try{
-            System.out.println("Procedura di collegamento al Server --> Iniziata");
-            interfaceLoggato=(ServerInterfaceLoggato)registroLoggato.lookup("ServerEmotionalSongs");
-            System.out.println("Procedura di collegamento al Server --> Completata");
-            System.out.println("Collegameto al Server--> Riuscito" + "\n");
-        }catch (Exception e){
-            e.getMessage();
-            System.out.println("Collegamento al Server--> Fallito" +"\n");
-
+        accessoServerLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return; // o gestisci l'errore come meglio credi
         }
-
         System.out.println("Digita il nome della Playlist da Eliminare: ");
         boolean esisteNomePlaylist=false;
-        creazionePlaylist=interfaceLoggato.eliminaPlaylist(userID,nomePalylist);
-        if (creazionePlaylist) {
+        cancellaPlaylist=interfaceLoggato.eliminaPlaylist(nomePalylist, Client.idGlobale);
+        if (cancellaPlaylist) {
             System.out.println("Creazione Playlist su db avvenuto con successo");
         } else {
             System.out.println("Creazione Playlist su db non avvenuto --> ERRORE ");

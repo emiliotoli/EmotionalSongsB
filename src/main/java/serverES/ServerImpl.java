@@ -432,7 +432,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         }
     }
     public synchronized void VisualizzaCanzoniPlaylist(){} //tabella playlist
-    public synchronized boolean eliminaPlaylist(String userID, String nomePalylist)  throws RemoteException, SQLException {
+    public synchronized boolean eliminaPlaylist(String nomePalylist, String userID )  throws RemoteException, SQLException {
         Connection deletePlaylist = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -440,11 +440,11 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
 
             deletePlaylist = new ConnessioneDBImpl().getConnection();
 
-            String queryDelete= "DELETE FROM  playlist  WHERE idutente=? and nome= ? ";
+            String queryDelete= "DELETE FROM  playlist  WHERE nome=? and idutente=?";
             preparedStatement=deletePlaylist.prepareStatement(queryDelete);
 
-            preparedStatement.setString(1,userID);
-            preparedStatement.setString(2,nomePalylist);
+            preparedStatement.setString(1,nomePalylist);
+            preparedStatement.setString(2,userID );
 
             //eseguo la query
             preparedStatement.executeUpdate();
