@@ -1,5 +1,6 @@
 package serverES;
 
+import ClientES.Canzone;
 import ClientES.PlayList;
 
 import java.rmi.RemoteException;
@@ -22,4 +23,6 @@ public interface ServerInterfaceLoggato extends Remote {
     public  void VisualizzaCanzoniPlaylist()throws RemoteException, SQLException;
     public  List<PlayList> VisualizzaPlaylist(String userID)throws RemoteException, SQLException;
     public boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione, int punteggioEmozione) throws RemoteException, SQLException;
+
+    public List<Canzone> ricercaCanzoneTitoloInPlaylist(String titolo, String autore) throws RemoteException, SQLException;
 }

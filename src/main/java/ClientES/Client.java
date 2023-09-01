@@ -35,6 +35,7 @@ public class Client implements MetodiControlli_Client {
     private static int punteggioEmozione = 0;
     private static boolean controlloPunteggio;
     private static ArrayList<Canzone> informazioniCanzoneTitolo;
+    private static ArrayList<Canzone> informazioniCanzoneTitoloinPlaylist;
     private static ArrayList<Canzone> informazioniCanzoneAuoreAnno;
     private static ArrayList<Emozione> emozioniCanzone;
     private static ArrayList<PlayList> playlistUtente;
@@ -638,6 +639,32 @@ public class Client implements MetodiControlli_Client {
         }
     }
 
+    private static ArrayList<Canzone> ricercaCanzoneTitoloInPlaylist(String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
+        accessoServerLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return new ArrayList<>(); // o gestisci l'errore come meglio credi
+        }
+        informazioniCanzoneTitoloinPlaylist = (ArrayList<Canzone>) interfaceLoggato.ricercaCanzoneTitoloInPlaylist(titoloCanzone, autoreCanzone);
+
+        //elaboro la risposta
+        if (!informazioniCanzoneTitoloinPlaylist.isEmpty()){
+            for (Canzone canzone : informazioniCanzoneTitoloinPlaylist) {
+                titoloCanzone = canzone.getTitoloCanzone();
+                autoreCanzone = canzone.getAutoreCanzone();
+                annoCanzone = canzone.getAnnoCanzone();
+
+                System.out.println("Titolo: " + titoloCanzone);
+                System.out.println("Autore: " + autoreCanzone);
+                System.out.println("Anno: " + annoCanzone);
+                System.out.println();
+            }
+        }
+        else {
+            System.out.println("Canzone non trovata");
+        }
+        return informazioniCanzoneTitoloinPlaylist;
+    }
 
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException, SQLException {
         String identifier = null;

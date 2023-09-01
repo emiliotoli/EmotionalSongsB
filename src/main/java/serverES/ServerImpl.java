@@ -566,7 +566,54 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
+    public synchronized List<Canzone> ricercaCanzoneTitoloInPlaylist(String titolo, String autore) throws RemoteException, SQLException {
+        Connection searchByTitle = null;
+        PreparedStatement preparedStatement = null;
 
+        List<Canzone> infoCanzone = new ArrayList<>();
+        try{
+            searchByTitle= new ConnessioneDBImpl().getConnection();
+            String query = "SELECT * FROM composta WHERE titolo =? and autore=?";
+            preparedStatement = searchByTitle.prepareStatement(query);
+            preparedStatement.setString(1, titolo);
+            preparedStatement.setString(2,autore);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet != null ) {
+                while (resultSet.next()) {
+                    String titoloCanzone = resultSet.getString("titolo");
+                    String autoreCanzone = resultSet.getString("autore");
+                    int annoCanzone = resultSet.getInt("anno");
+
+                    Canzone canzone = new Canzone(titoloCanzone, autoreCanzone, annoCanzone);
+                    infoCanzone.add(canzone);
+
+                    //stampo i valori presi
+                    System.out.println("Titolo: " + titoloCanzone);
+                    System.out.println("Autore: " + autoreCanzone);
+                    System.out.println("Anno: " + annoCanzone);
+                    System.out.println();
+                }
+            }
+            else {
+                infoCanzone = null; // La canzone non è stata trovata, impostiamo l'array a null
+            }
+
+            return infoCanzone;
+        }catch(Exception e){
+            System.out.println("Errore durante la ricerca della canzone per titolo: " + e.getMessage());
+            throw new RemoteException("Canzone --> NON Trovata", e);
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (searchByTitle != null) {
+                searchByTitle.close();
+            }
+        }
+    }
     public static void main(String[] args) throws RemoteException {
 
         /**faccio partire il server**/
