@@ -19,6 +19,7 @@ public class AggiungiCanzonePlaylist extends JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(4, 2, 10, 10));
+        setVisible(true);
 
         JLabel playlistNameLabel = new JLabel("Nome Playlist:");
         playlistNameField = new JTextField();

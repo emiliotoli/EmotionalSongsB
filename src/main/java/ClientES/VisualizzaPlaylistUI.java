@@ -14,6 +14,7 @@ public class VisualizzaPlaylistUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null);
+        setVisible(true);
         setLayout(new BorderLayout());
 
         playlistTextArea = new JTextArea();
