@@ -43,6 +43,7 @@ public class Client implements MetodiControlli_Client {
     private static boolean inserimentoEmozione;
     private static boolean creazionePlaylist;
     private static boolean inserimentoCanzonePlaylist;
+    private static boolean cancellazioneCanzonePlaylist;
     private static boolean cancellaPlaylist;
     public static boolean isLoggato = false;
     public static String idGlobale;
@@ -86,9 +87,7 @@ public class Client implements MetodiControlli_Client {
 
         }
 
-
         /** creo un menu dove faccio scegliere le operazioni che un utente può svolgere **/
-
 
             do {
                 System.out.println("-----------------MENU' APPLICAZIONE-----------------");
@@ -588,6 +587,28 @@ public class Client implements MetodiControlli_Client {
             return -1; //nome playlist inesistente
         }
     }
+   public static int eliminaCanzoniPlaylist(String nomePlaylist, String userID, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
+        accessoServerLoggato();
+       if (interfaceNonLoggato == null) {
+           System.out.println("L'interfaccia non è stata inizializzata correttamente");
+           return -2;
+       }
+       boolean controlloNomePlaylist;
+       controlloNomePlaylist= interfaceLoggato.checkNomePlaylist(nomePlaylist);
+       if(controlloNomePlaylist){
+           cancellazioneCanzonePlaylist= interfaceLoggato.eliminaCanzoniPlaylist(nomePlaylist,userID,titoloCanzone,autoreCanzone);
+           if(cancellaPlaylist){
+               return 0; //cancellazione effettuata con successo
+           }
+           else{
+               return 1;
+           }
+       }
+       else {
+           return -1; // nome playlist inesistente
+       }
+   }
+
     private static void accessoServerNonLoggato() throws RemoteException {
         Registry registroNonLoggato= LocateRegistry.getRegistry(1099);
 

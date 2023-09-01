@@ -495,7 +495,6 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-    public synchronized void eliminaCanzoniPlaylist() { }
     public synchronized boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione,  int punteggioEmozione) throws SQLException {
         Connection insertEmozione = null;
         PreparedStatement preparedStatement = null;
@@ -537,7 +536,36 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         }
 
     }
+    public synchronized boolean eliminaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone, String autoreCanzone) throws SQLException {
 
+        Connection eliminaCanzone = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            eliminaCanzone= new ConnessioneDBImpl().getConnection();
+            String query = "DELETE FROM Composta WHERE nome=?  AND idUtente=? AND titolo=? AND autore=? ";
+
+            preparedStatement = eliminaCanzone.prepareStatement(query);
+            preparedStatement.setString(1, nomePlaylist );
+            preparedStatement.setString(2, idUtente );
+            preparedStatement.setString(3,titoloCanzone);
+            preparedStatement.setString(4,autoreCanzone);
+
+            preparedStatement.executeQuery();
+            System.out.println("cancellazione della canzone dalla playlist effettuata: ");
+            return true;
+        }catch(Exception e){
+            System.out.println("Errore durante la cancellazione della canzone dalla playlist: " + e.getMessage());
+            return false;
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (eliminaCanzone != null) {
+                eliminaCanzone.close();
+            }
+        }
+    }
 
     public static void main(String[] args) throws RemoteException {
 

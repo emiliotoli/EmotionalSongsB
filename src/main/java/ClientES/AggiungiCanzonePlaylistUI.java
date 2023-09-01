@@ -75,7 +75,7 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
                         throwables.printStackTrace();
                     }
                     switch (val) {
-                        case 0 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Canzone eliminata con successo dalla playlist", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                        case 0 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Canzone aggiunta con successo dalla playlist", "Successo", JOptionPane.INFORMATION_MESSAGE);
                         case -1 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
                         case 1 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Errore nell'aggiunta della canzone al database. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
                         case -2 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
