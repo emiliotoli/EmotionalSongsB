@@ -138,6 +138,8 @@ public class RicercaTitoloUI extends JFrame {
             // here there are the results of the dropdown menu
             String selectedIntensity = (String) emotionComboBox.getSelectedItem();
             String selectedEmotion = (String) emotionComboBox.getSelectedItem();
+
+
         }
     }
 

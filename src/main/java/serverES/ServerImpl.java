@@ -6,6 +6,7 @@ import ClientES.Utente;
 import ClientES.Canzone;
 import DataBase.ConnessioneDBImpl;
 
+
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,12 +17,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerImpl extends UnicastRemoteObject
-        implements ServerInterfaceNonLoggato, ServerInterfaceLoggato, Remote {
+public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNonLoggato, ServerInterfaceLoggato, Remote {
 
     private static final long serialVersionUid = 1L;
-    private boolean dbExists = false;
-
+    private boolean dbExists=false;
     protected ServerImpl() throws RemoteException {
         super();
     }
@@ -35,17 +34,13 @@ public class ServerImpl extends UnicastRemoteObject
         Connection connInsertUtente = null;
         PreparedStatement preparedStatement = null;
         int capValue;
-        try {
+        try{
 
             // Connection con=ConnessioneDB.istance.getConnectionIstance();
-<<<<<<< Updated upstream
             connInsertUtente=new ConnessioneDBImpl().getConnection();
-=======
-            connInsertUtente = new ConnessioneDBImpl().getConnection();
->>>>>>> Stashed changes
 
             String queryInsert = "INSERT INTO utentiregistrati (nome, cognome, codicefiscale, via, numerocivico, comune, provincia, cap, userid, email, password) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-            preparedStatement = connInsertUtente.prepareStatement(queryInsert);
+            preparedStatement=connInsertUtente.prepareStatement(queryInsert);
 
             preparedStatement.setString(1, utente.getNome());
             preparedStatement.setString(2, utente.getCognome());
@@ -59,26 +54,74 @@ public class ServerImpl extends UnicastRemoteObject
                 capValue = Integer.parseInt(utente.getCap());
                 preparedStatement.setInt(8, capValue);
             } catch (NumberFormatException e) {
-                // Gestisci l'eccezione, ad esempio fornendo un valore di default o segnalando
-                // un errore
+                // Gestisci l'eccezione, ad esempio fornendo un valore di default o segnalando un errore
                 System.out.println("Il valore di 'cap' non è un numero intero valido: " + utente.getCap());
                 return false; // o l'azione appropriata per la gestione degli errori
             }
-            // preparedStatement.setString(8, utente.getCap());
+            //preparedStatement.setString(8, utente.getCap());
             preparedStatement.setString(9, utente.getUserID());
             preparedStatement.setString(10, utente.getEmail());
             preparedStatement.setString(11, utente.getPassword());
 
-            System.out.println("query contenete: " + queryInsert);
+            System.out.println("query contenete: " +  queryInsert);
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
             connInsertUtente.close();
 
             return true;
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("errore durante l'inserimento");
             e.getMessage();
+            return false;
+        }
+        finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connInsertUtente != null) {
+                connInsertUtente.close();
+            }
+        }
+    }
+    /*public synchronized boolean registrazione(String nome, String cognome, String codiceFiscale, String via, String numeroCivico, String cap , String comune, String provincia, String email, String userID, String password) throws RemoteException, SQLException {
+        Connection connInsertUtente = null;
+        PreparedStatement preparedStatement = null;
+        int capValue;
+
+        try {
+            connInsertUtente = new ConnessioneDBImpl().getConnection();
+
+            String queryInsert = "INSERT INTO utentiregistrati (nome, cognome, codicefiscale, via, numerocivico, comune, provincia, cap, userid, email, password) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            preparedStatement = connInsertUtente.prepareStatement(queryInsert);
+
+            preparedStatement.setString(1, nome);
+            preparedStatement.setString(2, cognome);
+            preparedStatement.setString(3, codiceFiscale);
+            preparedStatement.setString(4, via);
+            preparedStatement.setString(5, numeroCivico);
+            preparedStatement.setString(6, comune);
+            preparedStatement.setString(7, provincia);
+            try {
+                capValue = Integer.parseInt(cap);
+                preparedStatement.setInt(8, capValue);
+            } catch (NumberFormatException e) {
+                // Gestisci l'eccezione, ad esempio fornendo un valore di default o segnalando un errore
+                System.out.println("Il valore di 'cap' non è un numero intero valido: " + cap);
+                return false; // o l'azione appropriata per la gestione degli errori
+            }
+            //preparedStatement.setString(8, cap );
+            preparedStatement.setString(9, userID);
+            preparedStatement.setString(10, email);
+            preparedStatement.setString(11, password);
+
+            System.out.println("Query contenente: " + queryInsert);
+            int rowsInserted = preparedStatement.executeUpdate();
+
+            return rowsInserted > 0;
+        } catch (Exception e) {
+            System.out.println("Errore durante l'inserimento");
+            e.printStackTrace();
             return false;
         } finally {
             if (preparedStatement != null) {
@@ -88,100 +131,41 @@ public class ServerImpl extends UnicastRemoteObject
                 connInsertUtente.close();
             }
         }
-    }
-
-    /*
-     * public synchronized boolean registrazione(String nome, String cognome, String
-     * codiceFiscale, String via, String numeroCivico, String cap , String comune,
-     * String provincia, String email, String userID, String password) throws
-     * RemoteException, SQLException {
-     * Connection connInsertUtente = null;
-     * PreparedStatement preparedStatement = null;
-     * int capValue;
-     * 
-     * try {
-     * connInsertUtente = new ConnessioneDBImpl().getConnection();
-     * 
-     * String queryInsert =
-     * "INSERT INTO utentiregistrati (nome, cognome, codicefiscale, via, numerocivico, comune, provincia, cap, userid, email, password) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
-     * ;
-     * preparedStatement = connInsertUtente.prepareStatement(queryInsert);
-     * 
-     * preparedStatement.setString(1, nome);
-     * preparedStatement.setString(2, cognome);
-     * preparedStatement.setString(3, codiceFiscale);
-     * preparedStatement.setString(4, via);
-     * preparedStatement.setString(5, numeroCivico);
-     * preparedStatement.setString(6, comune);
-     * preparedStatement.setString(7, provincia);
-     * try {
-     * capValue = Integer.parseInt(cap);
-     * preparedStatement.setInt(8, capValue);
-     * } catch (NumberFormatException e) {
-     * // Gestisci l'eccezione, ad esempio fornendo un valore di default o
-     * segnalando un errore
-     * System.out.println("Il valore di 'cap' non è un numero intero valido: " +
-     * cap);
-     * return false; // o l'azione appropriata per la gestione degli errori
-     * }
-     * //preparedStatement.setString(8, cap );
-     * preparedStatement.setString(9, userID);
-     * preparedStatement.setString(10, email);
-     * preparedStatement.setString(11, password);
-     * 
-     * System.out.println("Query contenente: " + queryInsert);
-     * int rowsInserted = preparedStatement.executeUpdate();
-     * 
-     * return rowsInserted > 0;
-     * } catch (Exception e) {
-     * System.out.println("Errore durante l'inserimento");
-     * e.printStackTrace();
-     * return false;
-     * } finally {
-     * if (preparedStatement != null) {
-     * preparedStatement.close();
-     * }
-     * if (connInsertUtente != null) {
-     * connInsertUtente.close();
-     * }
-     * }
-     * }
-     */
-    public synchronized boolean login(String userId, String password) throws RemoteException {
+    }*/
+    public synchronized boolean login(String userId, String password) throws RemoteException{
         Connection connCheckLogin = null;
         PreparedStatement preparedStatement = null;
-        try {
-            // apro la connessione con il DB
+        try{
+            //apro la connessione con il DB
 
             connCheckLogin = new ConnessioneDBImpl().getConnection();
 
-            String queryLogin = "SELECT COUNT(*) FROM utentiregistrati WHERE  userid= ? AND password = ?";
-            preparedStatement = connCheckLogin.prepareStatement(queryLogin);
+            String queryLogin="SELECT COUNT(*) FROM utentiregistrati WHERE  userid= ? AND password = ?";
+            preparedStatement=connCheckLogin.prepareStatement(queryLogin);
 
-            preparedStatement.setString(1, userId);
-            preparedStatement.setString(2, password);
+            preparedStatement.setString(1,userId);
+            preparedStatement.setString(2,password);
 
-            // eseguo la query
-            ResultSet resultSet = preparedStatement.executeQuery();
+            //eseguo la query
+            ResultSet resultSet=preparedStatement.executeQuery();
 
-            // risposta query
+            //risposta query
             resultSet.next();
             int count = resultSet.getInt(1);
             boolean esistonoDati = (count > 0);
             return esistonoDati;
 
-        } catch (Exception e) {
+        }catch ( Exception e){
             e.getMessage().toString();
             return false;
         }
     }
-
     public boolean checkUserID(String userID) throws RemoteException {
         try {
 
             // Ottieni l'istanza di connessione al database
             Connection connCheckID = ConnessioneDBImpl.getInstance().getConnection();
-            PreparedStatement preparedStatement = null;
+            PreparedStatement preparedStatement=null;
             String querycheck = "SELECT COUNT(*) FROM utentiregistrati WHERE  userid= ? ";
             preparedStatement = connCheckID.prepareStatement(querycheck);
             preparedStatement.setString(1, userID);
@@ -197,22 +181,22 @@ public class ServerImpl extends UnicastRemoteObject
     }
 
     /**
-     * operazioni utente loggato e non loggato
+     * operazioni  utente loggato e non loggato
      **/
     public synchronized List<Canzone> ricercaCanzoneTitolo(String titolo) throws RemoteException, SQLException {
         Connection searchByTitle = null;
         PreparedStatement preparedStatement = null;
 
         List<Canzone> infoCanzone = new ArrayList<>();
-        try {
-            searchByTitle = new ConnessioneDBImpl().getConnection();
+        try{
+            searchByTitle= new ConnessioneDBImpl().getConnection();
             String query = "SELECT * FROM canzone WHERE titolo LIKE ?";
             preparedStatement = searchByTitle.prepareStatement(query);
-            // preparedStatement.setString(1, titolo);
+            //preparedStatement.setString(1, titolo);
             preparedStatement.setString(1, "%" + titolo + "%");
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet != null) {
+            if (resultSet != null ) {
                 while (resultSet.next()) {
                     String titoloCanzone = resultSet.getString("titolo");
                     String autoreCanzone = resultSet.getString("autore");
@@ -221,21 +205,24 @@ public class ServerImpl extends UnicastRemoteObject
                     Canzone canzone = new Canzone(titoloCanzone, autoreCanzone, annoCanzone);
                     infoCanzone.add(canzone);
 
-                    // stampo i valori presi
+                    //stampo i valori presi
                     System.out.println("Titolo: " + titoloCanzone);
                     System.out.println("Autore: " + autoreCanzone);
                     System.out.println("Anno: " + annoCanzone);
                     System.out.println();
                 }
-            } else {
+            }
+            else {
                 infoCanzone = null; // La canzone non è stata trovata, impostiamo l'array a null
             }
 
+
             return infoCanzone;
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println("Errore durante la ricerca della canzone per titolo: " + e.getMessage());
             throw new RemoteException("Canzone --> NON Trovata", e);
-        } finally {
+        }
+        finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -244,15 +231,13 @@ public class ServerImpl extends UnicastRemoteObject
             }
         }
     }
-
-    public synchronized List<Canzone> ricercaCanzoneAutoreAnno(String autore, int anno)
-            throws RemoteException, SQLException {
+    public  synchronized List<Canzone> ricercaCanzoneAutoreAnno(String autore, int anno) throws RemoteException, SQLException{
         Connection searchByTitle = null;
         PreparedStatement preparedStatement = null;
 
         List<Canzone> infoCanzone = new ArrayList<>();
-        try {
-            searchByTitle = new ConnessioneDBImpl().getConnection();
+        try{
+            searchByTitle= new ConnessioneDBImpl().getConnection();
             String query = "select * from canzone where autore= ? and anno= ? ";
 
             preparedStatement = searchByTitle.prepareStatement(query);
@@ -260,7 +245,7 @@ public class ServerImpl extends UnicastRemoteObject
             preparedStatement.setInt(2, anno);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet != null) {
+            if (resultSet != null ) {
                 while (resultSet.next()) {
                     String titoloCanzone = resultSet.getString("titolo");
                     String autoreCanzone = resultSet.getString("autore");
@@ -269,21 +254,23 @@ public class ServerImpl extends UnicastRemoteObject
                     Canzone canzone = new Canzone(titoloCanzone, autoreCanzone, annoCanzone);
                     infoCanzone.add(canzone);
 
-                    // stampo i valori presi
+                    //stampo i valori presi
                     System.out.println("Titolo: " + titoloCanzone);
                     System.out.println("Autore: " + autoreCanzone);
                     System.out.println("Anno: " + annoCanzone);
                     System.out.println();
                 }
-            } else {
+            }
+            else {
                 infoCanzone = null; // La canzone non è stata trovata, impostiamo l'array a null
             }
 
             return infoCanzone;
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println("Errore durante la ricerca della canzone per titolo: " + e.getMessage());
             throw new RemoteException("Canzone --> NON Trovata", e);
-        } finally {
+        }
+        finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -292,16 +279,13 @@ public class ServerImpl extends UnicastRemoteObject
             }
         }
     }
-
-    public synchronized List<Emozione> visualizzaEmozioni(String titoloCanzone, String autoreCanzone)
-            throws SQLException, RemoteException {
+    public  synchronized List<Emozione> visualizzaEmozioni(String titoloCanzone, String autoreCanzone) throws SQLException, RemoteException {
         Connection searchEmozione = null;
         PreparedStatement preparedStatement = null;
         List<Emozione> infoEmozione = new ArrayList<>();
         try {
-            searchEmozione = new ConnessioneDBImpl().getConnection();
-            String query = "SELECT Associa.titolo, Associa.autore, Associa.nome, COUNT(Associa.nome) AS num_emozioni, totali.numero_emozioni_totali, ROUND(((COUNT(Associa.nome)*1.0 /totali.numero_emozioni_totali * 1.0)*100),2) as percentuale\n"
-                    +
+            searchEmozione= new ConnessioneDBImpl().getConnection();
+            String query = "SELECT Associa.titolo, Associa.autore, Associa.nome, COUNT(Associa.nome) AS num_emozioni, totali.numero_emozioni_totali, ROUND(((COUNT(Associa.nome)*1.0 /totali.numero_emozioni_totali * 1.0)*100),2) as percentuale\n" +
                     "FROM Associa \n" +
                     "JOIN (\n" +
                     "  SELECT titolo, autore, COUNT(nome) AS numero_emozioni_totali\n" +
@@ -315,11 +299,10 @@ public class ServerImpl extends UnicastRemoteObject
             preparedStatement = searchEmozione.prepareStatement(query);
             preparedStatement.setString(1, titoloCanzone);
             preparedStatement.setString(2, autoreCanzone);
-            preparedStatement.setString(3, titoloCanzone);
-            preparedStatement.setString(4, autoreCanzone);
+            preparedStatement.setString(3,titoloCanzone);
+            preparedStatement.setString(4,autoreCanzone);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-<<<<<<< Updated upstream
             if(resultSet!=null){
                 while(resultSet.next()){
                     String nomeEmozione=resultSet.getString("nome");
@@ -329,27 +312,18 @@ public class ServerImpl extends UnicastRemoteObject
                     double percentuale= resultSet.getDouble("percentuale");
 
                     Emozione emozione = new Emozione (nomeEmozione, percentuale);
-=======
-            if (resultSet != null) {
-                while (resultSet.next()) {
-                    String nomeEmozione = resultSet.getString("nome");
-                    // String tipoEmozione=resultSet.getString("tipo");
-                    // String spiegazioneEmozione=resultSet.getString("spiegazione");
-                    // int punteggioEmozione=resultSet.getInt("punteggio");
-                    double percentuale = resultSet.getDouble("percentuale");
-
-                    Emozione emozione = new Emozione(nomeEmozione, percentuale);
->>>>>>> Stashed changes
                     infoEmozione.add(emozione);
                 }
-            } else {
+            }
+            else {
                 infoEmozione = null; // L'emozione non è stata trovata, impostiamo l'array a null
             }
             return infoEmozione;
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println("Errore durante la ricerca della canzone per titolo: " + e.getMessage());
             throw new RemoteException("Canzone --> NON Trovata", e);
-        } finally {
+        }
+        finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -362,32 +336,33 @@ public class ServerImpl extends UnicastRemoteObject
     /**
      * operazioni solo utente loggato
      **/
-    public synchronized boolean creaPlaylist(String nomePlaylist, String userID) throws SQLException {
+    public synchronized boolean creaPlaylist( String nomePlaylist, String userID) throws SQLException {
         Connection insertPlaylist = null;
         PreparedStatement preparedStatement = null;
-        try {
-            // apro la connessione con il DB
+        try{
+            //apro la connessione con il DB
 
             insertPlaylist = new ConnessioneDBImpl().getConnection();
 
-            String queryLogin = "INSERT INTO playlist (nome, idutente ) VALUES (?, ?)";
-            preparedStatement = insertPlaylist.prepareStatement(queryLogin);
+            String queryLogin= "INSERT INTO playlist (nome, idutente ) VALUES (?, ?)";
+            preparedStatement=insertPlaylist.prepareStatement(queryLogin);
 
-            preparedStatement.setString(1, nomePlaylist);
-            preparedStatement.setString(2, userID);
+            preparedStatement.setString(1,nomePlaylist);
+            preparedStatement.setString(2,userID );
 
-            // eseguo la query
+            //eseguo la query
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
             insertPlaylist.close();
 
             return true;
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("errore durante l'inserimento");
             e.getMessage();
             return false;
-        } finally {
+        }
+        finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -396,12 +371,11 @@ public class ServerImpl extends UnicastRemoteObject
             }
         }
     }
-
-    public synchronized boolean checkNomePlaylist(String nomePlaylist) throws SQLException {
+    public synchronized boolean checkNomePlaylist(String nomePlaylist) throws SQLException{
         try {
             // Ottieni l'istanza di connessione al database
             Connection connCheckID = ConnessioneDBImpl.getInstance().getConnection();
-            PreparedStatement preparedStatement = null;
+            PreparedStatement preparedStatement=null;
 
             String querycheck = " SELECT COUNT(*) FROM playlist where nome=? ";
             preparedStatement = connCheckID.prepareStatement(querycheck);
@@ -419,35 +393,36 @@ public class ServerImpl extends UnicastRemoteObject
             return false;
         }
     }
-
     public synchronized List<PlayList> VisualizzaPlaylist(String userID) throws RemoteException, SQLException {
         Connection searchPlaylist = null;
         PreparedStatement preparedStatement = null;
         List<PlayList> infoPlalist = new ArrayList<>();
         try {
-            searchPlaylist = new ConnessioneDBImpl().getConnection();
+            searchPlaylist= new ConnessioneDBImpl().getConnection();
             String query = "SELECT * FROM playlist WHERE idutente=?";
 
             preparedStatement = searchPlaylist.prepareStatement(query);
             preparedStatement.setString(1, userID);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet != null) {
-                while (resultSet.next()) {
-                    String nomePlalist = resultSet.getString("nome");
-                    String nomeUtente = resultSet.getString("idutente");
+            if(resultSet!=null){
+                while(resultSet.next()){
+                    String nomePlalist=resultSet.getString("nome");
+                    String nomeUtente=resultSet.getString("idutente");
 
-                    PlayList playList = new PlayList(nomeUtente, nomePlalist);
+                    PlayList playList = new PlayList (nomeUtente,nomePlalist);
                     infoPlalist.add(playList);
                 }
-            } else {
+            }
+            else {
                 infoPlalist = null; // L'emozione non è stata trovata, impostiamo l'array a null
             }
             return infoPlalist;
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println("Errore durante la ricerca della PlayList: " + e.getMessage());
             throw new RemoteException(" PlayList--> NON Trovata", e);
-        } finally {
+        }
+        finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -456,7 +431,6 @@ public class ServerImpl extends UnicastRemoteObject
             }
         }
     }
-<<<<<<< Updated upstream
     public synchronized List<Canzone> VisualizzaCanzoniPlaylist(String nomePlaylist, String userID) throws RemoteException, SQLException {
         Connection searchSong = null;
         PreparedStatement preparedStatement = null;
@@ -497,39 +471,32 @@ public class ServerImpl extends UnicastRemoteObject
         }
     }
     public synchronized boolean eliminaPlaylist(String nomePalylist, String userID )  throws RemoteException, SQLException {
-=======
-
-    public synchronized void VisualizzaCanzoniPlaylist() {
-    } // tabella playlist
-
-    public synchronized boolean eliminaPlaylist(String nomePalylist, String userID)
-            throws RemoteException, SQLException {
->>>>>>> Stashed changes
         Connection deletePlaylist = null;
         PreparedStatement preparedStatement = null;
-        try {
-            // apro la connessione con il DB
+        try{
+            //apro la connessione con il DB
 
             deletePlaylist = new ConnessioneDBImpl().getConnection();
 
-            String queryDelete = "DELETE FROM  playlist  WHERE nome=? and idutente=?";
-            preparedStatement = deletePlaylist.prepareStatement(queryDelete);
+            String queryDelete= "DELETE FROM  playlist  WHERE nome=? and idutente=?";
+            preparedStatement=deletePlaylist.prepareStatement(queryDelete);
 
-            preparedStatement.setString(1, nomePalylist);
-            preparedStatement.setString(2, userID);
+            preparedStatement.setString(1,nomePalylist);
+            preparedStatement.setString(2,userID );
 
-            // eseguo la query
+            //eseguo la query
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
             deletePlaylist.close();
 
             return true;
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("errore durante l'eliminazione della Playlist");
             e.getMessage();
             return false;
-        } finally {
+        }
+        finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -538,9 +505,7 @@ public class ServerImpl extends UnicastRemoteObject
             }
         }
     }
-
-    public synchronized boolean aggiuntaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone,
-            String autoreCanzone) throws RemoteException, SQLException {
+    public synchronized boolean aggiuntaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
         Connection aggiungiCanzone = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -568,40 +533,38 @@ public class ServerImpl extends UnicastRemoteObject
             }
         }
     }
-
-    public synchronized boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone,
-            String autoreCanzone, String notaEmozione, String spiegazioneEmozione, int punteggioEmozione)
-            throws SQLException {
+    public synchronized boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione,  int punteggioEmozione) throws SQLException {
         Connection insertEmozione = null;
         PreparedStatement preparedStatement = null;
-        try {
-            // apro la connessione con il DB
+        try{
+            //apro la connessione con il DB
 
             insertEmozione = new ConnessioneDBImpl().getConnection();
 
-            String queryLogin = "INSERT INTO associa (idutente, nome, titolo, autore, nota, spiegazione, punteggio ) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            preparedStatement = insertEmozione.prepareStatement(queryLogin);
+            String queryLogin= "INSERT INTO associa (idutente, nome, titolo, autore, nota, spiegazione, punteggio ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            preparedStatement=insertEmozione.prepareStatement(queryLogin);
 
-            preparedStatement.setString(1, userID);
-            preparedStatement.setString(2, emozioneScelta);
-            preparedStatement.setString(3, titoloCanzone);
-            preparedStatement.setString(4, autoreCanzone);
-            preparedStatement.setString(5, notaEmozione);
-            preparedStatement.setString(6, spiegazioneEmozione);
-            preparedStatement.setInt(7, punteggioEmozione);
+            preparedStatement.setString(1,userID);
+            preparedStatement.setString(2,emozioneScelta);
+            preparedStatement.setString(3,titoloCanzone);
+            preparedStatement.setString(4,autoreCanzone);
+            preparedStatement.setString(5,notaEmozione);
+            preparedStatement.setString(6,spiegazioneEmozione);
+            preparedStatement.setInt(7,punteggioEmozione);
 
-            // eseguo la query
+            //eseguo la query
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
             insertEmozione.close();
 
             return true;
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("errore durante l'inserimento");
             e.getMessage();
             return false;
-        } finally {
+        }
+        finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -611,21 +574,19 @@ public class ServerImpl extends UnicastRemoteObject
         }
 
     }
-
-    public synchronized boolean eliminaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone,
-            String autoreCanzone) throws SQLException {
+    public synchronized boolean eliminaCanzoniPlaylist(String nomePlaylist, String idUtente, String titoloCanzone, String autoreCanzone) throws SQLException {
 
         Connection eliminaCanzone = null;
         PreparedStatement preparedStatement = null;
         try {
-            eliminaCanzone = new ConnessioneDBImpl().getConnection();
+            eliminaCanzone= new ConnessioneDBImpl().getConnection();
             String query = "DELETE FROM Composta WHERE nome=?  AND idUtente=? AND titolo=? AND autore=? ";
 
             preparedStatement = eliminaCanzone.prepareStatement(query);
-            preparedStatement.setString(1, nomePlaylist);
-            preparedStatement.setString(2, idUtente);
-            preparedStatement.setString(3, titoloCanzone);
-            preparedStatement.setString(4, autoreCanzone);
+            preparedStatement.setString(1, nomePlaylist );
+            preparedStatement.setString(2, idUtente );
+            preparedStatement.setString(3,titoloCanzone);
+            preparedStatement.setString(4,autoreCanzone);
 
             preparedStatement.executeUpdate();
 
@@ -633,10 +594,11 @@ public class ServerImpl extends UnicastRemoteObject
             eliminaCanzone.close();
             System.out.println("cancellazione della canzone dalla playlist effettuata: ");
             return true;
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println("Errore durante la cancellazione della canzone dalla playlist: " + e.getMessage());
             return false;
-        } finally {
+        }
+        finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -645,47 +607,45 @@ public class ServerImpl extends UnicastRemoteObject
             }
         }
     }
-
-    public synchronized List<Canzone> ricercaCanzoneTitoloInPlaylist(String idUtente, String titolo, String autore)
-            throws RemoteException, SQLException {
+    public synchronized List<Canzone> ricercaCanzoneTitoloInPlaylist(String idUtente, String titolo, String autore) throws RemoteException, SQLException {
         Connection searchByTitle = null;
         PreparedStatement preparedStatement = null;
 
         List<Canzone> infoCanzone = new ArrayList<>();
-        try {
-            searchByTitle = new ConnessioneDBImpl().getConnection();
-            String query = "SELECT * FROM composta WHERE idutente=? titolo =? and autore=?";
+        try{
+            searchByTitle= new ConnessioneDBImpl().getConnection();
+            String query = "select * from composta where idutente=? AND  titolo =? AND autore=?";
             preparedStatement = searchByTitle.prepareStatement(query);
-            preparedStatement.setString(1, idUtente);
+            preparedStatement.setString(1,idUtente);
             preparedStatement.setString(2, titolo);
-            preparedStatement.setString(3, autore);
+            preparedStatement.setString(3,autore);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet != null) {
+            if (resultSet != null ) {
                 while (resultSet.next()) {
                     String titoloCanzone = resultSet.getString("titolo");
                     String autoreCanzone = resultSet.getString("autore");
-                    int annoCanzone = resultSet.getInt("anno");
 
-                    Canzone canzone = new Canzone(titoloCanzone, autoreCanzone, annoCanzone);
+                    Canzone canzone = new Canzone(titoloCanzone, autoreCanzone);
                     infoCanzone.add(canzone);
 
-                    // stampo i valori presi
+                    //stampo i valori presi
                     System.out.println("Titolo: " + titoloCanzone);
                     System.out.println("Autore: " + autoreCanzone);
-                    System.out.println("Anno: " + annoCanzone);
                     System.out.println();
                 }
-            } else {
+            }
+            else {
                 infoCanzone = null; // La canzone non è stata trovata, impostiamo l'array a null
             }
 
             return infoCanzone;
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println("Errore durante la ricerca della canzone per titolo: " + e.getMessage());
             throw new RemoteException("Canzone --> NON Trovata", e);
-        } finally {
+        }
+        finally {
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
@@ -694,10 +654,37 @@ public class ServerImpl extends UnicastRemoteObject
             }
         }
     }
+    public synchronized boolean checkInfoCanzone(String titolo, String autore) throws SQLException {
+        Connection checkInfoCanzone = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            // Ottieni l'istanza di connessione al database
+            checkInfoCanzone = ConnessioneDBImpl.getInstance().getConnection();
+            preparedStatement=null;
 
+            String querycheck = " SELECT COUNT(*) FROM canzone where titolo=? and autore=? ";
+            preparedStatement = checkInfoCanzone.prepareStatement(querycheck);
+
+            preparedStatement.setString(1, titolo);
+            preparedStatement.setString(2,autore);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            int count = resultSet.getInt(1);
+            boolean exists = count > 0;
+            preparedStatement.close();
+            checkInfoCanzone.close();
+            return exists;
+        } catch (Exception e) {
+            e.printStackTrace();
+            preparedStatement.close();
+            checkInfoCanzone.close();
+            return false;
+        }
+    }
     public static void main(String[] args) throws RemoteException {
 
-        /** faccio partire il server **/
+        /*faccio partire il server*/
 
         System.out.println("Server in preparazione: ");
         ServerImpl sevimpl = new ServerImpl();
@@ -711,10 +698,10 @@ public class ServerImpl extends UnicastRemoteObject
             System.out.println(e.getMessage().toString());
         }
 
-        /** connessione DB parte quando patrte il server **/
+        /* connessione DB parte quando patrte il server*/
 
         ConnessioneDBImpl connection = new ConnessioneDBImpl();
-        Connection dbConnection = connection.getConnection();
+        Connection dbConnection= connection.getConnection();
         if (dbConnection != null) {
             System.out.println("Connessione al database effettuata con successo");
 
