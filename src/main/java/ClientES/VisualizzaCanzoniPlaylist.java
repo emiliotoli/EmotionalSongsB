@@ -45,7 +45,9 @@ public class VisualizzaCanzoniPlaylist extends JFrame {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
+                showSongListPopup(songList , playlistNameField.getText());
             }
+
         });
 
         /*submitButton.addActionListener(new ActionListener() {
