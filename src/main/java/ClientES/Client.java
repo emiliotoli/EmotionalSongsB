@@ -369,34 +369,34 @@ public class Client implements MetodiControlli_Client {
         }
         return emozioniDellaCanzone;
     }
-    public static boolean inserisciNuovaEmozione(String emozioneScelta, String notaEmozione ) throws IOException, SQLException {
+    public static int inserisciNuovaEmozione(String idUtente, String nomeEmozione,String titoloCanzone, String autoreCanzone, String notaEmozione, String SpiegazioneEmozione, int punteggioEmozione  ) throws IOException, SQLException {
 
-
-        Registry registroLoggato= LocateRegistry.getRegistry(1099);
-
-        if(isLoggato){
-            try{
-                System.out.println("Procedura di collegamento al Server --> Iniziata");
-                interfaceLoggato=(ServerInterfaceLoggato)registroLoggato.lookup("ServerEmotionalSongs");
-                System.out.println("Procedura di collegamento al Server --> Completata");
-                System.out.println("Collegameto al Server--> Riuscito" + "\n");
-            }catch (Exception e){
-                e.getMessage();
-                System.out.println("Collegamento al Server--> Fallito" +"\n");
-
+        accessoServerLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return -3;
+        }
+        boolean checkinfo;
+        checkinfo=interfaceLoggato.checkInfoCanzone(titoloCanzone,autoreCanzone);
+        if(checkinfo){
+            if(notaEmozione.length()<=50){
+                if(spiegazioneEmozione.length()<=250){
+                    emozioniPerCanzone= interfaceLoggato.inserisciEmozione(idUtente, nomeEmozione, titoloCanzone, autoreCanzone, notaEmozione, spiegazioneEmozione, punteggioEmozione);
+                    return 0;
+                }
+                else{
+                    return -1; //Spiegazione troppo lunga. Non deve superare i 250 caratteri
+                }
             }
-            if(titoloCanzone != null && autoreCanzone != null){
-
-                emozioniPerCanzone= interfaceLoggato.inserisciEmozione(idGlobale,emozioneScelta,titoloCanzone,autoreCanzone,notaEmozione,spiegazioneEmozione,punteggioEmozione);
-                return true;
+            else{
+                return -2; // nota troppo lunga. Non deve essere maggiore di 50 caratteri
             }
         }
         else{
             System.out.println("Effetta prima il login");
-            return false;
+            return -4; //canzone e autore non corrispondono
 
         }
-        return false;
     }
 
     public static int registrazione(String nome, String cognome, String codiceFiscale, String via, String  numeroCivico, String cap, String comune, String provincia, String email, String userID, String password, String p2) throws NotBoundException, IOException, SQLException {
@@ -588,27 +588,35 @@ public class Client implements MetodiControlli_Client {
             return -1; //nome playlist inesistente
         }
     }
-   public static int eliminaCanzoniPlaylist(String nomePlaylist, String userID, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
+    public static int eliminaCanzoniPlaylist(String nomePlaylist, String userID, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
         accessoServerLoggato();
-       if (interfaceNonLoggato == null) {
-           System.out.println("L'interfaccia non è stata inizializzata correttamente");
-           return -2;
-       }
-       boolean controlloNomePlaylist;
-       controlloNomePlaylist= interfaceLoggato.checkNomePlaylist(nomePlaylist);
-       if(controlloNomePlaylist){
-           cancellazioneCanzonePlaylist= interfaceLoggato.eliminaCanzoniPlaylist(nomePlaylist,userID,titoloCanzone,autoreCanzone);
-           if(cancellazioneCanzonePlaylist){
-               return 0; //cancellazione effettuata con successo
-           }
-           else{
-               return 1;
-           }
-       }
-       else {
-           return -1; // nome playlist inesistente
-       }
-   }
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return -2;
+        }
+        boolean controlloNomePlaylist;
+        boolean chechinfocanzone;
+        controlloNomePlaylist= interfaceLoggato.checkNomePlaylist(nomePlaylist);
+        if(controlloNomePlaylist){
+            chechinfocanzone= interfaceLoggato.checkInfoCanzone(titoloCanzone,autoreCanzone);
+            if(chechinfocanzone){
+                cancellazioneCanzonePlaylist= interfaceLoggato.eliminaCanzoniPlaylist(nomePlaylist,userID,titoloCanzone,autoreCanzone);
+                if(cancellazioneCanzonePlaylist){
+                    return 0; //cancellazione effettuata con successo
+                }
+                else{
+                    return 1;
+                }
+            }
+            else{
+                return -3;
+            }
+        }
+        else {
+            return -1; // nome playlist inesistente
+        }
+    }
+
 
     private static void accessoServerNonLoggato() throws RemoteException {
         Registry registroNonLoggato= LocateRegistry.getRegistry(1099);

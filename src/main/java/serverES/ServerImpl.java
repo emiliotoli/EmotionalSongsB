@@ -656,6 +656,34 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
+    public synchronized boolean checkInfoCanzone(String titolo, String autore) throws SQLException {
+        Connection checkInfoCanzone = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            // Ottieni l'istanza di connessione al database
+            checkInfoCanzone = ConnessioneDBImpl.getInstance().getConnection();
+            preparedStatement=null;
+
+            String querycheck = " SELECT COUNT(*) FROM canzone where titolo=? and autore=? ";
+            preparedStatement = checkInfoCanzone.prepareStatement(querycheck);
+
+            preparedStatement.setString(1, titolo);
+            preparedStatement.setString(2,autore);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            int count = resultSet.getInt(1);
+            boolean exists = count > 0;
+            preparedStatement.close();
+            checkInfoCanzone.close();
+            return exists;
+        } catch (Exception e) {
+            e.printStackTrace();
+            preparedStatement.close();
+            checkInfoCanzone.close();
+            return false;
+        }
+    }
     public static void main(String[] args) throws RemoteException {
 
         /**faccio partire il server**/

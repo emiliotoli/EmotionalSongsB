@@ -77,6 +77,7 @@ public class EliminaCanzonePlaylistUI extends JFrame {
                         case -1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
                         case 1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nella rimozione della canzone al database. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
                         case -2 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case -3 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nel inserimento dei dati della canzone. Titolo o autore errati", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
 
 
@@ -109,6 +110,5 @@ public class EliminaCanzonePlaylistUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
 
 }

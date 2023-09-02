@@ -2,10 +2,14 @@ package serverES;
 
 import ClientES.Canzone;
 import ClientES.PlayList;
+import DataBase.ConnessioneDBImpl;
 
 import java.rmi.RemoteException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -25,4 +29,5 @@ public interface ServerInterfaceLoggato extends Remote {
     public boolean inserisciEmozione(String userID, String emozioneScelta, String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione, int punteggioEmozione) throws RemoteException, SQLException;
 
     public List<Canzone> ricercaCanzoneTitoloInPlaylist(String idUtente, String titolo, String autore) throws RemoteException, SQLException;
+    public boolean checkInfoCanzone(String titolo, String autore) throws RemoteException, SQLException;
 }
