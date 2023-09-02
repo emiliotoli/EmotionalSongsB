@@ -326,11 +326,13 @@ public class Client implements MetodiControlli_Client {
         return informazioniCanzoneAuoreAnno;
     }
     public static ArrayList<Emozione> visualizzaEmozioniCanzone(String titoloCanzone, String autoreCanzone ) throws SQLException, RemoteException {
+
         accessoServerNonLoggato();
         if (interfaceNonLoggato == null) {
             System.out.println("L'interfaccia non è stata inizializzata correttamente");
             return new ArrayList<>(); // o gestisci l'errore come meglio credi
         }
+
         if(titoloCanzone != null && autoreCanzone != null){
             emozioniCanzone = (ArrayList<Emozione>) interfaceNonLoggato.visualizzaEmozioni(titoloCanzone, autoreCanzone);
 
