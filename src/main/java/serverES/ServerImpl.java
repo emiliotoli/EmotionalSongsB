@@ -657,10 +657,12 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
     public synchronized boolean checkInfoCanzone(String titolo, String autore) throws SQLException {
         Connection checkInfoCanzone = null;
         PreparedStatement preparedStatement = null;
+
         try {
             // Ottieni l'istanza di connessione al database
             checkInfoCanzone = ConnessioneDBImpl.getInstance().getConnection();
             preparedStatement=null;
+
 
             String querycheck = " SELECT COUNT(*) FROM canzone where titolo=? and autore=? ";
             preparedStatement = checkInfoCanzone.prepareStatement(querycheck);
@@ -679,6 +681,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             e.printStackTrace();
             preparedStatement.close();
             checkInfoCanzone.close();
+
             return false;
         }
     }
