@@ -7,15 +7,31 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * @author Emilio Toli
+ *      Classe che gestisce l'interfaccia utente per la
+ *      creazione di una nuova playlist
+ */
+
 public class NuovaPlaylistUI extends JFrame {
+
+    // <editor-fold desc= "Attributi">
     private JTextField nomePlaylistField;
     private JButton submitButton;
     private Client client;
     private PlaylistCreationCallback callback;
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @param callback
+     *      Metodo utilizzato per creare una nuova playlist
+     *      inserendo il nome della nuova playlist in un'area di testo
+     */
+
+    // <editor-fold desc= "Creazione nuova playlist">
     public void nuovaPlaylistUI(PlaylistCreationCallback callback) {
         this.callback = callback;
-
         setTitle("Nuova Playlist");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(300, 150);
@@ -34,21 +50,30 @@ public class NuovaPlaylistUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     handleSubmit();
-                } catch (IOException ioException) {
+                } catch (IOException | SQLException ioException) {
                     ioException.printStackTrace();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
                 }
             }
         });
 
         add(panel);
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @throws IOException
+     * @throws SQLException
+     *      Metodo per la gestione dell'evento associato al pulsante submit
+     *      Al click di tale pulsante vengono inviati i dati
+     */
+
+    // <editor-fold desc= "Gestione evento submit">
     private void handleSubmit() throws IOException, SQLException {
         String nomePlaylist = nomePlaylistField.getText();
         int isPlaylistCreated = Client.creaPlayList(nomePlaylist, Client.idGlobale);
 
         callback.onPlaylistCreationResult(isPlaylistCreated);
     }
+    // </editor-fold>
 }
