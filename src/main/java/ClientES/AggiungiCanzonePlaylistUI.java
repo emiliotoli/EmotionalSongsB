@@ -9,12 +9,26 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * @author Emilio Toli
+ *      Classe per l'aggiunta di canzoni in
+ *      una playlist
+ */
+
 public class AggiungiCanzonePlaylistUI extends JFrame {
+    // <editor-fold desc= "Attributi">
     private JTextField playlistNameField;
     private JTextField songTitleField;
     private JTextField songAuthorField;
     private int val;
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *      Metodo per l'aggiunta di canzoni in playlist dati titolo, autore e nome playlist
+     *      inseriti in un'area di testo
+     */
+    // <editor-fold desc= "Aggiunta canzoni alla playlist">
     public void aggiungiCanzoniAPlaylist() {
         setTitle("Aggiungi Canzone alla Playlist");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -94,7 +108,16 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
             }
         });
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @param songList Lista delle canzoni che l'utente ricerca prima di inserirle in playlist
+     *
+     *          Metodo per la visualizzazione a video di tutte le canzoni che vengono ricercate
+     *          usando la funzione cerca canzone
+     */
+    // <editor-fold desc= "Visualizza canzoni per titolo a video">
     private void showSongListPopup(ArrayList<Canzone> songList) {
         if (songList.isEmpty()) {
             JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Nessuna canzone trovata.");
@@ -117,5 +140,5 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+// </editor-fold>
 }
