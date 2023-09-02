@@ -24,7 +24,7 @@ public class EliminaPlaylistUI extends JFrame {
     /**
      * @author Emilio Toli
      * @param callback
-     *      Metodo che gestisce l'eliminazione della playlist, con il nome della
+     *      Metodo che crea la UI e gestisce l'eliminazione della playlist, con il nome della
      *      playlist da eliminare inserito in un'area di testo
      */
     // <editor-fold desc= "Eliminazione playlist">
