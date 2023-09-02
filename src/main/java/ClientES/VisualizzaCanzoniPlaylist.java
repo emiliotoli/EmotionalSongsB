@@ -14,6 +14,7 @@ public class VisualizzaCanzoniPlaylist extends JFrame {
     private JTextField songTitleField;
     private JTextField songAuthorField;
     private int val;
+    private ArrayList<Canzone> songList;
 
     public void visualizzaCanzoni() {
         setTitle("Elimina canzone dalla Playlist");
@@ -37,17 +38,12 @@ public class VisualizzaCanzoniPlaylist extends JFrame {
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String title = JOptionPane.showInputDialog(VisualizzaCanzoniPlaylist.this, "Inserisci il titolo della canzone da rimuovere dalla playlist :");
-                if (title != null && !title.isEmpty()) {
-                    ArrayList<Canzone> songList = null; // Sostituisci con il metodo corretto
-                    try {
-                        songList = Client.visualizzaCanzoniPlaylist(Client.idGlobale , playlistNameField.getText());
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-                    showSongListPopup(songList , playlistNameField.getText());
+                try {
+                    songList = Client.visualizzaCanzoniPlaylist(Client.idGlobale, playlistNameField.getText());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
             }
         });
