@@ -49,37 +49,14 @@ public class VisualizzaCanzoniPlaylist extends JFrame {
             }
 
         });
-
-        /*submitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String playlistName = playlistNameField.getText();
-                String songTitle = songTitleField.getText();
-                String songAuthor = songAuthorField.getText();
-
-                if (!playlistName.isEmpty() && !songTitle.isEmpty() && !songAuthor.isEmpty()) {
-                    try {
-                        val=Client.eliminaCanzoniPlaylist(playlistName , Client.idGlobale , songTitle , songAuthor);
-                    } catch (RemoteException | SQLException remoteException) {
-                        remoteException.printStackTrace();
-                    }
-                    switch (val) {
-                        case 0 -> JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Canzone rimossa con successo dalla playlist", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                        case -1 -> JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
-                        case 1 -> JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Errore nella rimozione della canzone al database. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
-                        case -2 -> JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
-                    }
-
-
-                } else {
-                    JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Riempi tutti i campi prima di procedere", "Errore", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });*/
     }
 
     private void showSongListPopup(ArrayList<Canzone> songList , String nomePlaylist) {
+        if(songList==null){
+            JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Nome Playlist errato!.");
+        }
         if (songList.isEmpty()) {
-            JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Nessuna canzone trovata.");
+            JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Playlist vuota.");
         } else {
             StringBuilder message = new StringBuilder("Lista Canzoni nella playlist "+ nomePlaylist + ":\n");
             for (Canzone song : songList) {

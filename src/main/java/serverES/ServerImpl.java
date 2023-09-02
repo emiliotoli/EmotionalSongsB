@@ -437,7 +437,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         List<Canzone> infoSongInPlaylist = new ArrayList<>();
         try {
             searchSong= new ConnessioneDBImpl().getConnection();
-            String query = "SELECT titolo, autore FROM Composta WHERE nome = ? AND idUtente = ?";
+            String query = "SELECT titolo, autore FROM composta WHERE nome = ? AND idUtente = ?";
 
             preparedStatement = searchSong.prepareStatement(query);
             preparedStatement.setString(1, nomePlaylist);
