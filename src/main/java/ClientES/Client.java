@@ -37,6 +37,7 @@ public class Client implements MetodiControlli_Client {
     private static ArrayList<Canzone> informazioniCanzoneTitolo;
     private static ArrayList<Canzone> informazioniCanzoneTitoloinPlaylist;
     private static ArrayList<Canzone> informazioniCanzoneAuoreAnno;
+    private static ArrayList<Canzone> infoCanzoniPlaylist;
     private static ArrayList<Emozione> emozioniCanzone;
     private static ArrayList<PlayList> playlistUtente;
     private  static boolean emozioniPerCanzone;
@@ -617,6 +618,36 @@ public class Client implements MetodiControlli_Client {
         else {
             return -1; // nome playlist inesistente
         }
+    }
+    public static ArrayList<Canzone> visualizaCanzoniPlaylist(String idUtente, String nomePlaylist) throws RemoteException, SQLException {
+        accessoServerLoggato();
+        if (interfaceNonLoggato == null) {
+            System.out.println("L'interfaccia non è stata inizializzata correttamente");
+            return new ArrayList<>(-1);
+        }
+        boolean controlloNomePlaylist;
+        controlloNomePlaylist= interfaceLoggato.checkNomePlaylist(nomePlaylist);
+        if(controlloNomePlaylist){
+            infoCanzoniPlaylist= (ArrayList<Canzone>) interfaceNonLoggato.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
+
+            //elaboro la risposta
+            if (!infoCanzoniPlaylist.isEmpty()){
+                for (Canzone canzone : infoCanzoniPlaylist) {
+                    titoloCanzone = canzone.getTitoloCanzone();
+                    autoreCanzone = canzone.getAutoreCanzone();
+
+                    System.out.println("Titolo: " + titoloCanzone);
+                    System.out.println("Autore: " + autoreCanzone);
+                    System.out.println();
+                }
+            }
+            else {
+                System.out.println("Canzone non trovata");
+            }
+
+            return infoCanzoniPlaylist;
+        }
+        return null;
     }
 
 
