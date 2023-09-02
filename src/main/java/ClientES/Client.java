@@ -372,7 +372,7 @@ public class Client implements MetodiControlli_Client {
         }
         return emozioniDellaCanzone;
     }
-    public static int inserisciNuovaEmozione(String idUtente, String nomeEmozione,String titoloCanzone, String autoreCanzone, String notaEmozione, String SpiegazioneEmozione, int punteggioEmozione  ) throws IOException, SQLException {
+    public static int inserisciNuovaEmozione(String idUtente, String nomeEmozione,String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione, int punteggioEmozione  ) throws IOException, SQLException {
 
         accessoServerLoggato();
         if (interfaceNonLoggato == null) {

@@ -11,10 +11,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class MenuPrincipaleUI extends JFrame{
+public class MenuPrincipaleUI extends JFrame {
     private static ServerInterfaceNonLoggato interfaceNonLoggato;
     private static ServerInterfaceLoggato interfaceLoggato;
-
 
     public void mainMenu() throws RemoteException {
 
@@ -26,7 +25,7 @@ public class MenuPrincipaleUI extends JFrame{
         JLabel label = new JLabel("Menu' Principale");
         label.setFont(new Font("Arial", Font.BOLD, 24)); // Imposta il font e la dimensione
         label.setHorizontalAlignment(JLabel.CENTER);
-        add(label , BorderLayout.NORTH);
+        add(label, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -37,7 +36,7 @@ public class MenuPrincipaleUI extends JFrame{
 
         JButton ricercaTitoloButton = new JButton("Ricerca canzone per titolo");
         setButtonSize(ricercaTitoloButton);
-        buttonPanel.add(ricercaTitoloButton , gbc);
+        buttonPanel.add(ricercaTitoloButton, gbc);
         gbc.gridy++;
 
         try {
@@ -58,7 +57,7 @@ public class MenuPrincipaleUI extends JFrame{
 
         JButton ricercaAutoreAnnoButton = new JButton("Ricerca canzone per autore e anno");
         setButtonSize(ricercaAutoreAnnoButton);
-        buttonPanel.add(ricercaAutoreAnnoButton , gbc);
+        buttonPanel.add(ricercaAutoreAnnoButton, gbc);
         gbc.gridy++;
         ricercaAutoreAnnoButton.addActionListener(new ActionListener() {
             @Override
@@ -69,7 +68,7 @@ public class MenuPrincipaleUI extends JFrame{
 
         JButton registrazioneButton = new JButton("Registrati");
         setButtonSize(registrazioneButton);
-        buttonPanel.add(registrazioneButton , gbc);
+        buttonPanel.add(registrazioneButton, gbc);
         gbc.gridy++;
         registrazioneButton.addActionListener(new ActionListener() {
             @Override
@@ -80,7 +79,7 @@ public class MenuPrincipaleUI extends JFrame{
 
         JButton loginButton = new JButton("Effettua il Login");
         setButtonSize(loginButton);
-        buttonPanel.add(loginButton , gbc);
+        buttonPanel.add(loginButton, gbc);
         gbc.gridy++;
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -91,7 +90,7 @@ public class MenuPrincipaleUI extends JFrame{
 
         JButton areaPersonaleButton = new JButton("Area Personale");
         setButtonSize(areaPersonaleButton);
-        buttonPanel.add(areaPersonaleButton , gbc);
+        buttonPanel.add(areaPersonaleButton, gbc);
         gbc.gridy++;
         areaPersonaleButton.addActionListener(new ActionListener() {
             @Override
@@ -102,7 +101,7 @@ public class MenuPrincipaleUI extends JFrame{
 
         JButton logoutButton = new JButton("Logout");
         setButtonSize(logoutButton);
-        buttonPanel.add(logoutButton , gbc);
+        buttonPanel.add(logoutButton, gbc);
         gbc.gridy++;
         logoutButton.addActionListener(new ActionListener() {
             @Override
@@ -111,30 +110,31 @@ public class MenuPrincipaleUI extends JFrame{
             }
         });
 
-
-        add(buttonPanel , BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.CENTER);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
 
-    private void setButtonSize(JButton button)
-    {
-        button.setPreferredSize(new Dimension(250 , 50));
+    private void setButtonSize(JButton button) {
+        button.setPreferredSize(new Dimension(250, 50));
     }
-    private void apriAreaPersonale(){
+
+    private void apriAreaPersonale() {
         MenuAreaPersonaleUI areaPersonale = new MenuAreaPersonaleUI();
         areaPersonale.areaPersonale();
     }
 
-    private void eseguiLogin(){
-        if(!Client.isLoggato) {
+    private void eseguiLogin() {
+        if (!Client.isLoggato) {
             LoginUI interfacciaLogin = new LoginUI();
             interfacciaLogin.LoginGUI(new LoginCallback() {
                 @Override
                 public void onLoginResult(boolean success) {
                     if (success) {
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Login andato a buon fine", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Login andato a buon fine", "Successo",
+                                JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Credenziali errate", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Credenziali errate", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
@@ -143,79 +143,95 @@ public class MenuPrincipaleUI extends JFrame{
         }
     }
 
-    private void controlloLogin(boolean controllo){
-        if(controllo) {
+    private void controlloLogin(boolean controllo) {
+        if (controllo) {
             apriAreaPersonale();
-        }
-        else {
-            JOptionPane.showMessageDialog(this, "Impossibile eseguire l'azione. \n Effettua prima il login.", "Errore", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Impossibile eseguire l'azione. \n Effettua prima il login.", "Errore",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void registrazione(){
+    private void registrazione() {
         RegistrazioneUI registraUtente = new RegistrazioneUI();
         registraUtente.registrazioneUI(new RegistrazioneCallback() {
             @Override
             public void registrazioneCompleted(int result) {
                 switch (result) {
                     case 0:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Registrazione andata a buon fine", "Successo", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Registrazione andata a buon fine",
+                                "Successo", JOptionPane.INFORMATION_MESSAGE);
                         break;
                     case 1:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del nome", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del nome", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                     case 2:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del cognome", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del cognome", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                     case 3:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del Codice Fiscale", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del Codice Fiscale",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case 4:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del Numero Civico", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del Numero Civico",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case 5:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del CAP", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del CAP", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                     case 6:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nell'inserimento del comune", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nell'inserimento del comune",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case 7:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nell'inserimento della provincia", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nell'inserimento della provincia",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case 8:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato della email", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato della email", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                     case 9:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del nome utente", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato del nome utente",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case 10:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "ID utente gia' esistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "ID utente gia' esistente", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                     case 11:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato della password", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Errore nel formato della password",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
                     case 12:
-                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Le due password non coincidono. Reinserire due password identiche", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuPrincipaleUI.this,
+                                "Le due password non coincidono. Reinserire due password identiche", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
     }
-    private void ricercaPerTitolo()
-    {
+
+    private void ricercaPerTitolo() {
         RicercaTitoloUI ricercaTitolo = new RicercaTitoloUI();
         ricercaTitolo.ricercaTitolo();
     }
-    private void ricercaPerAutoreAnno(){
+
+    private void ricercaPerAutoreAnno() {
         RicercaAutoreAnnoUI ricercaAutoreAnno = new RicercaAutoreAnnoUI();
         ricercaAutoreAnno.ricercaCanzone();
 
     }
-    public void logout(){
 
-        if(Client.isLoggato) {
+    public void logout() {
+
+        if (Client.isLoggato) {
             Client.isLoggato = false;
-            JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Logout effettuato con successo!", "LOGOUT ", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
+            JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Logout effettuato con successo!", "LOGOUT ",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
             JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Impossibile effettuare l'operazione \n" +
                     "Non sei loggato", "LOGOUT ", JOptionPane.INFORMATION_MESSAGE);
         }

@@ -10,6 +10,8 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static ClientES.Client.inserisciNuovaEmozione;
+
 public class RicercaTitoloUI extends JFrame {
     private JTextField songNameField;
     private static final Color textColor = new Color(76, 79, 105);
@@ -71,6 +73,7 @@ public class RicercaTitoloUI extends JFrame {
             JScrollPane scrollPane = new JScrollPane(textArea);
             JButton visualizzaEmozioniButton = new JButton("Visualizza Emozioni");
             createButtons(visualizzaEmozioniButton);
+
             JButton insertEmotionsButton = new JButton("Inserisci Emozioni");
             createButtons(insertEmotionsButton);
             visualizzaEmozioniButton.addActionListener(new ActionListener() {
@@ -100,7 +103,10 @@ public class RicercaTitoloUI extends JFrame {
 
             JPanel buttonPanel = new JPanel();
             buttonPanel.add(visualizzaEmozioniButton);
-            buttonPanel.add(insertEmotionsButton);
+            if (Client.isLoggato) {
+                buttonPanel.add(insertEmotionsButton);
+            }
+
             JPanel mainPanel = new JPanel(new BorderLayout());
             mainPanel.add(scrollPane, BorderLayout.CENTER);
             mainPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -113,33 +119,57 @@ public class RicercaTitoloUI extends JFrame {
     }
 
     private void handleInsertEmotions() throws RemoteException, SQLException {
-        JPanel insertEmotion = new JPanel();
-        insertEmotion.setLayout(new GridLayout(3, 2));
-        JTextField emotionIntensityField = new JTextField(20);
+        JTextField titoloField = new JTextField(20);
+        JTextField autoreField = new JTextField(20);
+        JTextField notaEmozione = new JTextField(50);
+        JTextField spiegazioneEmozione = new JTextField(50);
+        JTextField intensitàEmozione = new JTextField(1);
 
+        JPanel insertEmotion = new JPanel();
+        insertEmotion.setLayout(new GridLayout(6, 2));
         insertEmotion.setSize(500, 500);
         insertEmotion.setLocation(430, 100);
 
-        String[] intensities = { "1", "2", "3", "4", "5" };
-        String[] emotions = { "Rabbia", "Felicità", "Tristezza", "Paura", "Sorpresa" };
-        final JComboBox<String> intensityComboBox = new JComboBox<>(intensities);
+        String[] emotions = { "Amazement", "Solemnity", "Tenderness", "Nostalgia", "Calmness", "Power", "Joy",
+                "Tension", "Sadness" };
         final JComboBox<String> emotionComboBox = new JComboBox<>(emotions);
 
-        insertEmotion.add(new JLabel("Emotion Intensity:"));
-        insertEmotion.add(intensityComboBox);
+        insertEmotion.add(new JLabel("Inserisci titolo: "));
+        insertEmotion.add(titoloField);
+        insertEmotion.add(new JLabel("Autore: "));
+        insertEmotion.add(autoreField);
         insertEmotion.add(new JLabel("Seleziona Emozione:"));
         insertEmotion.add(emotionComboBox);
+        insertEmotion.add(new JLabel("Intensità emozione:"));
+        insertEmotion.add(intensitàEmozione);
+        insertEmotion.add(new JLabel("nota emozione"));
+        insertEmotion.add(notaEmozione);
+        insertEmotion.add(new JLabel("spiegazione emozione"));
+        insertEmotion.add(spiegazioneEmozione);
 
-        int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Insert Emotions",
+        int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-
-            // here there are the results of the dropdown menu
-            String selectedIntensity = (String) emotionComboBox.getSelectedItem();
-            String selectedEmotion = (String) emotionComboBox.getSelectedItem();
-
-
+           
+            if (isValidLength(notaEmozione.getText(), 1, 50) && isValidLength(spiegazioneEmozione.getText(), 1, 250)) {
+                try {
+                    String selectedEmotion = (String) emotionComboBox.getSelectedItem();
+                    inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titoloField.getText(),
+                            autoreField.getText(),
+                            notaEmozione.getText(), spiegazioneEmozione.getText(),
+                            Integer.parseInt(intensitàEmozione.getText()));
+                } catch (NullPointerException | IOException exception) {
+                    exception.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Entrambi i campi nota emozione e spiegazione emozione devono avere una lunghezza compresa tra 1 e 100 caratteri.",
+                        "Errore di validazione", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Inserisci nuovamente le informazioni.", "Operazione annullata",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -180,6 +210,11 @@ public class RicercaTitoloUI extends JFrame {
             }
         }
 
+    }
+
+    private boolean isValidLength(String text, int minLength, int maxLength) {
+        int length = text.length();
+        return length >= minLength && length <= maxLength;
     }
 
     public static void createButtons(JButton bt) {
