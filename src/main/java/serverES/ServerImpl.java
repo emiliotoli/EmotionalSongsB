@@ -614,7 +614,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         List<Canzone> infoCanzone = new ArrayList<>();
         try{
             searchByTitle= new ConnessioneDBImpl().getConnection();
-            String query = "SELECT * FROM composta WHERE idutente=? titolo =? and autore=?";
+            String query = "select * from composta where idutente=? AND  titolo =? AND autore=?";
             preparedStatement = searchByTitle.prepareStatement(query);
             preparedStatement.setString(1,idUtente);
             preparedStatement.setString(2, titolo);
@@ -626,15 +626,13 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
                 while (resultSet.next()) {
                     String titoloCanzone = resultSet.getString("titolo");
                     String autoreCanzone = resultSet.getString("autore");
-                    int annoCanzone = resultSet.getInt("anno");
 
-                    Canzone canzone = new Canzone(titoloCanzone, autoreCanzone, annoCanzone);
+                    Canzone canzone = new Canzone(titoloCanzone, autoreCanzone);
                     infoCanzone.add(canzone);
 
                     //stampo i valori presi
                     System.out.println("Titolo: " + titoloCanzone);
                     System.out.println("Autore: " + autoreCanzone);
-                    System.out.println("Anno: " + annoCanzone);
                     System.out.println();
                 }
             }
@@ -686,7 +684,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
     }
     public static void main(String[] args) throws RemoteException {
 
-        /**faccio partire il server**/
+        /*faccio partire il server*/
 
         System.out.println("Server in preparazione: ");
         ServerImpl sevimpl = new ServerImpl();
@@ -700,7 +698,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             System.out.println(e.getMessage().toString());
         }
 
-        /** connessione DB parte quando patrte il server**/
+        /* connessione DB parte quando patrte il server*/
 
         ConnessioneDBImpl connection = new ConnessioneDBImpl();
         Connection dbConnection= connection.getConnection();

@@ -29,7 +29,7 @@ public class RegistrazioneUI extends JFrame {
 
         String[] labelNames = {
                 "Nome", "Cognome", "Codice Fiscale", "Indirizzo", "Numero civico",
-                "CAP", "Comune", "Provincia", "Email", "Nome Utente", "PASSWORD" , "Reinserisci password"
+                "CAP", "Comune", "Provincia", "Email", "Nome Utente", "PASSWORD", "Reinserisci password"
         };
 
         textFields = new JTextField[labelNames.length]; // Inizializza l'array
@@ -74,7 +74,6 @@ public class RegistrazioneUI extends JFrame {
 
     private void handleSubmit() throws IOException, SQLException, NotBoundException {
 
-
         String nome = textFields[0].getText();
         String cognome = textFields[1].getText();
         String codiceFiscale = textFields[2].getText();
@@ -87,8 +86,9 @@ public class RegistrazioneUI extends JFrame {
         String nomeUtente = textFields[9].getText();
         String password = textFields[10].getText();
         String password2 = textFields[11].getText();
-        int val = Client.registrazione(nome,cognome,codiceFiscale,indirizzo,numeroCivico,cap, comune, provincia,email,nomeUtente , password , password2);
-        //dispose();
+        int val = Client.registrazione(nome, cognome, codiceFiscale, indirizzo, numeroCivico, cap, comune, provincia,
+                email, nomeUtente, password, password2);
+        // dispose();
         if (callback != null) {
             callback.registrazioneCompleted(val);
         }

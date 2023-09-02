@@ -18,11 +18,11 @@ public class LoginUI extends JFrame {
         setSize(300, 150);
         setLocationRelativeTo(null);
         setVisible(true);
-        setSize(400 , 200);
+        setSize(400, 200);
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets= new Insets(5,10,5,10);
+        gbc.insets = new Insets(5, 10, 5, 10);
 
         JLabel userIDLabel = new JLabel("User ID:");
         userIDField = new JTextField(20);
@@ -50,13 +50,12 @@ public class LoginUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     boolean valLogin = performLogin();
-                    if(valLogin){
+                    if (valLogin) {
                         dispose();// Login riuscito, chiudi la finestra di login
-                    }
-                     else {
-                    // Login non riuscito, reimposta i campi di input
-                    userIDField.setText("");
-                    passwordField.setText("");
+                    } else {
+                        // Login non riuscito, reimposta i campi di input
+                        userIDField.setText("");
+                        passwordField.setText("");
                     }
                     callback.onLoginResult(valLogin);
 
@@ -76,4 +75,3 @@ public class LoginUI extends JFrame {
         return Client.login(userID, password);
     }
 }
-

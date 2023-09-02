@@ -52,4 +52,3 @@ public class NuovaPlaylistUI extends JFrame {
         callback.onPlaylistCreationResult(isPlaylistCreated);
     }
 }
-

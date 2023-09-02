@@ -1,4 +1,5 @@
 package ClientES;
+
 import ClientES.Client;
 
 import javax.swing.*;
@@ -17,8 +18,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
     public void ricercaCanzone() {
 
-
-        setTitle("Ricerca Canzone per Autore e Anno");
+        setTitle("Ricerca per Autore e Anno");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(300, 150);
         setLocationRelativeTo(null);
@@ -79,20 +79,20 @@ public class RicercaAutoreAnnoUI extends JFrame {
         String autore = autoreField.getText();
         int anno = Integer.parseInt(annoField.getText()); // Assumendo che l'anno sia un intero
 
-        //Song[] matchingSongs = client.searchSongsByAuthorAndYear(autore, anno);
+        // Song[] matchingSongs = client.searchSongsByAuthorAndYear(autore, anno);
 
-        ArrayList<Canzone> canzoni = Client.RicercaCanzoniAutoreAnno(autore,anno);
+        ArrayList<Canzone> canzoni = Client.RicercaCanzoniAutoreAnno(autore, anno);
         if (!canzoni.isEmpty()) {
             StringBuilder message = new StringBuilder("Canzoni corrispondenti:\n");
             for (Canzone c : canzoni) {
-                message.append(c.getTitoloCanzone()).append(" | ").append(c.getAutoreCanzone()).append(" | ").append(c.getAnnoCanzone()).append("\n");
+                message.append(c.getTitoloCanzone()).append(" | ").append(c.getAutoreCanzone()).append(" | ")
+                        .append(c.getAnnoCanzone()).append("\n");
             }
 
             JTextArea textArea = new JTextArea(message.toString(), 10, 30);
             textArea.setWrapStyleWord(true);
             textArea.setLineWrap(true);
             textArea.setEditable(false);
-
 
             JScrollPane scrollPane = new JScrollPane(textArea);
             JButton visualizzaEmozioniButton = new JButton("Visualizza Emozioni");
@@ -118,7 +118,8 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
             JOptionPane.showMessageDialog(this, mainPanel, "Risultati della ricerca", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Nessuna canzone corrispondente trovata.", "Risultati della ricerca", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Nessuna canzone corrispondente trovata.", "Risultati della ricerca",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -140,25 +141,22 @@ public class RicercaAutoreAnnoUI extends JFrame {
             String titolo = titoloField.getText();
             String autore = autoreField.getText();
 
-            ArrayList<Emozione> emozioni = Client.visualizzaEmozioniCanzone(titolo,autore);
+            ArrayList<Emozione> emozioni = Client.visualizzaEmozioniCanzone(titolo, autore);
 
             if (!emozioni.isEmpty()) {
                 StringBuilder emozioniMessage = new StringBuilder("Emozioni corrispondenti:\n");
                 for (Emozione e : emozioni) {
-                    emozioniMessage.append(e.getNomeEmozione()).append("\n").append(e.getPercentualeEmozione()).append("\n");
+                    emozioniMessage.append(e.getNomeEmozione()).append("\n").append(e.getPercentualeEmozione())
+                            .append("\n");
                 }
 
-                JOptionPane.showMessageDialog(this, emozioniMessage.toString(), "Emozioni", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, emozioniMessage.toString(), "Emozioni",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Nessuna emozione corrispondente trovata.", "Emozioni", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nessuna emozione corrispondente trovata.", "Emozioni",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
-
 }
-
-
-
-
-

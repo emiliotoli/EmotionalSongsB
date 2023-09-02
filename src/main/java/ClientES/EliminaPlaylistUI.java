@@ -12,6 +12,7 @@ public class EliminaPlaylistUI extends JFrame {
     private JButton submitButton;
     boolean res;
     private PlaylistDeletionCallback callback;
+
     public void eliminaPlaylistUI(PlaylistDeletionCallback callback) {
         this.callback = callback;
 

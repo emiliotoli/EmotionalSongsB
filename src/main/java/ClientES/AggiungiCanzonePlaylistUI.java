@@ -45,7 +45,8 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String title = JOptionPane.showInputDialog(AggiungiCanzonePlaylistUI.this, "Inserisci il titolo della canzone da cercare:");
+                String title = JOptionPane.showInputDialog(AggiungiCanzonePlaylistUI.this,
+                        "Inserisci il titolo della canzone da cercare:");
                 if (title != null && !title.isEmpty()) {
                     ArrayList<Canzone> songList = null; // Sostituisci con il metodo corretto
                     try {
@@ -68,20 +69,27 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
 
                 if (!playlistName.isEmpty() && !songTitle.isEmpty() && !songAuthor.isEmpty()) {
                     try {
-                        val= Client.aggiuntaCanzoniPlaylist(playlistName , Client.idGlobale , songTitle , songAuthor);
+                        val = Client.aggiuntaCanzoniPlaylist(playlistName, Client.idGlobale, songTitle, songAuthor);
                     } catch (RemoteException remoteException) {
                         remoteException.printStackTrace();
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
                     switch (val) {
-                        case 0 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Canzone aggiunta con successo dalla playlist", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                        case -1 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
-                        case 1 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Errore nell'aggiunta della canzone al database. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
-                        case -2 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case 0 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this,
+                                "Canzone aggiunta con successo dalla playlist", "Successo",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        case -1 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this,
+                                "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case 1 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this,
+                                "Errore nell'aggiunta della canzone al database. Riprova", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
+                        case -2 -> JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this,
+                                "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this, "Riempi tutti i campi prima di procedere.", "Errore", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(AggiungiCanzonePlaylistUI.this,
+                            "Riempi tutti i campi prima di procedere.", "Errore", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
@@ -109,6 +117,5 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
 
 }
