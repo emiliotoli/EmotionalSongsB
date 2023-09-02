@@ -80,9 +80,6 @@ public class VisualizzaCanzoniPlaylist extends JFrame {
     }
 
     private void showSongListPopup(ArrayList<Canzone> songList , String nomePlaylist) {
-        if(songList == null){
-            JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Playlist inesistente");
-        }
         if (songList.isEmpty()) {
             JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Nessuna canzone trovata.");
         } else {

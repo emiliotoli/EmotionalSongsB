@@ -579,7 +579,7 @@ public class Client implements MetodiControlli_Client {
         controlloNomePlaylist= interfaceLoggato.checkNomePlaylist(nomePlaylist);
         if(controlloNomePlaylist){
             //ricerca canzone e aggiungi
-            inserimentoCanzonePlaylist=interfaceLoggato.aggiuntaCanzoniPlaylist(nomePlaylist,userID,titoloCanzone,autoreCanzone);
+            inserimentoCanzonePlaylist = interfaceLoggato.aggiuntaCanzoniPlaylist(nomePlaylist,userID,titoloCanzone,autoreCanzone);
             if(inserimentoCanzonePlaylist){
                 return 0;// inserimanto efetuato con successo
             }
