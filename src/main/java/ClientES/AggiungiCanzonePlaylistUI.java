@@ -25,8 +25,8 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
 
     /**
      * @author Emilio Toli
-     *      Metodo per l'aggiunta di canzoni in playlist dati titolo, autore e nome playlist
-     *      inseriti in un'area di testo
+     *      Metodo per la creazione dell'interfaccia utente e per la gestione dei click sui pulsanti
+     *      Mostra inoltre la lista di canzoni che hanno il titolo cercato
      */
     // <editor-fold desc= "Aggiunta canzoni alla playlist">
     public void aggiungiCanzoniAPlaylist() {
