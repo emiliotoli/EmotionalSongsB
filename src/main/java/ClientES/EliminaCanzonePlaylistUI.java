@@ -45,18 +45,18 @@ public class EliminaCanzonePlaylistUI extends JFrame {
 
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String title = JOptionPane.showInputDialog(EliminaCanzonePlaylistUI.this, "Inserisci il titolo della canzone da rimuovere dalla playlist :");
-                if (title != null && !title.isEmpty()) {
-                    ArrayList<Canzone> songList = null; // Sostituisci con il metodo corretto
-                    try {
-                        songList = Client.ricercaCanzoneTitoloInPlaylist(Client.idGlobale , songTitleField.getText() , songAuthorField.getText());
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-                    showSongListPopup(songList);
+
+                ArrayList<Canzone> songList = null; // Sostituisci con il metodo corretto
+                try {
+
+                    songList = Client.visualizzaCanzoniPlaylist(Client.idGlobale, playlistNameField.getText());
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
+                showSongListPopup(songList);
+
             }
         });
 
