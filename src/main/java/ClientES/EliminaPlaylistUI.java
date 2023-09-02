@@ -7,12 +7,27 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * @author Emilio Toli
+ *      Classe per l'eliminazione di una playlist tra la lista
+ *      delle playlist dell'utente
+ */
+
 public class EliminaPlaylistUI extends JFrame {
+    // <editor-fold desc= "Attributi">// </editor-fold>
     private JTextField nomePlaylistField;
     private JButton submitButton;
     boolean res;
     private PlaylistDeletionCallback callback;
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @param callback
+     *      Metodo che gestisce l'eliminazione della playlist, con il nome della
+     *      playlist da eliminare inserito in un'area di testo
+     */
+    // <editor-fold desc= "Eliminazione playlist">
     public void eliminaPlaylistUI(PlaylistDeletionCallback callback) {
         this.callback = callback;
 
@@ -44,11 +59,22 @@ public class EliminaPlaylistUI extends JFrame {
 
         add(panel);
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @throws IOException
+     * @throws SQLException
+     *
+     *      Metodo per la gestione dell'evento associato al click del pulsante
+     *      Al click chiama il metodo della classe Client per l'eliminazione
+     */
+    // <editor-fold desc= "Gestione click button">
     private void handleSubmit() throws IOException, SQLException {
         String nomePlaylist = nomePlaylistField.getText();
         int res = Client.eliminaPlaylist(nomePlaylist);
         callback.onPlaylistDeletionResult(res);
         dispose();
     }
+    // </editor-fold>
 }
