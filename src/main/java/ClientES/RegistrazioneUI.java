@@ -9,11 +9,27 @@ import java.rmi.NotBoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * @author Emilio Toli
+ *          Classe che gestisce l'interfaccia utente per la registrazione
+ *          di un nuovo user
+ *
+ */
+
 public class RegistrazioneUI extends JFrame {
+    // <editor-fold desc= "Attributi">
     private JTextField[] textFields; // Array per memorizzare le caselle di testo
     private RegistrazioneCallback callback;
     int val;
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @param callback
+     *      Metodo per la creazione della UI e per la gestione
+     *      della chiamata del metodo privato associato al pulsante
+     */
+    // <editor-fold desc= "Registrazione">
     public void registrazioneUI(RegistrazioneCallback callback) {
         this.callback = callback;
 
@@ -71,7 +87,18 @@ public class RegistrazioneUI extends JFrame {
 
         add(panel);
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @throws IOException
+     * @throws SQLException
+     * @throws NotBoundException
+     *
+     *      Metodo privato chiamato al click del pulsante
+     *      Chiama il metodo della classe client per effettuare la registrazione
+     */
+    // <editor-fold desc= "Invio dati registrazione">
     private void handleSubmit() throws IOException, SQLException, NotBoundException {
 
         String nome = textFields[0].getText();
@@ -94,5 +121,5 @@ public class RegistrazioneUI extends JFrame {
         }
 
     }
-
+// </editor-fold>
 }
