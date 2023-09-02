@@ -9,12 +9,28 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * @author Emilio Toli
+ *      Classe che gestisce l'interfaccia utente per la eliminazione
+ *      di una canzone da una determinata playlist di un utente
+ */
+
 public class EliminaCanzonePlaylistUI extends JFrame {
+
+    // <editor-fold desc= "Attributi">
     private JTextField playlistNameField;
     private JTextField songTitleField;
     private JTextField songAuthorField;
     private int val;
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * metodo richiamato nel menù principale per eliminare una canzone dalla playlist
+     * dati titolo e autore inseriti in caselle di testo
+     */
+
+    // <editor-fold desc= "Eliminazione canzone da playlist>"
     public void eliminaCanzoneDaPlaylist() {
         setTitle("Elimina canzone dalla Playlist");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -88,7 +104,15 @@ public class EliminaCanzonePlaylistUI extends JFrame {
             }
         });
     }
+    //</editor-fold>
 
+    /**
+     * @param songList lista di canzoni associate alla playlist dell'utente
+     * @author Emilio Toli
+     * Metodo privato richiamato per poter restituire la lista delle canzoni associate alla playlist dell'utente
+     */
+
+    // <editor-fold desc="Visualizza canzoni nella playlist">
     private void showSongListPopup(ArrayList<Canzone> songList) {
         if (songList.isEmpty()) {
             JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Nessuna canzone trovata.");
@@ -111,5 +135,6 @@ public class EliminaCanzonePlaylistUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    //</editor-fold>
 
 }
