@@ -619,16 +619,16 @@ public class Client implements MetodiControlli_Client {
             return -1; // nome playlist inesistente
         }
     }
-    public static ArrayList<Canzone> visualizaCanzoniPlaylist(String idUtente, String nomePlaylist) throws RemoteException, SQLException {
+    public static ArrayList<Canzone> visualizzaCanzoniPlaylist(String idUtente, String nomePlaylist) throws RemoteException, SQLException {
         accessoServerLoggato();
-        if (interfaceNonLoggato == null) {
+        if (interfaceLoggato == null) {
             System.out.println("L'interfaccia non è stata inizializzata correttamente");
             return new ArrayList<>(-1);
         }
         boolean controlloNomePlaylist;
         controlloNomePlaylist= interfaceLoggato.checkNomePlaylist(nomePlaylist);
         if(controlloNomePlaylist){
-            infoCanzoniPlaylist= (ArrayList<Canzone>) interfaceNonLoggato.ricercaCanzoneAutoreAnno(autoreCanzone,annoCanzone);
+            infoCanzoniPlaylist= (ArrayList<Canzone>) interfaceLoggato.VisualizzaCanzoniPlaylist(idUtente, nomePlaylist);
 
             //elaboro la risposta
             if (!infoCanzoniPlaylist.isEmpty()){
