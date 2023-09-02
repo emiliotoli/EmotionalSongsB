@@ -628,7 +628,7 @@ public class Client implements MetodiControlli_Client {
         boolean controlloNomePlaylist;
         controlloNomePlaylist= interfaceLoggato.checkNomePlaylist(nomePlaylist);
         if(controlloNomePlaylist){
-            infoCanzoniPlaylist= (ArrayList<Canzone>) interfaceLoggato.VisualizzaCanzoniPlaylist(idUtente, nomePlaylist);
+            infoCanzoniPlaylist= (ArrayList<Canzone>) interfaceLoggato.VisualizzaCanzoniPlaylist(nomePlaylist, idUtente);
 
             //elaboro la risposta
             if (!infoCanzoniPlaylist.isEmpty()){
@@ -648,6 +648,7 @@ public class Client implements MetodiControlli_Client {
             return infoCanzoniPlaylist;
         }
         return null;
+
     }
 
 
