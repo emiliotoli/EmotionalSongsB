@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * @author Emilio Toli
@@ -17,6 +19,7 @@ public class EliminaPlaylistUI extends JFrame {
     // <editor-fold desc= "Attributi">// </editor-fold>
     private JTextField nomePlaylistField;
     private JButton submitButton;
+    private JButton visualizzaPlaylistButton;
     boolean res;
     private PlaylistDeletionCallback callback;
     // </editor-fold>
@@ -39,11 +42,26 @@ public class EliminaPlaylistUI extends JFrame {
         JPanel panel = new JPanel(new GridLayout(2, 1, 10, 10));
 
         nomePlaylistField = new JTextField(15);
+        visualizzaPlaylistButton= new JButton("Visualizza tutte le playlist");
         submitButton = new JButton("Elimina Playlist");
+
 
         panel.add(new JLabel("Nome Playlist:"));
         panel.add(nomePlaylistField);
+        panel.add(visualizzaPlaylistButton);
         panel.add(submitButton);
+
+        visualizzaPlaylistButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    visualizza();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
 
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -77,4 +95,18 @@ public class EliminaPlaylistUI extends JFrame {
         dispose();
     }
     // </editor-fold>
+
+    private void visualizza() throws RemoteException, SQLException {
+        JTextArea playlistTextArea = new JTextArea();
+        ArrayList<PlayList> listaPlaylist = Client.visualizzaPlaylist(Client.idGlobale);
+        if (listaPlaylist.isEmpty()) {
+            playlistTextArea.append("Nessuna playlist disponibile.");
+        } else {
+            for (PlayList pl : listaPlaylist) {
+                playlistTextArea.append(pl.getnomePlalist() + "\n");
+            }
+            JOptionPane.showMessageDialog(this, playlistTextArea.toString(), "Lista Playlist",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
 }
