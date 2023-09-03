@@ -109,6 +109,7 @@ public class MenuAreaPersonaleUI extends JFrame {
                     // La playlist è stata creata con successo
                     // Puoi gestire il successo qui, ad esempio aggiornando l'interfaccia utente
                     JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Playlist creata con successo", "Successo", JOptionPane.INFORMATION_MESSAGE);
+
                 } else if (result == 1) {
                     // Playlist già esistente, mostra un messaggio di errore
                     JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Playlist già esistente", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -118,6 +119,7 @@ public class MenuAreaPersonaleUI extends JFrame {
                 }
             }
         });
+
     }
     private void aggiungiAllaPlaylist(){
         AggiungiCanzonePlaylistUI acp = new AggiungiCanzonePlaylistUI();

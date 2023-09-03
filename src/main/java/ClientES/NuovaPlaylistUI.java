@@ -74,6 +74,7 @@ public class NuovaPlaylistUI extends JFrame {
         int isPlaylistCreated = Client.creaPlayList(nomePlaylist, Client.idGlobale);
 
         callback.onPlaylistCreationResult(isPlaylistCreated);
+        dispose();
     }
     // </editor-fold>
 }
