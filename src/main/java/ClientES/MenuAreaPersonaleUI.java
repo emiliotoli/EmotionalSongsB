@@ -5,8 +5,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * @author Emilio Toli
+ *          Classe che gestisce l'interfaccia utente del menu principale
+ */
+
 public class MenuAreaPersonaleUI extends JFrame {
 
+    /**
+     * @author Emilio Toli
+     *      Metodo che crea l'interfaccia utente con i pulsanti e che chiama i metodi degli eventi
+     *      relativi ad essi
+     */
+    // <editor-fold desc= "Menu Area Personale">
     public void areaPersonale()
     {
         setTitle("Emotional Songs - Area Personale");
@@ -95,11 +106,26 @@ public class MenuAreaPersonaleUI extends JFrame {
         add(buttonPanel , BorderLayout.CENTER);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
+    // </editor-fold>
+
+    /**
+     * @author Emilio Toli
+     * @param button
+     *      Metodo per stabilire la dimensione del pulsante
+     */
+    // <editor-fold desc= "Dimensione pulsante">
     private void setButtonSize(JButton button)
     {
         button.setPreferredSize(new Dimension(250 , 50));
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *      Metodo per l'apertura dell'interfaccia che gestisce le nuove playlist
+     *      e che gestisce i casi di errore
+     */
+    // <editor-fold desc= "Apertura UI per creare la playlist">
     private void creaPlaylist(){
         NuovaPlaylistUI nuovaPlaylist = new NuovaPlaylistUI();
         nuovaPlaylist.nuovaPlaylistUI(new PlaylistCreationCallback() {
@@ -121,15 +147,37 @@ public class MenuAreaPersonaleUI extends JFrame {
         });
 
     }
+    // </editor-fold>
+
+    /**
+     * @author Emilio Toli
+     *      Metodo che apre l'interfaccia per l'aggiunta di canzoni alla playlist
+     */
+
+    // <editor-fold desc= "Apertura UI aggiunta canzoni alla playlist">
     private void aggiungiAllaPlaylist(){
         AggiungiCanzonePlaylistUI acp = new AggiungiCanzonePlaylistUI();
         acp.aggiungiCanzoniAPlaylist();
     }
+    // </editor-fold>
+
+    /**
+     * @author Emilio Toli
+     *      Metodo che apre l'interfaccia per la visualizzazione delle playlist dell'utente
+     */
+    // <editor-fold desc= "Apertura UI per visualizzare playlist">
     private void visualizzaPlaylist(){
         VisualizzaPlaylistUI vp = new VisualizzaPlaylistUI();
         vp.visualizzaPlaylist();
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *       Metodo che apre l'interfaccia per l'eliminazione di una playlist
+     *       e che gestisce i messaggi di errore
+     */
+    // <editor-fold desc= "Apertura UI per eliminare la playlist">
     private void eliminaPlaylist() {
         EliminaPlaylistUI ep = new EliminaPlaylistUI();
         ep.eliminaPlaylistUI(new PlaylistDeletionCallback() {
@@ -152,15 +200,29 @@ public class MenuAreaPersonaleUI extends JFrame {
             }
         });
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *       Metodo che apre l'interfaccia per l'eliminazione di una canzone dalla playlist
+     */
+
+    // <editor-fold desc= "Apertura UI per eliminazione di una canzone dalla playlist">
     private void eliminaCanzoneDaPlaylist(){
         EliminaCanzonePlaylistUI edp = new EliminaCanzonePlaylistUI();
         edp.eliminaCanzoneDaPlaylist();
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *       Metodo che apre l'interfaccia per la visualizzazione delle canzoni di una playlist
+     */
+
+    // <editor-fold desc= "Apertura UI per la visualizzazione di canzoni di una playlist">
     private void visualizzaCanzoniPlaylist(){
         VisualizzaCanzoniPlaylist vcp = new VisualizzaCanzoniPlaylist();
         vcp.visualizzaCanzoni();
     }
-
+// </editor-fold>
 }
