@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 /**
  * @author Emilio Toli
- *          Classe che gestisce l'interfaccia utente del menu principale
+ *          Classe che gestisce l'interfaccia utente del menu dell'area personale
  */
 
 public class MenuAreaPersonaleUI extends JFrame {

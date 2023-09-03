@@ -11,10 +11,28 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * @author Emilio Toli
+ *           Classe che gestisce l'interfaccia utente del menu principale
+ *
+ */
+
 public class MenuPrincipaleUI extends JFrame {
+
+    // <editor-fold desc= "Attributi">
     private static ServerInterfaceNonLoggato interfaceNonLoggato;
     private static ServerInterfaceLoggato interfaceLoggato;
+    // </editor-fold>
 
+
+    /**
+     * @author Emilio Toli
+     * @throws RemoteException
+     *      Metodo che crea l'interfaccia utente con i pulsanti e che chiama i metodi degli eventi
+     *      relativi ad essi
+     */
+
+    // <editor-fold desc= "Menu' Principale">
     public void mainMenu() throws RemoteException {
 
         setTitle("Emotional Songs - Main Menu'");
@@ -113,16 +131,35 @@ public class MenuPrincipaleUI extends JFrame {
         add(buttonPanel, BorderLayout.CENTER);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @param button
+     *      Metodo per regolare la dimensione di un pulsante
+     */
+    // <editor-fold desc= "Dimensione pulsante">
     private void setButtonSize(JButton button) {
         button.setPreferredSize(new Dimension(250, 50));
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *      Metodo per l'apertura dell'interfaccia dell'area personale
+     */
+    // <editor-fold desc= "Apertura area personale">
     private void apriAreaPersonale() {
         MenuAreaPersonaleUI areaPersonale = new MenuAreaPersonaleUI();
         areaPersonale.areaPersonale();
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *       Metodo che apre l'interfaccia per il login e che gestisce i messaggi di errore
+     */
+    // <editor-fold desc= "Apertura login">
     private void eseguiLogin() {
         if (!Client.isLoggato) {
             LoginUI interfacciaLogin = new LoginUI();
@@ -142,7 +179,15 @@ public class MenuPrincipaleUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Sei già loggato", "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @param controllo
+     *      Metodo per il controllo dello stato corrente di login
+     *      affinchè si possa aprire il menu' area personale
+     */
+    // <editor-fold desc= "Controllo del login">
     private void controlloLogin(boolean controllo) {
         if (controllo) {
             apriAreaPersonale();
@@ -151,7 +196,14 @@ public class MenuPrincipaleUI extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *       Metodo che apre l'interfaccia per la registrazione di un nuovo utente
+     *       e per la gestione dei vari messaggi di errore
+     */
+    // <editor-fold desc= "Apertura UI per Registrazione">
     private void registrazione() {
         RegistrazioneUI registraUtente = new RegistrazioneUI();
         registraUtente.registrazioneUI(new RegistrazioneCallback() {
@@ -213,18 +265,36 @@ public class MenuPrincipaleUI extends JFrame {
             }
         });
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *       Metodo che apre l'interfaccia per la ricerca di una canzone dato il titolo in input
+     */
+    // <editor-fold desc= "Apertura UI per la ricerca di una canzone per titolo">
     private void ricercaPerTitolo() {
         RicercaTitoloUI ricercaTitolo = new RicercaTitoloUI();
         ricercaTitolo.ricercaTitolo();
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *       Metodo che apre l'interfaccia per la ricerca di una canzone dati autore ed anno in input
+     */
+    // <editor-fold desc= "Apertura UI per la ricerca di una canzone per autore ed anno">
     private void ricercaPerAutoreAnno() {
         RicercaAutoreAnnoUI ricercaAutoreAnno = new RicercaAutoreAnnoUI();
         ricercaAutoreAnno.ricercaCanzone();
 
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *       Metodo che apre l'interfaccia per effettuare il logout
+     */
+    // <editor-fold desc= "Apertura UI per effettuare il logout">
     public void logout() {
 
         if (Client.isLoggato) {
@@ -237,8 +307,16 @@ public class MenuPrincipaleUI extends JFrame {
         }
     }
 
+    // </editor-fold>
+
+    /**
+     * @author Emilio Toli
+     *       Metodo Main che apre il menu' principale all'avvio dell'applicazione
+     */
+    // <editor-fold desc= "METODO MAIN PER APERTURA MENU PRINCIPALE">
     public static void main(String[] args) throws RemoteException {
         MenuPrincipaleUI m = new MenuPrincipaleUI();
         m.mainMenu();
     }
+    // </editor-fold>
 }
