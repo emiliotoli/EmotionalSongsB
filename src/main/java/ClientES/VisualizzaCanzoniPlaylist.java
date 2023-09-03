@@ -9,13 +9,25 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * @author Emilio Toli
+ *          Classe che gestisce la UI che permette di visualizzare le canzoni presenti in una playlist
+ */
+
 public class VisualizzaCanzoniPlaylist extends JFrame {
+    // <editor-fold desc= "Attributi">
     private JTextField playlistNameField;
     private JTextField songTitleField;
     private JTextField songAuthorField;
     private int val;
     private ArrayList<Canzone> songList;
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     *      Metodo che crea la UI e che alla fine chiama il metodo per mostrare le canzoni
+     */
+    // <editor-fold desc= "Visualizza canzoni">
     public void visualizzaCanzoni() {
         setTitle("Elimina canzone dalla Playlist");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -50,7 +62,16 @@ public class VisualizzaCanzoniPlaylist extends JFrame {
 
         });
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @param songList
+     * @param nomePlaylist
+     *      Metodo che permette di mostrare le canzoni di una playlist aprendo un popup
+     */
+
+    // <editor-fold desc= "Apertura popup e visualizzazione canzoni">
     private void showSongListPopup(ArrayList<Canzone> songList , String nomePlaylist) {
         if(songList==null){
             JOptionPane.showMessageDialog(VisualizzaCanzoniPlaylist.this, "Nome Playlist errato!.");
@@ -76,6 +97,6 @@ public class VisualizzaCanzoniPlaylist extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+// </editor-fold>
 
 }
