@@ -3,6 +3,7 @@ package ClientES;
 import ClientES.Client;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +24,9 @@ public class RicercaAutoreAnnoUI extends JFrame {
     private JTextField annoField;
     private JButton submitButton;
     // </editor-fold>
+    private static final Color textColor = new Color(76, 79, 105);
+    private static final Color background = new Color(204, 208, 218);
+
 
     /**
      * @author Emilio Toli
@@ -116,7 +120,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
             JScrollPane scrollPane = new JScrollPane(textArea);
             JButton visualizzaEmozioniButton = new JButton("Visualizza Emozioni");
-
+            JButton insertEmotionsButton = new JButton("Inserisci Emozioni");
             visualizzaEmozioniButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
@@ -127,8 +131,24 @@ public class RicercaAutoreAnnoUI extends JFrame {
                 }
             });
 
+            insertEmotionsButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    try {
+                        handleInsertEmotions();
+                    } catch (RemoteException remoteException) {
+                        remoteException.printStackTrace();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+
             JPanel buttonPanel = new JPanel();
             buttonPanel.add(visualizzaEmozioniButton);
+            buttonPanel.add(insertEmotionsButton);
 
             JPanel mainPanel = new JPanel(new BorderLayout());
             mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -190,5 +210,105 @@ public class RicercaAutoreAnnoUI extends JFrame {
         }
     }
     // </editor-fold>
+    private void handleInsertEmotions() throws IOException, SQLException {
+        JTextField titoloField = new JTextField(20);
+        JTextField autoreField = new JTextField(20);
+        JTextField notaEmozione = new JTextField(50);
+        JTextField spiegazioneEmozione = new JTextField(50);
+        JTextField intensitàEmozione = new JTextField(1);
 
+        JPanel insertEmotion = new JPanel();
+        insertEmotion.setLayout(new GridLayout(6, 2));
+        insertEmotion.setSize(500, 500);
+        insertEmotion.setLocation(430, 100);
+
+        String[] emotions = { "Amazement", "Solemnity", "Tenderness", "Nostalgia", "Calmness", "Power", "Joy",
+                "Tension", "Sadness" };
+        final JComboBox<String> emotionComboBox = new JComboBox<>(emotions);
+
+        insertEmotion.add(new JLabel("Inserisci titolo: "));
+        insertEmotion.add(titoloField);
+        insertEmotion.add(new JLabel("Autore: "));
+        insertEmotion.add(autoreField);
+        insertEmotion.add(new JLabel("Seleziona Emozione:"));
+        insertEmotion.add(emotionComboBox);
+        insertEmotion.add(new JLabel("Intensità emozione:"));
+        insertEmotion.add(intensitàEmozione);
+        insertEmotion.add(new JLabel("nota emozione"));
+        insertEmotion.add(notaEmozione);
+        insertEmotion.add(new JLabel("spiegazione emozione"));
+        insertEmotion.add(spiegazioneEmozione);
+
+        int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String selectedEmotion = (String) emotionComboBox.getSelectedItem();
+            String titolo = titoloField.getText();
+            String autore = autoreField.getText();
+            String nota = notaEmozione.getText();
+            String spiegazione = spiegazioneEmozione.getText();
+            String intensitàStr = intensitàEmozione.getText();
+
+            if (titolo.isEmpty() || autore.isEmpty() || nota.isEmpty() || spiegazione.isEmpty() || intensitàStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Tutti i campi devono essere completati.", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!isValidInt(intensitàStr)) {
+                JOptionPane.showMessageDialog(this, "Intensità emozione deve essere un numero intero.", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int intensitaEmozione = Integer.parseInt(intensitàStr);
+
+            int inserimentoResult = Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titolo, autore, nota, spiegazione, intensitaEmozione);
+
+            switch (inserimentoResult) {
+                case 0:
+                    JOptionPane.showMessageDialog(this, "Inserimento nuova emozione effettuato", "Inserimento riuscito", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    break;
+                case -1:
+                    JOptionPane.showMessageDialog(this, "Intensità emozione deve essere compresa tra 1 e 5.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -2:
+                    JOptionPane.showMessageDialog(this, "Spiegazione troppo lunga. Non deve superare i 250 caratteri.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -3:
+                    JOptionPane.showMessageDialog(this, "Nota emozione troppo lunga. Non deve superare i 50 caratteri.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -4:
+                    JOptionPane.showMessageDialog(this, "Nota emozione o Spiegazione emozione non sono stati inseriti.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -5:
+                    JOptionPane.showMessageDialog(this, "Canzone o Autore non corrispondono.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -6:
+                    JOptionPane.showMessageDialog(this, "Accesso al server non riuscito.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
+        }
+    }
+    private boolean isValidLength(String text, int minLength, int maxLength) {
+        int length = text.length();
+        return length >= minLength && length <= maxLength;
+    }
+
+    public static void createButtons(JButton bt) {
+        Color borderColor = new Color(4, 165, 229);
+        int fontTextSize = 16;
+
+        bt.setPreferredSize(new Dimension(250, 50));
+        bt.setBorder(new LineBorder(borderColor, 1));
+        bt.setFont(new Font("Arial", Font.BOLD, fontTextSize));
+        bt.setForeground(textColor);
+    };
+
+    private boolean isValidInt(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
