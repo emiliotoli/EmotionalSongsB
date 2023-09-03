@@ -99,6 +99,8 @@ public class RicercaTitoloUI extends JFrame {
                         remoteException.printStackTrace();
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             });
@@ -120,7 +122,7 @@ public class RicercaTitoloUI extends JFrame {
         }
     }
 
-    private void handleInsertEmotions() throws RemoteException, SQLException {
+    private void handleInsertEmotions() throws IOException, SQLException {
         JTextField titoloField = new JTextField(20);
         JTextField autoreField = new JTextField(20);
         JTextField notaEmozione = new JTextField(50);
@@ -152,42 +154,61 @@ public class RicercaTitoloUI extends JFrame {
         int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-           
-            //if (isValidLength(notaEmozione.getText(), 1, 50) && isValidLength(spiegazioneEmozione.getText(), 1, 250)) {
-                try {
-                    String selectedEmotion = (String) emotionComboBox.getSelectedItem();
-                    int inserimentoResult =Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titoloField.getText(), autoreField.getText(), notaEmozione.getText(), spiegazioneEmozione.getText(), Integer.parseInt(intensitàEmozione.getText()));
+            String selectedEmotion = (String) emotionComboBox.getSelectedItem();
+            String titolo = titoloField.getText();
+            String autore = autoreField.getText();
+            String nota = notaEmozione.getText();
+            String spiegazione = spiegazioneEmozione.getText();
+            String intensitàStr = intensitàEmozione.getText();
 
-                    switch (inserimentoResult) {
-                        case 0:
-                            JOptionPane.showMessageDialog(this, "Inserimento nuova emozione effettuato", "Inserimeto riuscito", JOptionPane.INFORMATION_MESSAGE);
-                            break;
-                        case -1:
-                            JOptionPane.showMessageDialog(this, "Il punteggio deve essere compreso tra 1 e 5.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
-                            break;
-                        case -2:
-                            JOptionPane.showMessageDialog(this, "Spiegazione troppo lunga. Non deve superare i 250 caratteri.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
-                            break;
-                        case -3:
-                            JOptionPane.showMessageDialog(this, "NotaEMozione troppo lunga. Non deve essere maggiore di 50 caratteri.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
-                        case -4:
-                            JOptionPane.showMessageDialog(this, "NotaEMozione o SpiegazioneEmozione non sono stati inseriti .", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
-                        case -5:
-                            JOptionPane.showMessageDialog(this, "Canzone o Autore non corrispondono.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
-                        case -6:
-                            JOptionPane.showMessageDialog(this, "Accesso al server non riuscito.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (NullPointerException | IOException exception) {
-                    exception.printStackTrace();
-                }
-            //} else {
-            //    JOptionPane.showMessageDialog(this,"Entrambi i campi nota emozione e spiegazione emozione devono avere una lunghezza compresa tra 1 e 100 caratteri.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
-            //}
-        } else {
-            JOptionPane.showMessageDialog(this, "Inserisci nuovamente le informazioni.", "Operazione annullata", JOptionPane.INFORMATION_MESSAGE);
+            if (titolo.isEmpty() || autore.isEmpty() || nota.isEmpty() || spiegazione.isEmpty() || intensitàStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Tutti i campi devono essere completati.", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!isValidInt(intensitàStr)) {
+                JOptionPane.showMessageDialog(this, "Intensità emozione deve essere un numero intero.", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int intensitaEmozione = Integer.parseInt(intensitàStr);
+
+            int inserimentoResult = Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titolo, autore, nota, spiegazione, intensitaEmozione);
+
+            switch (inserimentoResult) {
+                case 0:
+                    JOptionPane.showMessageDialog(this, "Inserimento nuova emozione effettuato", "Inserimento riuscito", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    break;
+                case -1:
+                    JOptionPane.showMessageDialog(this, "Intensità emozione deve essere compresa tra 1 e 5.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -2:
+                    JOptionPane.showMessageDialog(this, "Spiegazione troppo lunga. Non deve superare i 250 caratteri.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -3:
+                    JOptionPane.showMessageDialog(this, "Nota emozione troppo lunga. Non deve superare i 50 caratteri.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -4:
+                    JOptionPane.showMessageDialog(this, "Nota emozione o Spiegazione emozione non sono stati inseriti.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -5:
+                    JOptionPane.showMessageDialog(this, "Canzone o Autore non corrispondono.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case -6:
+                    JOptionPane.showMessageDialog(this, "Accesso al server non riuscito.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
         }
     }
 
+    private boolean isValidInt(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     private void handleVisualizzaEmozioni() throws RemoteException, SQLException {
         JTextField titoloField = new JTextField(20);
         JTextField autoreField = new JTextField(20);
