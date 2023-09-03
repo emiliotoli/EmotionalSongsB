@@ -20,6 +20,7 @@ public class EliminaPlaylistUI extends JFrame {
     private JTextField nomePlaylistField;
     private JButton submitButton;
     private JButton visualizzaPlaylistButton;
+    private JTextArea playlistTextArea;
     boolean res;
     private PlaylistDeletionCallback callback;
     // </editor-fold>
@@ -40,6 +41,9 @@ public class EliminaPlaylistUI extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         JPanel panel = new JPanel(new GridLayout(2, 1, 10, 10));
+
+        playlistTextArea = new JTextArea();
+        playlistTextArea.setEditable(false);
 
         nomePlaylistField = new JTextField(15);
         visualizzaPlaylistButton= new JButton("Visualizza tutte le playlist");
@@ -97,16 +101,7 @@ public class EliminaPlaylistUI extends JFrame {
     // </editor-fold>
 
     private void visualizza() throws RemoteException, SQLException {
-        JTextArea playlistTextArea = new JTextArea();
-        ArrayList<PlayList> listaPlaylist = Client.visualizzaPlaylist(Client.idGlobale);
-        if (listaPlaylist.isEmpty()) {
-            playlistTextArea.append("Nessuna playlist disponibile.");
-        } else {
-            for (PlayList pl : listaPlaylist) {
-                playlistTextArea.append(pl.getnomePlalist() + "\n");
-            }
-            JOptionPane.showMessageDialog(this, playlistTextArea.toString(), "Lista Playlist",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
+        VisualizzaPlaylistUI vp= new VisualizzaPlaylistUI();
+        vp.visualizzaPlaylist();
     }
 }
