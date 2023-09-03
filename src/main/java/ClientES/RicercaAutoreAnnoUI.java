@@ -156,6 +156,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Nessuna emozione corrispondente trovata.", "Emozioni",
                         JOptionPane.INFORMATION_MESSAGE);
             }
+            emozioni.clear();
         }
     }
 

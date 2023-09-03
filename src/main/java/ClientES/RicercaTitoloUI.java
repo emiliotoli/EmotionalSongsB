@@ -80,6 +80,7 @@ public class RicercaTitoloUI extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         handleVisualizzaEmozioni();
+
                     } catch (RemoteException remoteException) {
                         remoteException.printStackTrace();
                     } catch (SQLException throwables) {
@@ -87,6 +88,7 @@ public class RicercaTitoloUI extends JFrame {
                     }
                 }
             });
+
 
             insertEmotionsButton.addActionListener(new ActionListener() {
                 @Override
@@ -147,29 +149,42 @@ public class RicercaTitoloUI extends JFrame {
         insertEmotion.add(new JLabel("spiegazione emozione"));
         insertEmotion.add(spiegazioneEmozione);
 
-        int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
            
-            if (isValidLength(notaEmozione.getText(), 1, 50) && isValidLength(spiegazioneEmozione.getText(), 1, 250)) {
+            //if (isValidLength(notaEmozione.getText(), 1, 50) && isValidLength(spiegazioneEmozione.getText(), 1, 250)) {
                 try {
                     String selectedEmotion = (String) emotionComboBox.getSelectedItem();
-                    inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titoloField.getText(),
-                            autoreField.getText(),
-                            notaEmozione.getText(), spiegazioneEmozione.getText(),
-                            Integer.parseInt(intensitàEmozione.getText()));
+                    int inserimentoResult =Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titoloField.getText(), autoreField.getText(), notaEmozione.getText(), spiegazioneEmozione.getText(), Integer.parseInt(intensitàEmozione.getText()));
+
+                    switch (inserimentoResult) {
+                        case 0:
+                            JOptionPane.showMessageDialog(this, "Inserimento nuova emozione effettuato", "Inserimeto riuscito", JOptionPane.INFORMATION_MESSAGE);
+                            break;
+                        case -1:
+                            JOptionPane.showMessageDialog(this, "Il punteggio deve essere compreso tra 1 e 5.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
+                            break;
+                        case -2:
+                            JOptionPane.showMessageDialog(this, "Spiegazione troppo lunga. Non deve superare i 250 caratteri.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
+                            break;
+                        case -3:
+                            JOptionPane.showMessageDialog(this, "NotaEMozione troppo lunga. Non deve essere maggiore di 50 caratteri.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
+                        case -4:
+                            JOptionPane.showMessageDialog(this, "NotaEMozione o SpiegazioneEmozione non sono stati inseriti .", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
+                        case -5:
+                            JOptionPane.showMessageDialog(this, "Canzone o Autore non corrispondono.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
+                        case -6:
+                            JOptionPane.showMessageDialog(this, "Accesso al server non riuscito.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
+                    }
                 } catch (NullPointerException | IOException exception) {
                     exception.printStackTrace();
                 }
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "Entrambi i campi nota emozione e spiegazione emozione devono avere una lunghezza compresa tra 1 e 100 caratteri.",
-                        "Errore di validazione", JOptionPane.ERROR_MESSAGE);
-            }
+            //} else {
+            //    JOptionPane.showMessageDialog(this,"Entrambi i campi nota emozione e spiegazione emozione devono avere una lunghezza compresa tra 1 e 100 caratteri.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
+            //}
         } else {
-            JOptionPane.showMessageDialog(this, "Inserisci nuovamente le informazioni.", "Operazione annullata",
-                    JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Inserisci nuovamente le informazioni.", "Operazione annullata", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -208,6 +223,7 @@ public class RicercaTitoloUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Nessuna emozione corrispondente trovata.", "Emozioni",
                         JOptionPane.INFORMATION_MESSAGE);
             }
+            emozioni.clear();
         }
 
     }

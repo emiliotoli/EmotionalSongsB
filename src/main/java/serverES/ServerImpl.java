@@ -107,54 +107,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
             }
         }
     }
-    /*public synchronized boolean registrazione(String nome, String cognome, String codiceFiscale, String via, String numeroCivico, String cap , String comune, String provincia, String email, String userID, String password) throws RemoteException, SQLException {
-        Connection connInsertUtente = null;
-        PreparedStatement preparedStatement = null;
-        int capValue;
 
-        try {
-            connInsertUtente = new ConnessioneDBImpl().getConnection();
-
-            String queryInsert = "INSERT INTO utentiregistrati (nome, cognome, codicefiscale, via, numerocivico, comune, provincia, cap, userid, email, password) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-            preparedStatement = connInsertUtente.prepareStatement(queryInsert);
-
-            preparedStatement.setString(1, nome);
-            preparedStatement.setString(2, cognome);
-            preparedStatement.setString(3, codiceFiscale);
-            preparedStatement.setString(4, via);
-            preparedStatement.setString(5, numeroCivico);
-            preparedStatement.setString(6, comune);
-            preparedStatement.setString(7, provincia);
-            try {
-                capValue = Integer.parseInt(cap);
-                preparedStatement.setInt(8, capValue);
-            } catch (NumberFormatException e) {
-                // Gestisci l'eccezione, ad esempio fornendo un valore di default o segnalando un errore
-                System.out.println("Il valore di 'cap' non è un numero intero valido: " + cap);
-                return false; // o l'azione appropriata per la gestione degli errori
-            }
-            //preparedStatement.setString(8, cap );
-            preparedStatement.setString(9, userID);
-            preparedStatement.setString(10, email);
-            preparedStatement.setString(11, password);
-
-            System.out.println("Query contenente: " + queryInsert);
-            int rowsInserted = preparedStatement.executeUpdate();
-
-            return rowsInserted > 0;
-        } catch (Exception e) {
-            System.out.println("Errore durante l'inserimento");
-            e.printStackTrace();
-            return false;
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connInsertUtente != null) {
-                connInsertUtente.close();
-            }
-        }
-    }*/
 
     /**@author Stefano Farina
      * Metodo che effettua l'accesso di un utente con l'ID utente e la password forniti.
@@ -391,9 +344,14 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
                     infoEmozione.add(emozione);
                 }
             }
+
+
             else {
                 infoEmozione = null; // L'emozione non è stata trovata, impostiamo l'array a null
             }
+            preparedStatement.close();
+            searchEmozione.close();
+            query="";
             return infoEmozione;
         }catch(Exception e){
             System.out.println("Errore durante la ricerca della canzone per titolo: " + e.getMessage());

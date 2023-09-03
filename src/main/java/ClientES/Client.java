@@ -377,28 +377,37 @@ public class Client implements MetodiControlli_Client {
         accessoServerLoggato();
         if (interfaceNonLoggato == null) {
             System.out.println("L'interfaccia non è stata inizializzata correttamente");
-            return -3;
+            return -6;
         }
         boolean checkinfo;
         checkinfo=interfaceLoggato.checkInfoCanzone(titoloCanzone,autoreCanzone);
         if(checkinfo){
-            if(notaEmozione.length()<=50){
-                if(spiegazioneEmozione.length()<=250){
-                    emozioniPerCanzone= interfaceLoggato.inserisciEmozione(idUtente, nomeEmozione, titoloCanzone, autoreCanzone, notaEmozione, spiegazioneEmozione, punteggioEmozione);
-                    return 0;
+            if(notaEmozione != null && spiegazioneEmozione != null){
+                if(notaEmozione.length()<=50){
+                    if(spiegazioneEmozione.length()<=250){
+                        if (punteggioEmozione >= 1 && punteggioEmozione <= 5){
+                            emozioniPerCanzone= interfaceLoggato.inserisciEmozione(idUtente, nomeEmozione, titoloCanzone, autoreCanzone, notaEmozione, spiegazioneEmozione, punteggioEmozione);
+                            return 0;
+                        }
+                        else{
+                            return -1; //punteggio non compreso tra 1 e 5
+                        }
+                    }
+                    else{
+                        return -2; //Spiegazione troppo lunga. Non deve superare i 250 caratteri
+                    }
                 }
                 else{
-                    return -1; //Spiegazione troppo lunga. Non deve superare i 250 caratteri
+                    return -3; // nota troppo lunga. Non deve essere maggiore di 50 caratteri
                 }
-            }
-            else{
-                return -2; // nota troppo lunga. Non deve essere maggiore di 50 caratteri
+            }else{
+                System.out.println("nota o punteggio nullo");
+                return -4; //punteggio e nota non sono stati inseriti
             }
         }
         else{
             System.out.println("Effetta prima il login");
-            return -4; //canzone e autore non corrispondono
-
+            return -5; //canzone e autore non corrispondono
         }
     }
 
