@@ -11,10 +11,27 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * @author Emilio Toli
+ *      Classe per la gestione dell'interfaccia utente relativa alla ricerca
+ *      di un brano per autore e per anno
+ */
+
 public class RicercaAutoreAnnoUI extends JFrame {
+    // <editor-fold desc= "Attributi">
     private JTextField autoreField;
     private JTextField annoField;
     private JButton submitButton;
+    // </editor-fold>
+
+    /**
+     * @author Emilio Toli
+     *      Metodo per la creazione della UI e per la chiamata
+     *      dei metodi per la ricerca delle canzoni e delle emozioni
+     *      tramite l'evento di click del pulsante
+     */
+
+    // <editor-fold desc= "Ricerca canzone">
 
     public void ricercaCanzone() {
 
@@ -62,24 +79,27 @@ public class RicercaAutoreAnnoUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     handleSearch();
-                } catch (RemoteException remoteException) {
+                } catch (SQLException | IOException remoteException) {
                     remoteException.printStackTrace();
-                } catch (SQLException | IOException throwables) {
-                    throwables.printStackTrace();
                 }
             }
         });
 
         add(panel);
     }
+// </editor-fold>
 
-    // Resto del codice...
-
+    /**
+     * @author Emilio Toli
+     * @throws IOException
+     * @throws SQLException
+     *          Metodo chiamato al click del pulsante per la ricerca che
+     *          mostra le canzoni una volta inseriti autore ed anno
+     */
+    // <editor-fold desc= "Pulsante Cerca">
     private void handleSearch() throws IOException, SQLException {
         String autore = autoreField.getText();
         int anno = Integer.parseInt(annoField.getText()); // Assumendo che l'anno sia un intero
-
-        // Song[] matchingSongs = client.searchSongsByAuthorAndYear(autore, anno);
 
         ArrayList<Canzone> canzoni = Client.RicercaCanzoniAutoreAnno(autore, anno);
         if (!canzoni.isEmpty()) {
@@ -101,10 +121,8 @@ public class RicercaAutoreAnnoUI extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         handleVisualizzaEmozioni();
-                    } catch (RemoteException remoteException) {
+                    } catch (RemoteException | SQLException remoteException) {
                         remoteException.printStackTrace();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
                     }
                 }
             });
@@ -122,7 +140,19 @@ public class RicercaAutoreAnnoUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    // </editor-fold>
 
+    /**
+     * @author Emilio Toli
+     * @throws RemoteException
+     * @throws SQLException
+     *
+     *      Metodo che permette di visualizzare le emozioni associate
+     *      ad una canzone
+     */
+
+
+    // <editor-fold desc= "Visualizza le emozioni">
     private void handleVisualizzaEmozioni() throws RemoteException, SQLException {
         JTextField titoloField = new JTextField(20);
         JTextField autoreField = new JTextField(20);
@@ -159,5 +189,6 @@ public class RicercaAutoreAnnoUI extends JFrame {
             emozioni.clear();
         }
     }
+    // </editor-fold>
 
 }

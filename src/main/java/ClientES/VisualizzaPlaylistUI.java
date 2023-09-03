@@ -74,6 +74,5 @@ public class VisualizzaPlaylistUI extends JFrame {
             }
         }
     }
-    // </editor-fold>
-
+//</editor-fold>
 }
