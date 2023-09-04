@@ -148,7 +148,9 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
             JPanel buttonPanel = new JPanel();
             buttonPanel.add(visualizzaEmozioniButton);
-            buttonPanel.add(insertEmotionsButton);
+            if (Client.isLoggato) {
+                buttonPanel.add(insertEmotionsButton);
+            }
 
             JPanel mainPanel = new JPanel(new BorderLayout());
             mainPanel.add(scrollPane, BorderLayout.CENTER);
