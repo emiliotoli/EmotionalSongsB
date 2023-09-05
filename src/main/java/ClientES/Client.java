@@ -1,6 +1,13 @@
 package ClientES;
 
-
+/**
+ * Questa classe rappresenta un utente per l'applicazione di Emotional Songs.
+ * Fornisce metodi che l'utente puù otilizzare  per l'interazione con il server, inclusa la ricerca di canzoni,
+ * la gestione delle emozioni, la creazione di playlist e altro.
+ *
+ * @author Emilio Daverio - Stefano Farina
+ *
+ */
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,25 +59,21 @@ public class Client implements MetodiControlli_Client {
     static ServerInterfaceNonLoggato interfaceNonLoggato;
     static ServerInterfaceLoggato interfaceLoggato;
 
-    /**
-     *
-     * @param
-     * @author
-     *
+    /**@author Emilio Daverio - Stefano Farina
+     * Crea una nuova istanza del client. Inizializza le interfacce del server a null.
      */
     public Client(){
         interfaceNonLoggato = null; // Inizializza con null
         interfaceLoggato = null; // Inizializza con null
     }
 
-    /**
-     * @author
-     * Questo metodo serve per gestire le varie operazioni del client e ricevere le rosposte del server
-     * @throws IOException
-     * @throws ClassNotFoundException
-     * @throws NotBoundException
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che serve per avviare il client e stabilire una connessione al server utilizzando RMI.
+     *
+     * @throws IOException Se si verifica un errore di I/O durante la connessione
+     * @throws ClassNotFoundException Se si verifica un errore di classe non trovata
+     * @throws NotBoundException   Se si verifica un errore di binding RMI
      */
-
     public void exec() throws IOException, ClassNotFoundException, NotBoundException, SQLException {
 
         //creao collegamento server
@@ -88,189 +91,18 @@ public class Client implements MetodiControlli_Client {
             return;
 
         }
-
-        /** creo un menu dove faccio scegliere le operazioni che un utente può svolgere **/
-
-            do {
-                System.out.println("-----------------MENU' APPLICAZIONE-----------------");
-                System.out.println("Digitare 1 --> per ricercare una canzone per Titolo.");
-                System.out.println("Digitare 2 --> per ricercare una canzone per Autore, Anno.");
-                System.out.println("Digitare 3 --> per effettuare la Registrazione.");
-                System.out.println("Digitare 4 --> per effetuare il Login.");
-                System.out.println("Digitare 5 --> per accedere all'area Riservata.");
-                System.out.println("Digitare 6 --> per Terminare l'attivita'.");
-                System.out.println("\nOperazione scelta: ");
-
-                boolean controlloScelta=false;
-
-                    sceltaUtente = Integer.parseInt(br.readLine());
-                    switch (sceltaUtente) {
-                    case 1:
-                        // Gestisci l'operazione per la ricerca per Titolo
-                        RicercaCanzoniTitolo(titoloCanzone);
-                        break;
-
-                    case 2:
-                        // Gestisci l'operazione per la ricerca per Autore, Anno
-                        RicercaCanzoniAutoreAnno(autoreCanzone, annoCanzone);
-                        break;
-
-                    case 3:
-                        // Gestisci l'operazione per la registrazione
-                        registrazione(nome, cognome, codiceFiscale, via, numeroCivico, cap, comune, provincia, email, userID, password, p2);
-                        break;
-
-                    case 4:
-                        // Gestisci l'operazione per il login
-                        if(!isLoggato){
-                            login(userID, password);
-                        }
-                        else{
-                            System.out.println("Hai già effettuato l'accesso");
-                        }
-
-                        break;
-
-                    case 5:
-                        // Gestisci l'operazione per l'accesso all'area riservata
-
-                        if(!isLoggato) {
-                            System.out.println("Devi essere loggato prima di accedere all'area personale");
-                            System.out.println("Inserisci le credenziali di accesso: ");
-                            login(userID, password);
-                            if(!isLoggato){
-                                System.out.println("Non puoi accedere al menù principale");
-                                break;
-                            }
-                            else{
-                                System.out.println("puoi accedere all'area personale");
-
-                                 do{
-                                     System.out.println("----------------- MENU' AREA PERSONALE-----------------");
-                                     System.out.println("Digitare 1 --> per creare una playlist.");
-                                     System.out.println("Digitare 2 --> per visualizzare lista delle playlist.");
-                                     System.out.println("Digitare 3 --> per visualizzare le canzoni di  una playlist.");
-                                     System.out.println("Digitare 4 --> per aggiungere una canzone ad una playlist.");
-                                     System.out.println("Digitare 5 --> per rimuovere una canzone da una playlist.");
-                                     System.out.println("Digitare 6 --> per eliminare una playlist.");
-                                     System.out.println("Digitare 7 --> tornare al menù principale.");
-                                     System.out.println("Digitare 8 --> per eseguire il logout.");
-
-                                     System.out.println("\nOperazione scelta: ");
-                                     sceltaUtenteAreaPersonale = Integer.parseInt(br.readLine());
-
-                                     switch (sceltaUtenteAreaPersonale) {
-                                         case 1:
-                                             //Gestisci l'operazione per creare una Playlist
-                                             //creaPlayList(nomePlaylist);
-                                             break;
-
-                                         case 2:
-                                             //Gestisci l'operazione per visualizzare la lista delle Playlist
-                                             visualizzaPlaylist(nomePlaylist);
-                                             break;
-
-                                         case 3:
-                                             //Gestisci l'operazione per visualizzare le canzoni di  una playlist
-                                             break;
-
-                                         case 4:
-                                             //Gestisci l'operazione per aggiungere una canzone ad una playlist
-                                             break;
-
-                                         case 5:
-                                             //Gestisci l'operazione per rimuovere una canzone da una playlist
-                                             break;
-
-                                         case 6:
-                                             //Gestisci l'operazione per per eliminare una playlist
-                                             //eliminaPlalist(nomePlaylist);
-                                             break;
-
-                                         case 7:
-                                             //Gestisci l'operazione per tornare al menù principale
-                                             sceltaUtenteAreaPersonale=0;
-                                             break;
-
-                                         case 8:
-                                             //Gestisci l'operazione per per eseguire il logout
-                                             isLoggato=false;
-                                             sceltaUtenteAreaPersonale=0;
-                                             break;
-
-                                     }
-                                 }while(sceltaUtenteAreaPersonale!=0);
-
-                            }
-                        }
-                        else{
-                            System.out.println("-------------ok----------------");
-
-                            do{
-                                System.out.println("----------------- MENU' AREA PERSONALE-----------------");
-                                System.out.println("Digitare 1 --> per creare una playlist.");
-                                System.out.println("Digitare 2 --> per visualizzare lista delle playlist.");
-                                System.out.println("Digitare 3 --> per visualizzare le canzoni di  una playlist.");
-                                System.out.println("Digitare 4 --> per aggiungere una canzone ad una playlist.");
-                                System.out.println("Digitare 5 --> per rimuovere una canzone da una playlist.");
-                                System.out.println("Digitare 6 --> per eliminare una playlist.");
-                                System.out.println("Digitare 7 --> tornare al menù principale.");
-                                System.out.println("Digitare 8 --> per eseguire il logout.");
-
-                                System.out.println("\nOperazione scelta: ");
-                                sceltaUtenteAreaPersonale = Integer.parseInt(br.readLine());
-
-                                switch (sceltaUtenteAreaPersonale) {
-                                    case 1:
-                                        //Gestisci l'operazione per creare una Playlist
-                                        //creaPlayList(nomePlaylist);
-                                        break;
-
-                                    case 2:
-                                        //Gestisci l'operazione per visualizzare la lista delle Playlist
-                                        visualizzaPlaylist(nomePlaylist);
-                                        break;
-
-                                    case 3:
-                                        //Gestisci l'operazione per visualizzare le canzoni di  una playlist
-                                        break;
-
-                                    case 4:
-                                        //Gestisci l'operazione per aggiungere una canzone ad una playlist
-                                        break;
-
-                                    case 5:
-                                        //Gestisci l'operazione per rimuovere una canzone da una playlist
-                                        break;
-
-                                    case 6:
-                                        //Gestisci l'operazione per per eliminare una playlist
-                                        //eliminaPlalist(nomePlaylist);
-                                        break;
-
-                                    case 7:
-                                        //Gestisci l'operazione per tornare al menù principale
-                                        sceltaUtenteAreaPersonale=0;
-                                        break;
-
-                                    case 8:
-                                        //Gestisci l'operazione per per eseguire il logout
-                                        isLoggato=false;
-                                        sceltaUtenteAreaPersonale=0;
-                                        break;
-
-                                }
-                            }while(sceltaUtenteAreaPersonale!=0);
-                        }
-                    case 6:
-                        // Termina l'attività
-                        break;
-                }
-            } while (sceltaUtente != 6);
-
-            // Chiudi lo scanner dopo aver terminato
-            br.close();
     }
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che ricerca le informazioni sulle canzoni in base al titolo.
+     *
+     * @param titoloCanzone Titolo della canzone da cercare
+     *
+     * @return Una lista di oggetti Canzone che corrispondono al titolo specificato
+     *
+     * @throws IOException Se si verifica un errore di I/O durante la ricerca
+     * @throws SQLException Se si verifica un errore di database SQL
+     */
     public static ArrayList<Canzone> RicercaCanzoniTitolo(String titoloCanzone) throws IOException, SQLException {
             accessoServerNonLoggato();
             if (interfaceNonLoggato == null) {
@@ -298,6 +130,19 @@ public class Client implements MetodiControlli_Client {
         }
         return informazioniCanzoneTitolo;
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che ricerca le informazioni sulle canzoni in base all'autore e all'anno.
+     *
+     * @param autoreCanzone Autore della canzone da cercare
+     * @param annoCanzone   Anno della canzone da cercare
+     *
+     * @return Una lista di oggetti Canzone che corrispondono all'autore e all'anno specificati
+     *
+     * @throws IOException Se si verifica un errore di I/O durante la ricerca
+     * @throws SQLException Se si verifica un errore di database SQL
+     */
     public static  ArrayList<Canzone> RicercaCanzoniAutoreAnno(String autoreCanzone, int annoCanzone) throws IOException, SQLException {
 
         accessoServerNonLoggato();
@@ -326,6 +171,19 @@ public class Client implements MetodiControlli_Client {
 
         return informazioniCanzoneAuoreAnno;
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che visualizza le emozioni associate a una specifica canzone identificata dal titolo e dall'autore.
+     *
+     * @param titoloCanzone  Titolo della canzone da cercare
+     * @param autoreCanzone  Autore della canzone da cercare
+     *
+     * @return Una lista di oggetti Emozione associate alla canzone specificata
+     *
+     * @throws SQLException Se si verifica un errore di SQL durante la query al database
+     * @throws RemoteException Se si verifica un errore di comunicazione remota
+     */
     public static ArrayList<Emozione> visualizzaEmozioniCanzone(String titoloCanzone, String autoreCanzone ) throws SQLException, RemoteException {
 
         accessoServerNonLoggato();
@@ -372,6 +230,24 @@ public class Client implements MetodiControlli_Client {
         }
         return emozioniDellaCanzone;
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che inserisce una nuova emozione associata a una canzone nel sistema.
+     *
+     * @param idUtente Identificativo dell'utente che inserisce l'emozione
+     * @param nomeEmozione Nome dell'emozione da inserire
+     * @param titoloCanzone Titolo della canzone a cui è associata l'emozione
+     * @param autoreCanzone Autore della canzone a cui è associata l'emozione
+     * @param notaEmozione Nota aggiuntiva sull'emozione
+     * @param spiegazioneEmozione Spiegazione dettagliata dell'emozione
+     * @param punteggioEmozione Punteggio associato all'emozione (deve essere compreso tra 1 e 5)
+     *
+     * @return 0 se l'inserimento è riuscito con successo, altrimenti un codice di errore
+     *
+     * @throws IOException Se si verifica un errore di I/O durante l'inserimento
+     * @throws SQLException Se si verifica un errore di SQL durante l'inserimento nel database
+     */
     public static int inserisciNuovaEmozione(String idUtente, String nomeEmozione,String titoloCanzone, String autoreCanzone, String notaEmozione, String spiegazioneEmozione, int punteggioEmozione  ) throws IOException, SQLException {
 
         accessoServerLoggato();
@@ -411,6 +287,29 @@ public class Client implements MetodiControlli_Client {
         }
     }
 
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che registra un nuovo utente nel sistema.
+     *
+     * @param nome Nome dell'utente
+     * @param cognome Cognome dell'utente
+     * @param codiceFiscale Codice fiscale dell'utente
+     * @param via Via dell'utente
+     * @param numeroCivico Numero civico dell'utente
+     * @param cap CAP dell'utente
+     * @param comune Comune dell'utente
+     * @param provincia Provincia dell'utente
+     * @param email Indirizzo email dell'utente
+     * @param userID Nome utente (ID) scelto dall'utente
+     * @param password Password dell'utente
+     * @param p2 Conferma della password dell'utente
+     *
+     * @return 0 se la registrazione è riuscita con successo, altrimenti un codice di errore
+     *
+     * @throws NotBoundException Se si verifica un errore durante il binding RMI
+     * @throws IOException Se si verifica un errore di I/O durante la registrazione
+     * @throws SQLException Se si verifica un errore di SQL durante la registrazione nel database
+     */
     public static int registrazione(String nome, String cognome, String codiceFiscale, String via, String  numeroCivico, String cap, String comune, String provincia, String email, String userID, String password, String p2) throws NotBoundException, IOException, SQLException {
         accessoServerNonLoggato();
         if (interfaceNonLoggato == null) {
@@ -487,6 +386,18 @@ public class Client implements MetodiControlli_Client {
 
         return 0;
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che esegue il login di un utente nel sistema.
+     *
+     * @param userID Nome utente (ID) dell'utente
+     * @param password Password dell'utente
+     *
+     * @return True se il login è riuscito, altrimenti False
+     *
+     * @throws IOException Se si verifica un errore di I/O durante il login
+     */
     public static boolean login(String userID, String password) throws IOException {
 
         accessoServerNonLoggato();
@@ -507,6 +418,19 @@ public class Client implements MetodiControlli_Client {
             return false;
         }
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che crea una nuova playlist con il nome specificato per un utente identificato da userID.
+     *
+     * @param nomePlaylist Nome della playlist da creare
+     * @param userID Identificativo dell'utente
+     *
+     * @return 0 se la creazione è riuscita con successo, 1 se il nome della playlist esiste già, -1 se la creazione non è riuscita
+     *
+     * @throws IOException Se si verifica un errore di I/O durante l'operazione
+     * @throws SQLException Se si verifica un errore di SQL durante l'operazione
+     */
     public static int creaPlayList(String nomePlaylist, String userID) throws IOException, SQLException {
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
@@ -535,6 +459,18 @@ public class Client implements MetodiControlli_Client {
             return -1; //creazione non riuscita
         }
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che visualizza le playlist associate a un utente identificato da userID.
+     *
+     * @param userID Identificativo dell'utente
+     *
+     * @return Una lista di oggetti PlayList associate all'utente
+     *
+     * @throws RemoteException Se si verifica un errore di comunicazione remota
+     * @throws SQLException Se si verifica un errore di SQL durante l'operazione
+     */
     public static ArrayList<PlayList> visualizzaPlaylist(String userID) throws RemoteException, SQLException {
 
         accessoServerLoggato();
@@ -552,6 +488,18 @@ public class Client implements MetodiControlli_Client {
         }
         return playlistUtente;
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che elimina una playlist associata all' utente identificato da userID.
+     *
+     * @param nomePlaylist Nome della playlist da eliminare
+     *
+     * @return 0 se l'eliminazione è riuscita con successo, 1 se l'eliminazione non è riuscita, -1 se il nome della playlist non esiste
+     *
+     * @throws IOException Se si verifica un errore di I/O durante l'operazione
+     * @throws SQLException Se si verifica un errore di SQL durante l'operazione
+     */
     public static int eliminaPlaylist(String nomePlaylist) throws IOException, SQLException {
 
         accessoServerLoggato();
@@ -577,6 +525,21 @@ public class Client implements MetodiControlli_Client {
         }
 
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che aggiunge una canzone in una playlist specificata per un utente identificato da userID.
+     *
+     * @param nomePlaylist Nome della playlist a cui aggiungere la canzone
+     * @param userID Identificativo dell'utente
+     * @param titoloCanzone Titolo della canzone da aggiungere
+     * @param autoreCanzone Autore della canzone da aggiungere
+     *
+     * @return 0 se l'aggiunta è riuscita con successo, 1 se l'aggiunta non è riuscita, -1 se il nome della playlist non esiste
+     *
+     * @throws RemoteException Se si verifica un errore di comunicazione remota
+     * @throws SQLException Se si verifica un errore di SQL durante l'operazione
+     */
     public static int aggiuntaCanzoniPlaylist (String nomePlaylist, String userID, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
         accessoServerLoggato();
         if (interfaceNonLoggato == null) {
@@ -600,6 +563,21 @@ public class Client implements MetodiControlli_Client {
             return -1; //nome playlist inesistente
         }
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che elimina una canzone da una playlist specificata per un utente identificato da userID.
+     *
+     * @param nomePlaylist Nome della playlist da cui eliminare la canzone
+     * @param userID Identificativo dell'utente
+     * @param titoloCanzone Titolo della canzone da eliminare
+     * @param autoreCanzone Autore della canzone da eliminare
+     *
+     * @return 0 se l'eliminazione è riuscita con successo, 1 se l'eliminazione non è riuscita, -1 se il nome della playlist non esiste, -3 se le informazioni sulla canzone non sono state trovate
+     *
+     * @throws RemoteException Se si verifica un errore di comunicazione remota
+     * @throws SQLException Se si verifica un errore di SQL durante l'operazione
+     */
     public static int eliminaCanzoniPlaylist(String nomePlaylist, String userID, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
         accessoServerLoggato();
         if (interfaceNonLoggato == null) {
@@ -628,6 +606,19 @@ public class Client implements MetodiControlli_Client {
             return -1; // nome playlist inesistente
         }
     }
+
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che visualizza le canzoni associate a una playlist specificata per un utente identificato da userID.
+     *
+     * @param idUtente Identificativo dell'utente
+     * @param nomePlaylist Nome della playlist da cui visualizzare le canzoni
+     *
+     * @return Una lista di oggetti Canzone associate alla playlist specificata
+     *
+     * @throws RemoteException Se si verifica un errore di comunicazione remota
+     * @throws SQLException Se si verifica un errore di SQL durante l'operazione
+     */
     public static ArrayList<Canzone> visualizzaCanzoniPlaylist(String idUtente, String nomePlaylist) throws RemoteException, SQLException {
         accessoServerLoggato();
         if (interfaceLoggato == null) {
@@ -661,6 +652,14 @@ public class Client implements MetodiControlli_Client {
     }
 
 
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che effettua l'accesso al server quando l'utente non è loggato.
+     * Questo metodo stabilisce una connessione al server utilizzando il registro RMI sulla porta 1099
+     * e recupera l'interfaccia ServerInterfaceNonLoggato per interagire con il server.
+     *
+     * @throws RemoteException Se si verifica un errore di comunicazione remota durante la connessione al server
+     */
     private static void accessoServerNonLoggato() throws RemoteException {
         Registry registroNonLoggato= LocateRegistry.getRegistry(1099);
 
@@ -675,6 +674,14 @@ public class Client implements MetodiControlli_Client {
             System.out.println("Collegamento al Server--> Fallito" +"\n");
         }
     }
+
+    /**@author Emilio Daverio - Stefano Farina
+     * Metodo che effettua l'accesso al server quando l'utente è loggato.
+     * Questo metodo stabilisce una connessione al server utilizzando il registro RMI sulla porta 1099
+     * e recupera l'interfaccia ServerInterfaceLoggato per interagire con il server.
+     *
+     * @throws RemoteException Se si verifica un errore di comunicazione remota durante la connessione al server
+     */
     private static void accessoServerLoggato() throws RemoteException {
         Registry registroLoggato= LocateRegistry.getRegistry(1099);
 
@@ -690,32 +697,6 @@ public class Client implements MetodiControlli_Client {
         }
     }
 
-     public static ArrayList<Canzone> ricercaCanzoneTitoloInPlaylist(String idUtente, String titoloCanzone, String autoreCanzone) throws RemoteException, SQLException {
-        accessoServerLoggato();
-        if (interfaceNonLoggato == null) {
-            System.out.println("L'interfaccia non è stata inizializzata correttamente");
-            return new ArrayList<>(); // o gestisci l'errore come meglio credi
-        }
-        informazioniCanzoneTitoloinPlaylist = (ArrayList<Canzone>) interfaceLoggato.ricercaCanzoneTitoloInPlaylist(idUtente, titoloCanzone, autoreCanzone);
-
-        //elaboro la risposta
-        if (!informazioniCanzoneTitoloinPlaylist.isEmpty()){
-            for (Canzone canzone : informazioniCanzoneTitoloinPlaylist) {
-                titoloCanzone = canzone.getTitoloCanzone();
-                autoreCanzone = canzone.getAutoreCanzone();
-                annoCanzone = canzone.getAnnoCanzone();
-
-                System.out.println("Titolo: " + titoloCanzone);
-                System.out.println("Autore: " + autoreCanzone);
-                System.out.println("Anno: " + annoCanzone);
-                System.out.println();
-            }
-        }
-        else {
-            System.out.println("Canzone non trovata");
-        }
-        return informazioniCanzoneTitoloinPlaylist;
-    }
 
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException, SQLException {
         String identifier = null;

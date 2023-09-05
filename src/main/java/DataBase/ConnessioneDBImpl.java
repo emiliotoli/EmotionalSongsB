@@ -23,16 +23,14 @@ import java.sql.*;
 public class ConnessioneDBImpl extends UnicastRemoteObject implements ConnessioneDBInterface {
     //private static final String DB_URL = "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B";
     /*
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B";
+
+     */
+
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "Kira0109@!";
-     */
-    private static final String DB_URL = "jdbc:postgresql://172.17.0.2:5432/postgreslab";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "password";
     private static ConnessioneDBImpl instance;
-
-
+    static String nomeDB="EmotionalSongsB";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/EmotionalSongs_lab_B";
 
     /**
      * @author Emilio Daverio
@@ -43,6 +41,7 @@ public class ConnessioneDBImpl extends UnicastRemoteObject implements Connession
     public ConnessioneDBImpl() throws RemoteException {
         super();
     }
+
 
     /**
      * @author Emilio Daverio
@@ -65,7 +64,6 @@ public class ConnessioneDBImpl extends UnicastRemoteObject implements Connession
         return instance;
     }
 
-
     /**
      * @author Emilio Daverio
      * Metodo che serve per ottenere una connessione al database PostgreSQL.
@@ -85,6 +83,8 @@ public class ConnessioneDBImpl extends UnicastRemoteObject implements Connession
             System.out.println("ERRORE-->Connessione al DATA_BASE fallita");
             e.printStackTrace();
         }
+
+
         return connection;
     }
 }
