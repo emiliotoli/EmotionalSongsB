@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 /**
  * @author Emilio Toli
- *      Classe per l'aggiunta di canzoni in
- *      una playlist
+ *         Classe per l'aggiunta di canzoni in
+ *         una playlist
  */
 
 public class AggiungiCanzonePlaylistUI extends JFrame {
@@ -25,8 +25,9 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
 
     /**
      * @author Emilio Toli
-     *      Metodo per la creazione dell'interfaccia utente e per la gestione dei click sui pulsanti
-     *      Mostra inoltre la lista di canzoni che hanno il titolo cercato
+     *         Metodo per la creazione dell'interfaccia utente e per la gestione dei
+     *         click sui pulsanti
+     *         Mostra inoltre la lista di canzoni che hanno il titolo cercato
      */
     // <editor-fold desc= "Aggiunta canzoni alla playlist">
     public void aggiungiCanzoniAPlaylist() {
@@ -51,8 +52,9 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
         add(songAuthorLabel);
         add(songAuthorField);
 
-        JButton searchButton = new JButton("Ricerca Canzoni");
-        JButton submitButton = new JButton("Submit");
+        JButton searchButton = GraphicUtils.createButtons("Ricerca Canzoni");
+        JButton submitButton = GraphicUtils.createButtons("Ricerca");
+
 
         add(searchButton);
         add(submitButton);
@@ -112,10 +114,12 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
 
     /**
      * @author Emilio Toli
-     * @param songList Lista delle canzoni che l'utente ricerca prima di inserirle in playlist
+     * @param songList Lista delle canzoni che l'utente ricerca prima di inserirle
+     *                 in playlist
      *
-     *          Metodo per la visualizzazione a video di tutte le canzoni che vengono ricercate
-     *          usando la funzione cerca canzone
+     *                 Metodo per la visualizzazione a video di tutte le canzoni che
+     *                 vengono ricercate
+     *                 usando la funzione cerca canzone
      */
     // <editor-fold desc= "Visualizza canzoni per titolo a video">
     private void showSongListPopup(ArrayList<Canzone> songList) {
@@ -140,5 +144,5 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-// </editor-fold>
+    // </editor-fold>
 }

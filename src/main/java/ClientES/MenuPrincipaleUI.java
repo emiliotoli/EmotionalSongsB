@@ -8,12 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 /**
  * @author Emilio Toli
- *           Classe che gestisce l'interfaccia utente del menu principale
+ *         Classe che gestisce l'interfaccia utente del menu principale
  *
  */
 
@@ -24,24 +22,24 @@ public class MenuPrincipaleUI extends JFrame {
     private static ServerInterfaceLoggato interfaceLoggato;
     // </editor-fold>
 
-
     /**
      * @author Emilio Toli
      * @throws RemoteException
-     *      Metodo che crea l'interfaccia utente con i pulsanti e che chiama i metodi degli eventi
-     *      relativi ad essi
+     *                         Metodo che crea l'interfaccia utente con i pulsanti e
+     *                         che chiama i metodi degli eventi
+     *                         relativi ad essi
      */
 
     // <editor-fold desc= "Menu' Principale">
     public void mainMenu() throws RemoteException {
 
-        setTitle("Emotional Songs - Main Menu'");
+        setTitle("Emotional Songs - Main Menu");
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        JLabel label = new JLabel("Menu' Principale");
-        label.setFont(new Font("Arial", Font.BOLD, 24)); // Imposta il font e la dimensione
+        JLabel label = new JLabel("Menu Principale Emotional Songs");
+        label.setFont(new Font("Arial", Font.BOLD, 30)); // Imposta il font e la dimensione
         label.setHorizontalAlignment(JLabel.CENTER);
         add(label, BorderLayout.NORTH);
 
@@ -52,19 +50,9 @@ public class MenuPrincipaleUI extends JFrame {
         gbc.insets.top = 10;
         gbc.insets.bottom = 10;
 
-        JButton ricercaTitoloButton = new JButton("Ricerca canzone per titolo");
-        setButtonSize(ricercaTitoloButton);
+        JButton ricercaTitoloButton = GraphicUtils.createButtons("Ricerca per Titolo");
         buttonPanel.add(ricercaTitoloButton, gbc);
         gbc.gridy++;
-
-        try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            interfaceNonLoggato = (ServerInterfaceNonLoggato) registry.lookup("ServerEmotionalSongs");
-            // Inizializza l'interfaccia nel ClientBridge
-            ClientBridge.setInterfaceNonLoggato(interfaceNonLoggato);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         ricercaTitoloButton.addActionListener(new ActionListener() {
             @Override
@@ -73,8 +61,7 @@ public class MenuPrincipaleUI extends JFrame {
             }
         });
 
-        JButton ricercaAutoreAnnoButton = new JButton("Ricerca canzone per autore e anno");
-        setButtonSize(ricercaAutoreAnnoButton);
+        JButton ricercaAutoreAnnoButton = GraphicUtils.createButtons("Ricerca per autore e anno");
         buttonPanel.add(ricercaAutoreAnnoButton, gbc);
         gbc.gridy++;
         ricercaAutoreAnnoButton.addActionListener(new ActionListener() {
@@ -84,10 +71,10 @@ public class MenuPrincipaleUI extends JFrame {
             }
         });
 
-        JButton registrazioneButton = new JButton("Registrati");
-        setButtonSize(registrazioneButton);
+        JButton registrazioneButton = GraphicUtils.createButtons("Registrati");
         buttonPanel.add(registrazioneButton, gbc);
         gbc.gridy++;
+
         registrazioneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,21 +82,11 @@ public class MenuPrincipaleUI extends JFrame {
             }
         });
 
-        JButton loginButton = new JButton("Effettua il Login");
-        setButtonSize(loginButton);
-        buttonPanel.add(loginButton, gbc);
-        gbc.gridy++;
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                eseguiLogin();
-            }
-        });
-
-        JButton areaPersonaleButton = new JButton("Area Personale");
-        setButtonSize(areaPersonaleButton);
+        JButton areaPersonaleButton = GraphicUtils.createButtons("Area Personale");
         buttonPanel.add(areaPersonaleButton, gbc);
         gbc.gridy++;
+        areaPersonaleButton.setVisible(false);
+
         areaPersonaleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,50 +94,54 @@ public class MenuPrincipaleUI extends JFrame {
             }
         });
 
-        JButton logoutButton = new JButton("Logout");
-        setButtonSize(logoutButton);
+        JButton logoutButton = GraphicUtils.createButtons("Logout");
         buttonPanel.add(logoutButton, gbc);
         gbc.gridy++;
+        logoutButton.setVisible(false);
+
+        JButton loginButton = GraphicUtils.createButtons("Login");
+        buttonPanel.add(loginButton, gbc);
+        gbc.gridy++;
+
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logout();
+                logout(loginButton, registrazioneButton, logoutButton, areaPersonaleButton);
             }
         });
 
         add(buttonPanel, BorderLayout.CENTER);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+
+
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eseguiLogin(registrazioneButton, loginButton, logoutButton, areaPersonaleButton);
+            }
+        });
     }
-    // </editor-fold>
 
     /**
      * @author Emilio Toli
-     * @param button
-     *      Metodo per regolare la dimensione di un pulsante
-     */
-    // <editor-fold desc= "Dimensione pulsante">
-    private void setButtonSize(JButton button) {
-        button.setPreferredSize(new Dimension(250, 50));
-    }
-    // </editor-fold>
-
-    /**
-     * @author Emilio Toli
-     *      Metodo per l'apertura dell'interfaccia dell'area personale
+     *         Metodo per l'apertura dell'interfaccia dell'area personale
      */
     // <editor-fold desc= "Apertura area personale">
     private void apriAreaPersonale() {
         MenuAreaPersonaleUI areaPersonale = new MenuAreaPersonaleUI();
         areaPersonale.areaPersonale();
     }
+
     // </editor-fold>
 
     /**
      * @author Emilio Toli
-     *       Metodo che apre l'interfaccia per il login e che gestisce i messaggi di errore
+     *         Metodo che apre l'interfaccia per il login e che gestisce i messaggi
+     *         di errore
      */
     // <editor-fold desc= "Apertura login">
-    private void eseguiLogin() {
+    private void eseguiLogin(JButton bt1, JButton bt2, JButton bt3, JButton bt4) {
         if (!Client.isLoggato) {
             LoginUI interfacciaLogin = new LoginUI();
             interfacciaLogin.LoginGUI(new LoginCallback() {
@@ -169,6 +150,10 @@ public class MenuPrincipaleUI extends JFrame {
                     if (success) {
                         JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Login andato a buon fine", "Successo",
                                 JOptionPane.INFORMATION_MESSAGE);
+                        bt1.setVisible(false);
+                        bt2.setVisible(false);
+                        bt3.setVisible(true);
+                        bt4.setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Credenziali errate", "Errore",
                                 JOptionPane.ERROR_MESSAGE);
@@ -184,8 +169,8 @@ public class MenuPrincipaleUI extends JFrame {
     /**
      * @author Emilio Toli
      * @param controllo
-     *      Metodo per il controllo dello stato corrente di login
-     *      affinchè si possa aprire il menu' area personale
+     *                  Metodo per il controllo dello stato corrente di login
+     *                  affinchè si possa aprire il menu' area personale
      */
     // <editor-fold desc= "Controllo del login">
     private void controlloLogin(boolean controllo) {
@@ -200,8 +185,8 @@ public class MenuPrincipaleUI extends JFrame {
 
     /**
      * @author Emilio Toli
-     *       Metodo che apre l'interfaccia per la registrazione di un nuovo utente
-     *       e per la gestione dei vari messaggi di errore
+     *         Metodo che apre l'interfaccia per la registrazione di un nuovo utente
+     *         e per la gestione dei vari messaggi di errore
      */
     // <editor-fold desc= "Apertura UI per Registrazione">
     private void registrazione() {
@@ -269,7 +254,8 @@ public class MenuPrincipaleUI extends JFrame {
 
     /**
      * @author Emilio Toli
-     *       Metodo che apre l'interfaccia per la ricerca di una canzone dato il titolo in input
+     *         Metodo che apre l'interfaccia per la ricerca di una canzone dato il
+     *         titolo in input
      */
     // <editor-fold desc= "Apertura UI per la ricerca di una canzone per titolo">
     private void ricercaPerTitolo() {
@@ -280,27 +266,31 @@ public class MenuPrincipaleUI extends JFrame {
 
     /**
      * @author Emilio Toli
-     *       Metodo che apre l'interfaccia per la ricerca di una canzone dati autore ed anno in input
+     *         Metodo che apre l'interfaccia per la ricerca di una canzone dati
+     *         autore ed anno in input
      */
-    // <editor-fold desc= "Apertura UI per la ricerca di una canzone per autore ed anno">
+    // <editor-fold desc= "Apertura UI per la ricerca di una canzone per autore ed
+    // anno">
     private void ricercaPerAutoreAnno() {
         RicercaAutoreAnnoUI ricercaAutoreAnno = new RicercaAutoreAnnoUI();
         ricercaAutoreAnno.ricercaCanzone();
 
     }
-    // </editor-fold>
-
     /**
      * @author Emilio Toli
-     *       Metodo che apre l'interfaccia per effettuare il logout
+     *         Metodo che apre l'interfaccia per effettuare il logout
      */
     // <editor-fold desc= "Apertura UI per effettuare il logout">
-    public void logout() {
+    public void logout(JButton bt1, JButton bt2, JButton bt3, JButton bt4) {
 
         if (Client.isLoggato) {
             Client.isLoggato = false;
             JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Logout effettuato con successo!", "LOGOUT ",
                     JOptionPane.INFORMATION_MESSAGE);
+            bt1.setVisible(true);
+            bt2.setVisible(true);
+            bt3.setVisible(false);
+            bt4.setVisible(false);
         } else {
             JOptionPane.showMessageDialog(MenuPrincipaleUI.this, "Impossibile effettuare l'operazione \n" +
                     "Non sei loggato", "LOGOUT ", JOptionPane.INFORMATION_MESSAGE);
@@ -309,9 +299,11 @@ public class MenuPrincipaleUI extends JFrame {
 
     // </editor-fold>
 
+    // </editor-fold>
+
     /**
      * @author Emilio Toli
-     *       Metodo Main che apre il menu' principale all'avvio dell'applicazione
+     *         Metodo Main che apre il menu' principale all'avvio dell'applicazione
      */
     // <editor-fold desc= "METODO MAIN PER APERTURA MENU PRINCIPALE">
     public static void main(String[] args) throws RemoteException {

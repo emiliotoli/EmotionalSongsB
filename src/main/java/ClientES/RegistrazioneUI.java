@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 /**
  * @author Emilio Toli
- *          Classe che gestisce l'interfaccia utente per la registrazione
- *          di un nuovo user
+ *         Classe che gestisce l'interfaccia utente per la registrazione
+ *         di un nuovo user
  *
  */
 
@@ -26,8 +26,8 @@ public class RegistrazioneUI extends JFrame {
     /**
      * @author Emilio Toli
      * @param callback
-     *      Metodo per la creazione della UI e per la gestione
-     *      della chiamata del metodo privato associato al pulsante
+     *                 Metodo per la creazione della UI e per la gestione
+     *                 della chiamata del metodo privato associato al pulsante
      */
     // <editor-fold desc= "Registrazione">
     public void registrazioneUI(RegistrazioneCallback callback) {
@@ -52,21 +52,20 @@ public class RegistrazioneUI extends JFrame {
 
         gbc.anchor = GridBagConstraints.EAST;
         gbc.gridx = 0;
-
         for (int i = 0; i < labelNames.length; i++) {
-            JLabel label = new JLabel(labelNames[i]);
+            JLabel label = GraphicUtils.createLabels(labelNames[i]);
             gbc.gridy = i;
             panel.add(label, gbc);
 
             gbc.gridx = 1;
             gbc.anchor = GridBagConstraints.WEST;
 
-            JTextField textField = new JTextField(15);
+            JTextField textField = GraphicUtils.createTextFields(20);
             textFields[i] = textField; // Memorizza la casella di testo nell'array
             panel.add(textField, gbc);
             gbc.gridx = 0;
         }
-        JButton submitButton = new JButton("Submit");
+        JButton submitButton = GraphicUtils.createButtons("Registrazione");
         gbc.gridy = labelNames.length;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.PAGE_END;
@@ -95,8 +94,9 @@ public class RegistrazioneUI extends JFrame {
      * @throws SQLException
      * @throws NotBoundException
      *
-     *      Metodo privato chiamato al click del pulsante
-     *      Chiama il metodo della classe client per effettuare la registrazione
+     *                           Metodo privato chiamato al click del pulsante
+     *                           Chiama il metodo della classe client per effettuare
+     *                           la registrazione
      */
     // <editor-fold desc= "Invio dati registrazione">
     private void handleSubmit() throws IOException, SQLException, NotBoundException {
@@ -121,5 +121,5 @@ public class RegistrazioneUI extends JFrame {
         }
 
     }
-// </editor-fold>
+    // </editor-fold>
 }

@@ -3,7 +3,6 @@ ClientES/NuovaPlaylistUI.class
 ClientES/Canzone.class
 ClientES/RicercaAutoreAnnoUI$1.class
 ClientES/MenuAreaPersonaleUI$3.class
-ClientES/Client_Impl.class
 ClientES/PlaylistDeletionCallback.class
 ClientES/EliminaCanzonePlaylistUI.class
 ClientES/MenuPrincipaleUI$3.class
@@ -40,7 +39,6 @@ ClientES/MenuPrincipaleUI.class
 ClientES/MenuPrincipaleUI$8.class
 ClientES/MenuAreaPersonaleUI$1.class
 ClientES/LoginUI$1.class
-ClientES/ClientBridge.class
 ClientES/RicercaTitoloUI.class
 ClientES/RegistrazioneCallback.class
 ClientES/MenuAreaPersonaleUI.class
@@ -58,5 +56,6 @@ ClientES/MenuAreaPersonaleUI$2.class
 ClientES/MenuAreaPersonaleUI$5.class
 ClientES/LoginCallback.class
 ClientES/RicercaTitoloUI$3.class
+ClientES/GraphicUtils.class
 ClientES/RegistrazioneUI.class
 ClientES/AggiungiCanzonePlaylistUI.class

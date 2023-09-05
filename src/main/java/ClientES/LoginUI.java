@@ -8,7 +8,8 @@ import java.io.IOException;
 
 /**
  * @author Emilio Toli
- *      Classe che gestisce l'interfaccia utente per il login degli utilizzatori
+ *         Classe che gestisce l'interfaccia utente per il login degli
+ *         utilizzatori
  */
 
 public class LoginUI extends JFrame {
@@ -21,9 +22,10 @@ public class LoginUI extends JFrame {
     /**
      * @author Emilio Toli
      * @param callback
-     *          Metodo che crea l'interfaccia utente e che richiama un metodo
-     *          privato che effettuerà il login. Gestirà l'eventualità che il login non
-     *          vada a buon fine
+     *                 Metodo che crea l'interfaccia utente e che richiama un metodo
+     *                 privato che effettuerà il login. Gestirà l'eventualità che il
+     *                 login non
+     *                 vada a buon fine
      */
     // <editor-fold desc= "Gestione login">
     public void LoginGUI(LoginCallback callback) {
@@ -38,7 +40,7 @@ public class LoginUI extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
 
-        JLabel userIDLabel = new JLabel("User ID:");
+        JLabel userIDLabel = GraphicUtils.createLabels("Nome utente: ");
         userIDField = new JTextField(20);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -46,7 +48,7 @@ public class LoginUI extends JFrame {
         gbc.gridx = 1;
         panel.add(userIDField, gbc);
 
-        JLabel passwordLabel = new JLabel("Password:");
+        JLabel passwordLabel = GraphicUtils.createLabels("Password: ");
         passwordField = new JPasswordField(20);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -54,7 +56,7 @@ public class LoginUI extends JFrame {
         gbc.gridx = 1;
         panel.add(passwordField, gbc);
 
-        JButton loginButton = new JButton("Login");
+        JButton loginButton = GraphicUtils.createButtons("Login");
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
@@ -85,10 +87,12 @@ public class LoginUI extends JFrame {
 
     /**
      * @author Emilio Toli
-     * @return Viene ritornato un valore booleano per stabilire se il login ha avuto esito positivo
+     * @return Viene ritornato un valore booleano per stabilire se il login ha avuto
+     *         esito positivo
      * @throws IOException
-     *          Metodo per effettuare il login chiamando i metodi della classe Client
-     *          una volta che viene premuto il pulsante submit
+     *                     Metodo per effettuare il login chiamando i metodi della
+     *                     classe Client
+     *                     una volta che viene premuto il pulsante submit
      */
     // <editor-fold desc= "Gestione evento click e Login">
     private boolean performLogin() throws IOException {
