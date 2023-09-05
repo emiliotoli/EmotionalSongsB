@@ -10,6 +10,13 @@ public class GraphicUtils {
     private static final Color borderColor = new Color(4, 165, 229);
     private static final int fontTextSize = 16;
 
+    /**
+     * @author Cristian Stinga
+     * @param String text stringa mostrata dal pulsante
+     * @return Jbutton
+     *
+     * metodo che inizializza globalmente i pulsanti
+     */
     public static JButton createButtons(String text) {
         JButton bt = new JButton(text);
 
@@ -21,6 +28,13 @@ public class GraphicUtils {
         return bt;
     };
 
+    /**
+     * @author Cristian Stinga
+     * @param String text stringa mostrata dalla label
+     * @return Jlabel
+     *
+     * metodo che inizializza globalmente le label
+     */
     public static JLabel createLabels(String text) {
         JLabel lb = new JLabel(text);
 
@@ -30,6 +44,13 @@ public class GraphicUtils {
         return lb;
     }
 
+    /**
+     * @author Cristian Stinga
+     * @param int text larghezza etichetta
+     * @return JTextField
+     *
+     * metodo che inizializza globalmente i textfields
+     */
     public static JTextField createTextFields(int dim) {
         JTextField tf = new JTextField();
 
