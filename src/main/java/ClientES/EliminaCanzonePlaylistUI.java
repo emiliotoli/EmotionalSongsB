@@ -55,7 +55,7 @@ public class EliminaCanzonePlaylistUI extends JFrame {
         add(songAuthorField);
 
         JButton searchButton = GraphicUtils.createButtons("Ricerca Canzoni");
-        JButton submitButton = GraphicUtils.createButtons("Inserisci");
+        JButton submitButton = GraphicUtils.createButtons("Elimina");
 
         add(searchButton);
         add(submitButton);
