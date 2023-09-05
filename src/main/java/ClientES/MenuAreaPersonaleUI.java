@@ -174,8 +174,8 @@ public class MenuAreaPersonaleUI extends JFrame {
                     case 1 -> JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this,
                             "Errore nella cancellazione della PlayList", "Errore", JOptionPane.ERROR_MESSAGE);
                     case -1 ->
-                            JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore! Nome Plalist non trovato",
-                                    "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this, "Errore! Nome Plalist non trovato",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
                     case -2 -> JOptionPane.showMessageDialog(MenuAreaPersonaleUI.this,
                             "Errore durante l'inizializzazione dell'interfaccia", "Errore",
                             JOptionPane.ERROR_MESSAGE);

@@ -47,7 +47,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
         autoreField = GraphicUtils.createTextFields(20);
         annoField = GraphicUtils.createTextFields(20);
-        
+
         submitButton = GraphicUtils.createButtons("Cerca");
 
         gbc.gridx = 0;
@@ -210,6 +210,14 @@ public class RicercaAutoreAnnoUI extends JFrame {
         }
     }
 
+    
+    /** 
+     * @author Cristian Stinga
+     * @throws IOException
+     * @throws SQLException
+     * 
+     * metodo che gestisce il pulsante per inserire le emozioni
+     */
     // </editor-fold>
     private void handleInsertEmotions() throws IOException, SQLException {
 
@@ -316,21 +324,14 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
     }
 
-    private boolean isValidLength(String text, int minLength, int maxLength) {
-        int length = text.length();
-        return length >= minLength && length <= maxLength;
-    }
-
-    public static void createButtons(JButton bt) {
-        Color borderColor = new Color(4, 165, 229);
-        int fontTextSize = 16;
-
-        bt.setPreferredSize(new Dimension(250, 50));
-        bt.setBorder(new LineBorder(borderColor, 1));
-        bt.setFont(new Font("Arial", Font.BOLD, fontTextSize));
-        bt.setForeground(textColor);
-    };
-
+    
+    /** 
+     * @author Emilio Daverio
+     * @param str stringa di cui verificare validità
+     * @return boolean true or false
+     * 
+     * Metodo che controlla validità input utenti
+     */
     private boolean isValidInt(String str) {
         try {
             Integer.parseInt(str);

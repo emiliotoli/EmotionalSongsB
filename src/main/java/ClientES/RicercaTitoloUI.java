@@ -31,7 +31,10 @@ public class RicercaTitoloUI extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    UIManager.put("OptionPane.buttonFont", new Font("Arial", Font.BOLD, 16)); // Imposta il tipo di carattere e la dimensione del pulsante "OK"
+                    UIManager.put("OptionPane.buttonFont", new Font("Arial", Font.BOLD, 16)); // Imposta il tipo di
+                                                                                              // carattere e la
+                                                                                              // dimensione del pulsante
+                                                                                              // "OK"
                     UIManager.put("OptionPane.buttonSize", new Font("Arial", Font.BOLD, 16));
                     handleSubmit();
                 } catch (IOException ioException) {
@@ -45,6 +48,13 @@ public class RicercaTitoloUI extends JFrame {
         add(panel);
     }
 
+    /**
+     * @author Emilio Toli
+     * @throws IOException
+     * @throws SQLException
+     * 
+     *                      metodo che gestisce il pulsante di inserimento
+     */
     private void handleSubmit() throws IOException, SQLException {
         String songName = songNameField.getText();
         ArrayList<Canzone> canzoni = (ArrayList<Canzone>) Client.RicercaCanzoniTitolo(songName);
@@ -110,13 +120,22 @@ public class RicercaTitoloUI extends JFrame {
         }
     }
 
+    /**
+     * @author Crisian Stinga
+     * @throws IOException
+     * @throws SQLException
+     * 
+     *                      metodo che gestisce il pulsante di inserimento delle
+     *                      emozione
+     */
+
     private void handleInsertEmotions() throws IOException, SQLException {
 
         boolean datiIncompleti = true;
 
         while (datiIncompleti) {
             JTextField titoloField = GraphicUtils.createTextFields(20);
-            JTextField autoreField =GraphicUtils.createTextFields(20);
+            JTextField autoreField = GraphicUtils.createTextFields(20);
             JTextField notaEmozione = GraphicUtils.createTextFields(50);
             JTextField spiegazioneEmozione = GraphicUtils.createTextFields(50);
             JTextField intensitaEmozione = GraphicUtils.createTextFields(20);
@@ -203,6 +222,13 @@ public class RicercaTitoloUI extends JFrame {
 
     }
 
+    /**
+     * @author Cristian Stinga
+     * @param str
+     * @return boolean
+     * 
+     *         metodo che verifica la validità di un int
+     */
     private boolean isValidInt(String str) {
         try {
             Integer.parseInt(str);
@@ -211,6 +237,14 @@ public class RicercaTitoloUI extends JFrame {
             return false;
         }
     }
+
+    /**
+     * @author Cristian Stinga
+     * @throws RemoteException
+     * @throws SQLException
+     *                         metodo che gestisce che gestisce la visualizzazione
+     *                         delle emozioni
+     */
 
     private void handleVisualizzaEmozioni() throws RemoteException, SQLException {
         JTextField titoloField = GraphicUtils.createTextFields(20);

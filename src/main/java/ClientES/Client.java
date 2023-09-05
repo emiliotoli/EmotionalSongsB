@@ -738,6 +738,18 @@ public class Client implements MetodiControlli_Client {
         }
     }
 
+    
+    /** 
+     * @author Emilio Daverio
+     * 
+     * @param args
+     * @throws ClassNotFoundException
+     * @throws IOException
+     * @throws NotBoundException
+     * @throws SQLException
+     * 
+     * metodo che esegue il client
+     */
     public static void main(String[] args) throws ClassNotFoundException, IOException, NotBoundException, SQLException {
         String identifier = null;
         new Client().exec();

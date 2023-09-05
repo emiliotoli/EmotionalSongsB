@@ -102,6 +102,15 @@ public class EliminaPlaylistUI extends JFrame {
         callback.onPlaylistDeletionResult(res);
         dispose();
     }
+    
+    /** 
+     * @author Emilio Toli
+     * 
+     * @throws RemoteException
+     * @throws SQLException
+     * 
+     * metodo che inizializza la visualizzazione della playlist
+     */
     // </editor-fold>
 
     private void visualizza() throws RemoteException, SQLException {
