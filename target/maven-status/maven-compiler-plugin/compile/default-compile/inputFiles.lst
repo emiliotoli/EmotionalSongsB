@@ -1,30 +1,27 @@
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\Emozione.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\MenuPrincipaleUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\ClientBridge.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\EliminaCanzonePlaylistUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\DataBase\ConnessioneDBInterface.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\serverES\ServerImpl.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\serverES\ServerInterfaceNonLoggato.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\MenuAreaPersonaleUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\Client.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\RicercaTitoloUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\NuovaPlaylistUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\EliminaPlaylistUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\Client_Impl.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\DataBase\ConnessioneDBImpl.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\PlayList.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\LoginUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\MenuPrincipaleUIbak.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\VisualizzaPlaylistUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\RicercaAutoreAnnoUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\Utente.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\RegistrazioneUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\RegistrazioneCallback.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\PlaylistDeletionCallback.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\serverES\ServerInterfaceLoggato.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\AggiungiCanzonePlaylistUI.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\LoginCallback.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\Canzone.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\PlaylistCreationCallback.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\MetodiControlli_Client.java
-C:\Users\Sistema\Desktop\Emi\Universita\terzo anno\Secondo_Semestre\Laboratorio_B\EmotionalSongsB\src\main\java\ClientES\VisualizzaCanzoniPlaylist.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/serverES/ServerInterfaceLoggato.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/DataBase/ConnessioneDBInterface.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/VisualizzaCanzoniPlaylist.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/MenuAreaPersonaleUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/Emozione.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/EliminaPlaylistUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/AggiungiCanzonePlaylistUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/RegistrazioneCallback.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/NuovaPlaylistUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/MetodiControlli_Client.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/EliminaCanzonePlaylistUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/LoginCallback.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/LoginUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/serverES/ServerInterfaceNonLoggato.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/RicercaTitoloUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/serverES/ServerImpl.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/RicercaAutoreAnnoUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/VisualizzaPlaylistUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/Client.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/Canzone.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/Utente.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/PlaylistDeletionCallback.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/DataBase/ConnessioneDBImpl.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/PlaylistCreationCallback.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/RegistrazioneUI.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/PlayList.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/MenuPrincipaleUI.java

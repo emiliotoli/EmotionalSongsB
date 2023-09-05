@@ -57,14 +57,6 @@ public class MenuPrincipaleUI extends JFrame {
         buttonPanel.add(ricercaTitoloButton, gbc);
         gbc.gridy++;
 
-        try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            interfaceNonLoggato = (ServerInterfaceNonLoggato) registry.lookup("ServerEmotionalSongs");
-            // Inizializza l'interfaccia nel ClientBridge
-            ClientBridge.setInterfaceNonLoggato(interfaceNonLoggato);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         ricercaTitoloButton.addActionListener(new ActionListener() {
             @Override
