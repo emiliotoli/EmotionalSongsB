@@ -1,6 +1,8 @@
 package ClientES;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,25 +33,28 @@ public class LoginUI extends JFrame {
     public void LoginGUI(LoginCallback callback) {
         setTitle("Login");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(300, 150);
         setLocationRelativeTo(null);
         setVisible(true);
-        setSize(400, 200);
+        setSize(450, 200);
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
 
-        JLabel userIDLabel = GraphicUtils.createLabels("Nome utente: ");
-        userIDField = new JTextField(20);
+        JLabel userIDLabel = GraphicUtils.createLabels("Nome Utente:");
+        userIDField = GraphicUtils.createTextFields(20);
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(userIDLabel, gbc);
         gbc.gridx = 1;
         panel.add(userIDField, gbc);
 
-        JLabel passwordLabel = GraphicUtils.createLabels("Password: ");
+        JLabel passwordLabel = GraphicUtils.createLabels("Password:");
         passwordField = new JPasswordField(20);
+        passwordField.setForeground(new Color(76, 79, 105));
+        passwordField.setFont(new Font("Arial", Font.BOLD, 16));
+        passwordField.setPreferredSize(new Dimension(100, 25));
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         panel.add(passwordLabel, gbc);
@@ -57,6 +62,10 @@ public class LoginUI extends JFrame {
         panel.add(passwordField, gbc);
 
         JButton loginButton = GraphicUtils.createButtons("Login");
+        loginButton.setPreferredSize(new Dimension(250, 50));
+        loginButton.setBorder(new LineBorder(new Color(76, 79, 105), 1));
+        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
+
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;

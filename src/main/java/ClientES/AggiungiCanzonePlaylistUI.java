@@ -38,12 +38,12 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
         setLayout(new GridLayout(4, 2, 10, 10));
         setVisible(true);
 
-        JLabel playlistNameLabel = new JLabel("Nome Playlist:");
-        playlistNameField = new JTextField();
-        JLabel songTitleLabel = new JLabel("Titolo Canzone:");
-        songTitleField = new JTextField();
-        JLabel songAuthorLabel = new JLabel("Autore Canzone:");
-        songAuthorField = new JTextField();
+        JLabel playlistNameLabel = GraphicUtils.createLabels("Nome Playlist:");
+        playlistNameField = GraphicUtils.createTextFields(20);
+        JLabel songTitleLabel = GraphicUtils.createLabels("Titolo Canzone:");
+        songTitleField = GraphicUtils.createTextFields(20);
+        JLabel songAuthorLabel = GraphicUtils.createLabels("Autore Canzone:");
+        songAuthorField = GraphicUtils.createTextFields(20);
 
         add(playlistNameLabel);
         add(playlistNameField);
@@ -54,7 +54,6 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
 
         JButton searchButton = GraphicUtils.createButtons("Ricerca Canzoni");
         JButton submitButton = GraphicUtils.createButtons("Ricerca");
-
 
         add(searchButton);
         add(submitButton);
@@ -135,6 +134,7 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
             textArea.setWrapStyleWord(true);
             textArea.setLineWrap(true);
             textArea.setEditable(false);
+            textArea.setFont(new Font("Arial", Font.BOLD, 16));
 
             JScrollPane scrollPane = new JScrollPane(textArea);
 

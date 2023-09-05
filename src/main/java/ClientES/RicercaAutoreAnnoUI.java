@@ -37,7 +37,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
         setTitle("Ricerca per Autore e Anno");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(300, 150);
+        setSize(450, 200);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -45,8 +45,9 @@ public class RicercaAutoreAnnoUI extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
 
-        autoreField = new JTextField(15);
-        annoField = new JTextField(15);
+        autoreField = GraphicUtils.createTextFields(20);
+        annoField = GraphicUtils.createTextFields(20);
+        
         submitButton = GraphicUtils.createButtons("Cerca");
 
         gbc.gridx = 0;
@@ -113,10 +114,11 @@ public class RicercaAutoreAnnoUI extends JFrame {
             textArea.setWrapStyleWord(true);
             textArea.setLineWrap(true);
             textArea.setEditable(false);
+            textArea.setFont(new Font("Arial", Font.BOLD, 16));
 
             JScrollPane scrollPane = new JScrollPane(textArea);
-            JButton visualizzaEmozioniButton = new JButton("Visualizza Emozioni");
-            JButton insertEmotionsButton = new JButton("Inserisci Emozioni");
+            JButton visualizzaEmozioniButton = GraphicUtils.createButtons("Visualizza Emozioni");
+            JButton insertEmotionsButton = GraphicUtils.createButtons("Inserisci Emozioni");
             visualizzaEmozioniButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
@@ -172,14 +174,14 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
     // <editor-fold desc= "Visualizza le emozioni">
     private void handleVisualizzaEmozioni() throws RemoteException, SQLException {
-        JTextField titoloField = new JTextField(20);
-        JTextField autoreField = new JTextField(20);
+        JTextField titoloField = GraphicUtils.createTextFields(20);
+        JTextField autoreField = GraphicUtils.createTextFields(20);
 
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new GridLayout(2, 2));
-        inputPanel.add(new JLabel("Titolo:"));
+        inputPanel.add(GraphicUtils.createLabels("Titolo:"));
         inputPanel.add(titoloField);
-        inputPanel.add(new JLabel("Autore:"));
+        inputPanel.add(GraphicUtils.createLabels("Autore:"));
         inputPanel.add(autoreField);
 
         int result = JOptionPane.showConfirmDialog(this, inputPanel, "Inserisci Titolo e Autore",
@@ -214,11 +216,11 @@ public class RicercaAutoreAnnoUI extends JFrame {
         boolean datiIncompleti = true;
 
         while (datiIncompleti) {
-            JTextField titoloField = new JTextField(20);
-            JTextField autoreField = new JTextField(20);
-            JTextField notaEmozione = new JTextField(50);
-            JTextField spiegazioneEmozione = new JTextField(50);
-            JTextField intensitaEmozione = new JTextField(1);
+            JTextField titoloField = GraphicUtils.createTextFields(20);
+            JTextField autoreField = GraphicUtils.createTextFields(20);
+            JTextField notaEmozione = GraphicUtils.createTextFields(50);
+            JTextField spiegazioneEmozione = GraphicUtils.createTextFields(50);
+            JTextField intensitaEmozione = GraphicUtils.createTextFields(1);
 
             JPanel insertEmotion = new JPanel();
             insertEmotion.setLayout(new GridLayout(6, 2));
@@ -228,18 +230,20 @@ public class RicercaAutoreAnnoUI extends JFrame {
             String[] emotions = { "Amazement", "Solemnity", "Tenderness", "Nostalgia", "Calmness", "Power", "Joy",
                     "Tension", "Sadness" };
             final JComboBox<String> emotionComboBox = new JComboBox<>(emotions);
+            emotionComboBox.setForeground(new Color(76, 79, 105));
+            emotionComboBox.setFont(new Font("Arial", Font.BOLD, 16));
 
-            insertEmotion.add(new JLabel("Inserisci titolo: "));
+            insertEmotion.add(GraphicUtils.createLabels("Inserisci titolo: "));
             insertEmotion.add(titoloField);
-            insertEmotion.add(new JLabel("Autore: "));
+            insertEmotion.add(GraphicUtils.createLabels("Autore: "));
             insertEmotion.add(autoreField);
-            insertEmotion.add(new JLabel("Seleziona Emozione:"));
+            insertEmotion.add(GraphicUtils.createLabels("Seleziona Emozione: "));
             insertEmotion.add(emotionComboBox);
-            insertEmotion.add(new JLabel("Intensità emozione:"));
+            insertEmotion.add(GraphicUtils.createLabels("Intensità Emozione: "));
             insertEmotion.add(intensitaEmozione);
-            insertEmotion.add(new JLabel("nota emozione"));
+            insertEmotion.add(GraphicUtils.createLabels("Nota Emozione: "));
             insertEmotion.add(notaEmozione);
-            insertEmotion.add(new JLabel("spiegazione emozione"));
+            insertEmotion.add(GraphicUtils.createLabels("Spiegazione Emozione: "));
             insertEmotion.add(spiegazioneEmozione);
 
             int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",
