@@ -3,10 +3,16 @@ package ClientES;
 import serverES.ServerInterfaceLoggato;
 import serverES.ServerInterfaceNonLoggato;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 
 /**
@@ -112,8 +118,6 @@ public class MenuPrincipaleUI extends JFrame {
 
         add(buttonPanel, BorderLayout.CENTER);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -276,6 +280,7 @@ public class MenuPrincipaleUI extends JFrame {
         ricercaAutoreAnno.ricercaCanzone();
 
     }
+
     /**
      * @author Emilio Toli
      *         Metodo che apre l'interfaccia per effettuare il logout

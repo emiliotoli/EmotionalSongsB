@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * @author Emilio Toli
@@ -38,19 +37,22 @@ public class EliminaPlaylistUI extends JFrame {
 
         setTitle("Elimina Playlist");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(300, 150);
+        setSize(300, 250);
         setLocationRelativeTo(null);
         setVisible(true);
         JPanel panel = new JPanel(new GridLayout(2, 1, 10, 10));
 
         playlistTextArea = new JTextArea();
         playlistTextArea.setEditable(false);
+        playlistTextArea.setWrapStyleWord(true);
+        playlistTextArea.setLineWrap(true);
+        playlistTextArea.setFont(new Font("Arial", Font.BOLD, 16));
 
-        nomePlaylistField = new JTextField(15);
-        visualizzaPlaylistButton = new JButton("Visualizza tutte le playlist");
-        submitButton = new JButton("Elimina Playlist");
+        nomePlaylistField = GraphicUtils.createTextFields(20);
+        visualizzaPlaylistButton = GraphicUtils.createButtons("Visualizza tutte le playlist");
+        submitButton = GraphicUtils.createButtons("Elimina Playlist");
 
-        panel.add(new JLabel("Nome Playlist:"));
+        panel.add(GraphicUtils.createLabels("Nome Playlist:"));
         panel.add(nomePlaylistField);
         panel.add(visualizzaPlaylistButton);
         panel.add(submitButton);

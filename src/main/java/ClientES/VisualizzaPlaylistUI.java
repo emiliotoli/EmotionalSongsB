@@ -35,11 +35,14 @@ public class VisualizzaPlaylistUI extends JFrame {
 
         playlistTextArea = new JTextArea();
         playlistTextArea.setEditable(false);
+        playlistTextArea.setWrapStyleWord(true);
+        playlistTextArea.setLineWrap(true);
+        playlistTextArea.setFont(new Font("Arial", Font.BOLD, 16));
 
         JScrollPane scrollPane = new JScrollPane(playlistTextArea);
         add(scrollPane, BorderLayout.CENTER);
 
-        JButton viewButton = new JButton("Visualizza Playlist");
+        JButton viewButton = GraphicUtils.createButtons("Visualizza Playlist");
         add(viewButton, BorderLayout.SOUTH);
 
         viewButton.addActionListener(new ActionListener() {

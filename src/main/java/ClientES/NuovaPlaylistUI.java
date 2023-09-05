@@ -18,7 +18,6 @@ public class NuovaPlaylistUI extends JFrame {
     // <editor-fold desc= "Attributi">
     private JTextField nomePlaylistField;
     private JButton submitButton;
-    private Client client;
     private PlaylistCreationCallback callback;
     // </editor-fold>
 
@@ -34,15 +33,15 @@ public class NuovaPlaylistUI extends JFrame {
         this.callback = callback;
         setTitle("Nuova Playlist");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(300, 150);
+        setSize(300, 200);
         setLocationRelativeTo(null);
         setVisible(true);
         JPanel panel = new JPanel(new GridLayout(2, 1, 10, 10));
 
-        nomePlaylistField = new JTextField(15);
-        submitButton = new JButton("Crea Playlist");
+        nomePlaylistField = GraphicUtils.createTextFields(20);
+        submitButton = GraphicUtils.createButtons("Crea Playlist");
 
-        panel.add(new JLabel("Nome Playlist:"));
+        panel.add(GraphicUtils.createLabels("Nome Playlist:"));
         panel.add(nomePlaylistField);
         panel.add(submitButton);
 

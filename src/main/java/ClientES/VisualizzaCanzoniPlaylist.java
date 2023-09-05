@@ -17,9 +17,6 @@ import java.util.ArrayList;
 public class VisualizzaCanzoniPlaylist extends JFrame {
     // <editor-fold desc= "Attributi">
     private JTextField playlistNameField;
-    private JTextField songTitleField;
-    private JTextField songAuthorField;
-    private int val;
     private ArrayList<Canzone> songList;
     // </editor-fold>
 
@@ -37,13 +34,13 @@ public class VisualizzaCanzoniPlaylist extends JFrame {
         setLayout(new GridLayout(4, 2, 10, 10));
         setVisible(true);
 
-        JLabel playlistNameLabel = new JLabel("Nome Playlist:");
-        playlistNameField = new JTextField();
+        JLabel playlistNameLabel = GraphicUtils.createLabels("Nome Playlist:");
+        playlistNameField = GraphicUtils.createTextFields(20);
 
         add(playlistNameLabel);
         add(playlistNameField);
 
-        JButton searchButton = new JButton("Ricerca Canzoni");
+        JButton searchButton = GraphicUtils.createButtons("Ricerca Canzoni");
         // JButton submitButton = new JButton("Submit");
 
         add(searchButton);
@@ -90,6 +87,7 @@ public class VisualizzaCanzoniPlaylist extends JFrame {
             textArea.setWrapStyleWord(true);
             textArea.setLineWrap(true);
             textArea.setEditable(false);
+            textArea.setFont(new Font("Arial", Font.BOLD, 16));
 
             JScrollPane scrollPane = new JScrollPane(textArea);
 
