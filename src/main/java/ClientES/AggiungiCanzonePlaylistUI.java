@@ -53,7 +53,7 @@ public class AggiungiCanzonePlaylistUI extends JFrame {
         add(songAuthorField);
 
         JButton searchButton = GraphicUtils.createButtons("Ricerca Canzoni");
-        JButton submitButton = GraphicUtils.createButtons("Ricerca");
+        JButton submitButton = GraphicUtils.createButtons("Aggiungi");
 
         add(searchButton);
         add(submitButton);
