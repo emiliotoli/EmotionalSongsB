@@ -11,7 +11,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.*;
 
 /**
  * Questa classe implementa l'interfaccia 'ConnessioneDBInterface' e fornisce un
