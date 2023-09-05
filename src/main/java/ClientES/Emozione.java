@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**@author Stefano Farina
  * La classe Emozione rappresenta un'emozione assiociata ad una canzone e contiene informazioni su di essa, come il nome, il tipo, la spiegazione,
  * il punteggio e la percentuale di emozione.
- * Gli oggetti Emozione vengono utilizzati per la registrazione e la visualizzazione delle emozioni associate a una canzone.
+ * Gli oggetti Emozione vengono utilizzati per la visualizzazione delle emozioni associate a una canzone.
  */
 public class Emozione implements Serializable {
     private static final long serialVersionUID = 1L;

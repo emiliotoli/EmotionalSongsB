@@ -221,7 +221,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
             JTextField autoreField = new JTextField(20);
             JTextField notaEmozione = new JTextField(50);
             JTextField spiegazioneEmozione = new JTextField(50);
-            JTextField intensitàEmozione = new JTextField(1);
+            JTextField intensitaEmozione = new JTextField(1);
 
             JPanel insertEmotion = new JPanel();
             insertEmotion.setLayout(new GridLayout(6, 2));
@@ -239,7 +239,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
             insertEmotion.add(new JLabel("Seleziona Emozione:"));
             insertEmotion.add(emotionComboBox);
             insertEmotion.add(new JLabel("Intensità emozione:"));
-            insertEmotion.add(intensitàEmozione);
+            insertEmotion.add(intensitaEmozione);
             insertEmotion.add(new JLabel("nota emozione"));
             insertEmotion.add(notaEmozione);
             insertEmotion.add(new JLabel("spiegazione emozione"));
@@ -253,20 +253,20 @@ public class RicercaAutoreAnnoUI extends JFrame {
                 String autore = autoreField.getText();
                 String nota = notaEmozione.getText();
                 String spiegazione = spiegazioneEmozione.getText();
-                String intensitàStr = intensitàEmozione.getText();
+                String intensitaStr = intensitaEmozione.getText();
 
-                if (titolo.isEmpty() || autore.isEmpty() || nota.isEmpty() || spiegazione.isEmpty() || intensitàStr.isEmpty()) {
+                if (titolo.isEmpty() || autore.isEmpty() || nota.isEmpty() || spiegazione.isEmpty() || intensitaStr.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Tutti i campi devono essere completati.", "Errore", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                if (!isValidInt(intensitàStr)) {
+                if (!isValidInt(intensitaStr)) {
                     JOptionPane.showMessageDialog(this, "Intensità emozione deve essere un numero intero.", "Errore", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                int intensitaEmozione = Integer.parseInt(intensitàStr);
+                int intensitaEmozionee = Integer.parseInt(intensitaStr);
 
-                int inserimentoResult = Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titolo, autore, nota, spiegazione, intensitaEmozione);
+                int inserimentoResult = Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titolo, autore, nota, spiegazione, intensitaEmozionee);
 
                 switch (inserimentoResult) {
                     case 0:

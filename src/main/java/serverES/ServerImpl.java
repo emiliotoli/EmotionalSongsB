@@ -859,7 +859,7 @@ public class ServerImpl extends UnicastRemoteObject implements ServerInterfaceNo
         ServerImpl sevimpl = new ServerImpl();
         Registry registro;
         try {
-            registro = LocateRegistry.createRegistry(1099);
+            registro = LocateRegistry.createRegistry(8080);
             registro.rebind("ServerEmotionalSongs", sevimpl);
             System.out.println("Server avviato");
         } catch (Exception e) {
