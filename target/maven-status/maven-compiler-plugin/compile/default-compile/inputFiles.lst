@@ -19,6 +19,7 @@
 /home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/Client.java
 /home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/Canzone.java
 /home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/Utente.java
+/home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/GraphicUtils.java
 /home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/PlaylistDeletionCallback.java
 /home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/DataBase/ConnessioneDBImpl.java
 /home/tcstinga/Documents/GitHub/EmotionalSongsB/src/main/java/ClientES/PlaylistCreationCallback.java

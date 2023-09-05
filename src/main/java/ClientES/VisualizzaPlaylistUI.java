@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 /**
  * @author Emilio Toli
- *      Classe che gestisce la visualizzazione
- *      delle playlist associate ad un utente
+ *         Classe che gestisce la visualizzazione
+ *         delle playlist associate ad un utente
  */
 
 public class VisualizzaPlaylistUI extends JFrame {
@@ -21,8 +21,8 @@ public class VisualizzaPlaylistUI extends JFrame {
 
     /**
      * @author Emilio Toli
-     *      Metodo per visualizzare le playlist dato il nome
-     *      della playlist inserito in un'area di testo
+     *         Metodo per visualizzare le playlist dato il nome
+     *         della playlist inserito in un'area di testo
      */
     // <editor-fold desc= "Visualizzazione a video delle playlist">
     public void visualizzaPlaylist() {
@@ -60,7 +60,8 @@ public class VisualizzaPlaylistUI extends JFrame {
      * @author Emilio Toli
      * @param playlist Lista che contiene tutte le playlist dell'utente
      *
-     *      Metodo per visualizzare le playlist dell'utente una volta premuto il pulsante
+     *                 Metodo per visualizzare le playlist dell'utente una volta
+     *                 premuto il pulsante
      */
 
     // <editor-fold desc= "Visualizza playlist">
@@ -74,5 +75,5 @@ public class VisualizzaPlaylistUI extends JFrame {
             }
         }
     }
-//</editor-fold>
+    // </editor-fold>
 }

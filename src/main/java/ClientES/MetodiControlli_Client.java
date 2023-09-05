@@ -2,8 +2,10 @@ package ClientES;
 
 import java.io.*;
 
-/**@author Emilio Daverio - Stefano Farina
- * Questa interfaccia fornisce metodi di validazione e controllo per diversi campi dati.
+/**
+ * @author Emilio Daverio - Stefano Farina
+ *         Questa interfaccia fornisce metodi di validazione e controllo per
+ *         diversi campi dati.
  */
 public interface MetodiControlli_Client {
 
@@ -11,9 +13,9 @@ public interface MetodiControlli_Client {
     InputStreamReader isr = new InputStreamReader(System.in);
     BufferedReader read = new BufferedReader(isr);
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica se una stringa contiene solo lettere.
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica se una stringa contiene solo lettere.
      *
      * @param nominativo La stringa da controllare.
      *
@@ -31,12 +33,13 @@ public interface MetodiControlli_Client {
         }
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica la lunghezza minima del nominativo e il formato .
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica la lunghezza minima del nominativo e il formato .
      *
      * @param nominativo Il nominativo da controllare.
-     * @return true se il nominativo ha una lunghezza valida e contiene solo lettere, altrimenti false.
+     * @return true se il nominativo ha una lunghezza valida e contiene solo
+     *         lettere, altrimenti false.
      * @throws IOException Se si verifica un errore durante l'input/output.
      */
     static boolean lunghezzaNominativo(String nominativo) throws IOException {
@@ -54,9 +57,9 @@ public interface MetodiControlli_Client {
         return false;
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica il formato del codice fiscale italiano.
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica il formato del codice fiscale italiano.
      *
      * @param codFisc Il codice fiscale da controllare.
      *
@@ -77,9 +80,9 @@ public interface MetodiControlli_Client {
         return false;
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica il formato di un numero civico.
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica il formato di un numero civico.
      *
      * @param numcivico Il numero civico da controllare.
      *
@@ -96,9 +99,9 @@ public interface MetodiControlli_Client {
         }
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica il formato di un CAP italiano.
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica il formato di un CAP italiano.
      *
      * @param cap Il CAP da controllare.
      *
@@ -121,13 +124,15 @@ public interface MetodiControlli_Client {
 
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica che una stringa non sia nulla (null) e abbia una lunghezza maggiore di zero.
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica che una stringa non sia nulla (null) e abbia una
+     *         lunghezza maggiore di zero.
      *
      * @param str La stringa da controllare.
      *
-     * @return true se la stringa non è nulla e ha lunghezza maggiore di zero, altrimenti false.
+     * @return true se la stringa non è nulla e ha lunghezza maggiore di zero,
+     *         altrimenti false.
      *
      * @throws IOException Se si verifica un errore durante l'input/output.
      */
@@ -145,9 +150,10 @@ public interface MetodiControlli_Client {
         }
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica il formato del comune della provincia (contiene solo lettere).
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica il formato del comune della provincia (contiene
+     *         solo lettere).
      *
      * @param str Il comune o provincia da controllare.
      *
@@ -165,9 +171,9 @@ public interface MetodiControlli_Client {
         }
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica il formato di un indirizzo email.
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica il formato di un indirizzo email.
      *
      * @param mail L'indirizzo email da controllare.
      *
@@ -184,9 +190,9 @@ public interface MetodiControlli_Client {
         }
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica il formato di un nome utente (username).
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica il formato di un nome utente (username).
      *
      * @param user Il nome utente da controllare.
      *
@@ -204,9 +210,9 @@ public interface MetodiControlli_Client {
         }
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica il formato di una password inserita.
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica il formato di una password inserita.
      *
      * @param pwdScelta La password da controllare.
      * @return true se la password è nel formato corretto, altrimenti false.
@@ -230,7 +236,6 @@ public interface MetodiControlli_Client {
         }
     }
 
-
     private static boolean checkFormato(String pass) throws IOException {
 
         if (pass.matches("((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!_.]).{8,20})")) {
@@ -241,9 +246,9 @@ public interface MetodiControlli_Client {
         }
     }
 
-
-    /**@author Emilio Daverio - Stefano Farina
-     * Metodo che verifica se due password sono uguali.
+    /**
+     * @author Emilio Daverio - Stefano Farina
+     *         Metodo che verifica se due password sono uguali.
      *
      * @param pw1 La prima password.
      * @param pw2 La seconda password.

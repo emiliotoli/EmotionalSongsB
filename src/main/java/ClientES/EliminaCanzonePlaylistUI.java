@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 /**
  * @author Emilio Toli
- *      Classe che gestisce l'interfaccia utente per la eliminazione
- *      di una canzone da una determinata playlist di un utente
+ *         Classe che gestisce l'interfaccia utente per la eliminazione
+ *         di una canzone da una determinata playlist di un utente
  */
 
 public class EliminaCanzonePlaylistUI extends JFrame {
@@ -26,8 +26,9 @@ public class EliminaCanzonePlaylistUI extends JFrame {
 
     /**
      * @author Emilio Toli
-     * metodo richiamato nel menù principale per eliminare una canzone dalla playlist
-     * dati titolo e autore inseriti in caselle di testo
+     *         metodo richiamato nel menù principale per eliminare una canzone dalla
+     *         playlist
+     *         dati titolo e autore inseriti in caselle di testo
      */
 
     // <editor-fold desc= "Eliminazione canzone da playlist>"
@@ -84,32 +85,40 @@ public class EliminaCanzonePlaylistUI extends JFrame {
 
                 if (!playlistName.isEmpty() && !songTitle.isEmpty() && !songAuthor.isEmpty()) {
                     try {
-                        val=Client.eliminaCanzoniPlaylist(playlistName , Client.idGlobale , songTitle , songAuthor);
+                        val = Client.eliminaCanzoniPlaylist(playlistName, Client.idGlobale, songTitle, songAuthor);
                     } catch (RemoteException | SQLException remoteException) {
                         remoteException.printStackTrace();
                     }
                     switch (val) {
-                        case 0 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Canzone rimossa con successo dalla playlist", "Successo", JOptionPane.INFORMATION_MESSAGE);
-                        case -1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
-                        case 1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nella rimozione della canzone al database. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
-                        case -2 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
-                        case -3 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Errore nel inserimento dei dati della canzone. Titolo o autore errati", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case 0 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                                "Canzone rimossa con successo dalla playlist", "Successo",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        case -1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                                "Nome playlist inesistente", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case 1 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                                "Errore nella rimozione della canzone al database. Riprova", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
+                        case -2 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                                "Errore nel collegamento al server. Riprova", "Errore", JOptionPane.ERROR_MESSAGE);
+                        case -3 -> JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                                "Errore nel inserimento dei dati della canzone. Titolo o autore errati", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                     }
 
-
-
                 } else {
-                    JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this, "Riempi tutti i campi prima di procedere", "Errore", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(EliminaCanzonePlaylistUI.this,
+                            "Riempi tutti i campi prima di procedere", "Errore", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
     }
-    //</editor-fold>
+    // </editor-fold>
 
     /**
      * @param songList lista di canzoni associate alla playlist dell'utente
      * @author Emilio Toli
-     * Metodo privato richiamato per poter restituire la lista delle canzoni associate alla playlist dell'utente
+     *         Metodo privato richiamato per poter restituire la lista delle canzoni
+     *         associate alla playlist dell'utente
      */
 
     // <editor-fold desc="Visualizza canzoni nella playlist">
@@ -135,6 +144,6 @@ public class EliminaCanzonePlaylistUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    //</editor-fold>
+    // </editor-fold>
 
 }

@@ -1,7 +1,5 @@
 package ClientES;
 
-import ClientES.Client;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -14,8 +12,8 @@ import java.util.ArrayList;
 
 /**
  * @author Emilio Toli
- *      Classe per la gestione dell'interfaccia utente relativa alla ricerca
- *      di un brano per autore e per anno
+ *         Classe per la gestione dell'interfaccia utente relativa alla ricerca
+ *         di un brano per autore e per anno
  */
 
 public class RicercaAutoreAnnoUI extends JFrame {
@@ -25,14 +23,12 @@ public class RicercaAutoreAnnoUI extends JFrame {
     private JButton submitButton;
     // </editor-fold>
     private static final Color textColor = new Color(76, 79, 105);
-    private static final Color background = new Color(204, 208, 218);
-
 
     /**
      * @author Emilio Toli
-     *      Metodo per la creazione della UI e per la chiamata
-     *      dei metodi per la ricerca delle canzoni e delle emozioni
-     *      tramite l'evento di click del pulsante
+     *         Metodo per la creazione della UI e per la chiamata
+     *         dei metodi per la ricerca delle canzoni e delle emozioni
+     *         tramite l'evento di click del pulsante
      */
 
     // <editor-fold desc= "Ricerca canzone">
@@ -51,12 +47,12 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
         autoreField = new JTextField(15);
         annoField = new JTextField(15);
-        submitButton = new JButton("Cerca");
+        submitButton = GraphicUtils.createButtons("Cerca");
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.EAST;
-        panel.add(new JLabel("Autore:"), gbc);
+        panel.add(GraphicUtils.createLabels("Autore:"), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -66,7 +62,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.EAST;
-        panel.add(new JLabel("Anno:"), gbc);
+        panel.add(GraphicUtils.createLabels("Anno:"), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -91,14 +87,14 @@ public class RicercaAutoreAnnoUI extends JFrame {
 
         add(panel);
     }
-// </editor-fold>
+    // </editor-fold>
 
     /**
      * @author Emilio Toli
      * @throws IOException
      * @throws SQLException
-     *          Metodo chiamato al click del pulsante per la ricerca che
-     *          mostra le canzoni una volta inseriti autore ed anno
+     *                      Metodo chiamato al click del pulsante per la ricerca che
+     *                      mostra le canzoni una volta inseriti autore ed anno
      */
     // <editor-fold desc= "Pulsante Cerca">
     private void handleSearch() throws IOException, SQLException {
@@ -169,10 +165,10 @@ public class RicercaAutoreAnnoUI extends JFrame {
      * @throws RemoteException
      * @throws SQLException
      *
-     *      Metodo che permette di visualizzare le emozioni associate
-     *      ad una canzone
+     *                         Metodo che permette di visualizzare le emozioni
+     *                         associate
+     *                         ad una canzone
      */
-
 
     // <editor-fold desc= "Visualizza le emozioni">
     private void handleVisualizzaEmozioni() throws RemoteException, SQLException {
@@ -211,6 +207,7 @@ public class RicercaAutoreAnnoUI extends JFrame {
             emozioni.clear();
         }
     }
+
     // </editor-fold>
     private void handleInsertEmotions() throws IOException, SQLException {
 
@@ -245,7 +242,8 @@ public class RicercaAutoreAnnoUI extends JFrame {
             insertEmotion.add(new JLabel("spiegazione emozione"));
             insertEmotion.add(spiegazioneEmozione);
 
-            int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
                 String selectedEmotion = (String) emotionComboBox.getSelectedItem();
@@ -255,51 +253,65 @@ public class RicercaAutoreAnnoUI extends JFrame {
                 String spiegazione = spiegazioneEmozione.getText();
                 String intensitaStr = intensitaEmozione.getText();
 
-                if (titolo.isEmpty() || autore.isEmpty() || nota.isEmpty() || spiegazione.isEmpty() || intensitaStr.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Tutti i campi devono essere completati.", "Errore", JOptionPane.ERROR_MESSAGE);
+                if (titolo.isEmpty() || autore.isEmpty() || nota.isEmpty() || spiegazione.isEmpty()
+                        || intensitaStr.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Tutti i campi devono essere completati.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 if (!isValidInt(intensitaStr)) {
-                    JOptionPane.showMessageDialog(this, "Intensità emozione deve essere un numero intero.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Intensità emozione deve essere un numero intero.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 int intensitaEmozionee = Integer.parseInt(intensitaStr);
 
-                int inserimentoResult = Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titolo, autore, nota, spiegazione, intensitaEmozionee);
+                int inserimentoResult = Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titolo, autore,
+                        nota, spiegazione, intensitaEmozionee);
 
                 switch (inserimentoResult) {
                     case 0:
-                        JOptionPane.showMessageDialog(this, "Inserimento nuova emozione effettuato", "Inserimento riuscito", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Inserimento nuova emozione effettuato",
+                                "Inserimento riuscito", JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                         datiIncompleti = false;
                         break;
                     case -1:
-                        JOptionPane.showMessageDialog(this, "Intensità emozione deve essere compresa tra 1 e 5.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Intensità emozione deve essere compresa tra 1 e 5.",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case -2:
-                        JOptionPane.showMessageDialog(this, "Spiegazione troppo lunga. Non deve superare i 250 caratteri.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this,
+                                "Spiegazione troppo lunga. Non deve superare i 250 caratteri.", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                     case -3:
-                        JOptionPane.showMessageDialog(this, "Nota emozione troppo lunga. Non deve superare i 50 caratteri.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this,
+                                "Nota emozione troppo lunga. Non deve superare i 50 caratteri.", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                     case -4:
-                        JOptionPane.showMessageDialog(this, "Nota emozione o Spiegazione emozione non sono stati inseriti.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this,
+                                "Nota emozione o Spiegazione emozione non sono stati inseriti.", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                     case -5:
-                        JOptionPane.showMessageDialog(this, "Canzone o Autore non corrispondono.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Canzone o Autore non corrispondono.", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                     case -6:
-                        JOptionPane.showMessageDialog(this, "Accesso al server non riuscito.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Accesso al server non riuscito.", "Errore",
+                                JOptionPane.ERROR_MESSAGE);
                         break;
                 }
-            }
-            else {
+            } else {
                 datiIncompleti = false; // Esci dal ciclo se l'utente ha annullato l'inserimento
             }
         }
 
     }
+
     private boolean isValidLength(String text, int minLength, int maxLength) {
         int length = text.length();
         return length >= minLength && length <= maxLength;

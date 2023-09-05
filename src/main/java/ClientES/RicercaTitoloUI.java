@@ -1,7 +1,6 @@
 package ClientES;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,12 +9,8 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static ClientES.Client.inserisciNuovaEmozione;
-
 public class RicercaTitoloUI extends JFrame {
     private JTextField songNameField;
-    private static final Color textColor = new Color(76, 79, 105);
-    private static final Color background = new Color(204, 208, 218);
 
     public void ricercaTitolo() {
         setTitle("Cerca Canzone");
@@ -25,16 +20,10 @@ public class RicercaTitoloUI extends JFrame {
         setVisible(true);
 
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(background);
 
-        songNameField = new JTextField(20);
-        songNameField.setColumns(10);
-        songNameField.setPreferredSize(new Dimension(100, 5));
-        songNameField.setFont(new Font("Arial", Font.BOLD, 17));
-        songNameField.setForeground(textColor);
+        songNameField = GraphicUtils.createTextFields(20);
 
-        JButton submitButton = new JButton("Ricerca");
-        createButtons(submitButton);
+        JButton submitButton = GraphicUtils.createButtons("Ricerca");
 
         panel.add(songNameField, BorderLayout.CENTER);
         panel.add(submitButton, BorderLayout.SOUTH);
@@ -42,6 +31,8 @@ public class RicercaTitoloUI extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
+                    UIManager.put("OptionPane.buttonFont", new Font("Arial", Font.BOLD, 16)); // Imposta il tipo di carattere e la dimensione del pulsante "OK"
+                    UIManager.put("OptionPane.buttonSize", new Font("Arial", Font.BOLD, 16));
                     handleSubmit();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
@@ -69,13 +60,11 @@ public class RicercaTitoloUI extends JFrame {
             textArea.setWrapStyleWord(true);
             textArea.setLineWrap(true);
             textArea.setEditable(false);
+            textArea.setFont(new Font("Arial", Font.BOLD, 16));
 
             JScrollPane scrollPane = new JScrollPane(textArea);
-            JButton visualizzaEmozioniButton = new JButton("Visualizza Emozioni");
-            createButtons(visualizzaEmozioniButton);
-
-            JButton insertEmotionsButton = new JButton("Inserisci Emozioni");
-            createButtons(insertEmotionsButton);
+            JButton visualizzaEmozioniButton = GraphicUtils.createButtons("Visualizza Emozioni");
+            JButton insertEmotionsButton = GraphicUtils.createButtons("Inserisci Emozioni");
             visualizzaEmozioniButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
@@ -88,7 +77,6 @@ public class RicercaTitoloUI extends JFrame {
                     }
                 }
             });
-
 
             insertEmotionsButton.addActionListener(new ActionListener() {
                 @Override
@@ -127,11 +115,11 @@ public class RicercaTitoloUI extends JFrame {
         boolean datiIncompleti = true;
 
         while (datiIncompleti) {
-            JTextField titoloField = new JTextField(20);
-            JTextField autoreField = new JTextField(20);
-            JTextField notaEmozione = new JTextField(50);
-            JTextField spiegazioneEmozione = new JTextField(50);
-            JTextField intensitaEmozione = new JTextField(1);
+            JTextField titoloField = GraphicUtils.createTextFields(20);
+            JTextField autoreField =GraphicUtils.createTextFields(20);
+            JTextField notaEmozione = GraphicUtils.createTextFields(50);
+            JTextField spiegazioneEmozione = GraphicUtils.createTextFields(50);
+            JTextField intensitaEmozione = GraphicUtils.createTextFields(20);
 
             JPanel insertEmotion = new JPanel();
             insertEmotion.setLayout(new GridLayout(6, 2));
@@ -141,21 +129,24 @@ public class RicercaTitoloUI extends JFrame {
             String[] emotions = { "Amazement", "Solemnity", "Tenderness", "Nostalgia", "Calmness", "Power", "Joy",
                     "Tension", "Sadness" };
             final JComboBox<String> emotionComboBox = new JComboBox<>(emotions);
+            emotionComboBox.setForeground(new Color(76, 79, 105));
+            emotionComboBox.setFont(new Font("Arial", Font.BOLD, 16));
 
-            insertEmotion.add(new JLabel("Inserisci titolo: "));
+            insertEmotion.add(GraphicUtils.createLabels("Inserisci titolo: "));
             insertEmotion.add(titoloField);
-            insertEmotion.add(new JLabel("Autore: "));
+            insertEmotion.add(GraphicUtils.createLabels("Autore: "));
             insertEmotion.add(autoreField);
-            insertEmotion.add(new JLabel("Seleziona Emozione:"));
+            insertEmotion.add(GraphicUtils.createLabels("Seleziona Emozione: "));
             insertEmotion.add(emotionComboBox);
-            insertEmotion.add(new JLabel("Intensità emozione:"));
+            insertEmotion.add(GraphicUtils.createLabels("Intensità Emozione: "));
             insertEmotion.add(intensitaEmozione);
-            insertEmotion.add(new JLabel("nota emozione"));
+            insertEmotion.add(GraphicUtils.createLabels("Nota Emozione: "));
             insertEmotion.add(notaEmozione);
-            insertEmotion.add(new JLabel("spiegazione emozione"));
+            insertEmotion.add(GraphicUtils.createLabels("Spiegazione Emozione: "));
             insertEmotion.add(spiegazioneEmozione);
 
-            int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(this, insertEmotion, "Inserisci Emozioni",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
                 String selectedEmotion = (String) emotionComboBox.getSelectedItem();
@@ -165,46 +156,47 @@ public class RicercaTitoloUI extends JFrame {
                 String spiegazione = spiegazioneEmozione.getText();
                 String intensitaStr = intensitaEmozione.getText();
 
-                if (titolo.isEmpty() || autore.isEmpty() || nota.isEmpty() || spiegazione.isEmpty() || intensitaStr.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Tutti i campi devono essere completati.", "Errore", JOptionPane.ERROR_MESSAGE);
+                if (titolo.isEmpty() || autore.isEmpty() || nota.isEmpty() || spiegazione.isEmpty()
+                        || intensitaStr.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Tutti i campi devono essere completati.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 if (!isValidInt(intensitaStr)) {
-                    JOptionPane.showMessageDialog(this, "Intensità emozione deve essere un numero intero.", "Errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Intensità emozione deve essere un numero intero.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 int intensitaEmozionee = Integer.parseInt(intensitaStr);
 
-                int inserimentoResult = Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titolo, autore, nota, spiegazione, intensitaEmozionee);
+                int inserimentoResult = Client.inserisciNuovaEmozione(Client.idGlobale, selectedEmotion, titolo, autore,
+                        nota, spiegazione, intensitaEmozionee);
 
                 switch (inserimentoResult) {
-                    case 0:
-                        JOptionPane.showMessageDialog(this, "Inserimento nuova emozione effettuato", "Inserimento riuscito", JOptionPane.INFORMATION_MESSAGE);
+                    case 0 -> {
+                        JOptionPane.showMessageDialog(this, "Inserimento nuova emozione effettuato",
+                                "Inserimento riuscito", JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                         datiIncompleti = false;
-                        break;
-                    case -1:
-                        JOptionPane.showMessageDialog(this, "Intensità emozione deve essere compresa tra 1 e 5.", "Errore", JOptionPane.ERROR_MESSAGE);
-                        break;
-                    case -2:
-                        JOptionPane.showMessageDialog(this, "Spiegazione troppo lunga. Non deve superare i 250 caratteri.", "Errore", JOptionPane.ERROR_MESSAGE);
-                        break;
-                    case -3:
-                        JOptionPane.showMessageDialog(this, "Nota emozione troppo lunga. Non deve superare i 50 caratteri.", "Errore", JOptionPane.ERROR_MESSAGE);
-                        break;
-                    case -4:
-                        JOptionPane.showMessageDialog(this, "Nota emozione o Spiegazione emozione non sono stati inseriti.", "Errore", JOptionPane.ERROR_MESSAGE);
-                        break;
-                    case -5:
-                        JOptionPane.showMessageDialog(this, "Canzone o Autore non corrispondono.", "Errore", JOptionPane.ERROR_MESSAGE);
-                        break;
-                    case -6:
-                        JOptionPane.showMessageDialog(this, "Accesso al server non riuscito.", "Errore", JOptionPane.ERROR_MESSAGE);
-                        break;
+                    }
+                    case -1 -> JOptionPane.showMessageDialog(this, "Intensità emozione deve essere compresa tra 1 e 5.",
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                    case -2 -> JOptionPane.showMessageDialog(this,
+                            "Spiegazione troppo lunga. Non deve superare i 250 caratteri.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
+                    case -3 -> JOptionPane.showMessageDialog(this,
+                            "Nota emozione troppo lunga. Non deve superare i 50 caratteri.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
+                    case -4 -> JOptionPane.showMessageDialog(this,
+                            "Nota emozione o Spiegazione emozione non sono stati inseriti.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
+                    case -5 -> JOptionPane.showMessageDialog(this, "Canzone o Autore non corrispondono.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
+                    case -6 -> JOptionPane.showMessageDialog(this, "Accesso al server non riuscito.", "Errore",
+                            JOptionPane.ERROR_MESSAGE);
                 }
-            }
-            else {
+            } else {
                 datiIncompleti = false; // Esci dal ciclo se l'utente ha annullato l'inserimento
             }
         }
@@ -219,17 +211,17 @@ public class RicercaTitoloUI extends JFrame {
             return false;
         }
     }
+
     private void handleVisualizzaEmozioni() throws RemoteException, SQLException {
-        JTextField titoloField = new JTextField(20);
-        JTextField autoreField = new JTextField(20);
+        JTextField titoloField = GraphicUtils.createTextFields(20);
+        JTextField autoreField = GraphicUtils.createTextFields(20);
 
         JPanel inputPanel = new JPanel();
-        inputPanel.setBackground(background);
 
         inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        inputPanel.add(new JLabel("Titolo:"));
+        inputPanel.add(GraphicUtils.createLabels("Titolo:"));
         inputPanel.add(titoloField);
-        inputPanel.add(new JLabel("Autore:"));
+        inputPanel.add(GraphicUtils.createLabels("Autore:"));
         inputPanel.add(autoreField);
 
         int result = JOptionPane.showConfirmDialog(this, inputPanel, "Inserisci Titolo e Autore",
@@ -258,19 +250,4 @@ public class RicercaTitoloUI extends JFrame {
         }
 
     }
-
-    private boolean isValidLength(String text, int minLength, int maxLength) {
-        int length = text.length();
-        return length >= minLength && length <= maxLength;
-    }
-
-    public static void createButtons(JButton bt) {
-        Color borderColor = new Color(4, 165, 229);
-        int fontTextSize = 16;
-
-        bt.setPreferredSize(new Dimension(250, 50));
-        bt.setBorder(new LineBorder(borderColor, 1));
-        bt.setFont(new Font("Arial", Font.BOLD, fontTextSize));
-        bt.setForeground(textColor);
-    };
 }

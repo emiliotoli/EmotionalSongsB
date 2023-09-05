@@ -56,5 +56,6 @@ ClientES/MenuAreaPersonaleUI$2.class
 ClientES/MenuAreaPersonaleUI$5.class
 ClientES/LoginCallback.class
 ClientES/RicercaTitoloUI$3.class
+ClientES/GraphicUtils.class
 ClientES/RegistrazioneUI.class
 ClientES/AggiungiCanzonePlaylistUI.class

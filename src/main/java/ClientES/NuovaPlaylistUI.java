@@ -9,8 +9,8 @@ import java.sql.SQLException;
 
 /**
  * @author Emilio Toli
- *      Classe che gestisce l'interfaccia utente per la
- *      creazione di una nuova playlist
+ *         Classe che gestisce l'interfaccia utente per la
+ *         creazione di una nuova playlist
  */
 
 public class NuovaPlaylistUI extends JFrame {
@@ -25,8 +25,8 @@ public class NuovaPlaylistUI extends JFrame {
     /**
      * @author Emilio Toli
      * @param callback
-     *      Metodo utilizzato per creare una nuova playlist
-     *      inserendo il nome della nuova playlist in un'area di testo
+     *                 Metodo utilizzato per creare una nuova playlist
+     *                 inserendo il nome della nuova playlist in un'area di testo
      */
 
     // <editor-fold desc= "Creazione nuova playlist">
@@ -64,8 +64,9 @@ public class NuovaPlaylistUI extends JFrame {
      * @author Emilio Toli
      * @throws IOException
      * @throws SQLException
-     *      Metodo per la gestione dell'evento associato al pulsante submit
-     *      Al click di tale pulsante vengono inviati i dati
+     *                      Metodo per la gestione dell'evento associato al pulsante
+     *                      submit
+     *                      Al click di tale pulsante vengono inviati i dati
      */
 
     // <editor-fold desc= "Gestione evento submit">

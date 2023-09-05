@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 /**
  * @author Emilio Toli
- *      Classe per l'eliminazione di una playlist tra la lista
- *      delle playlist dell'utente
+ *         Classe per l'eliminazione di una playlist tra la lista
+ *         delle playlist dell'utente
  */
 
 public class EliminaPlaylistUI extends JFrame {
@@ -28,8 +28,9 @@ public class EliminaPlaylistUI extends JFrame {
     /**
      * @author Emilio Toli
      * @param callback
-     *      Metodo che crea la UI e gestisce l'eliminazione della playlist, con il nome della
-     *      playlist da eliminare inserito in un'area di testo
+     *                 Metodo che crea la UI e gestisce l'eliminazione della
+     *                 playlist, con il nome della
+     *                 playlist da eliminare inserito in un'area di testo
      */
     // <editor-fold desc= "Eliminazione playlist">
     public void eliminaPlaylistUI(PlaylistDeletionCallback callback) {
@@ -46,9 +47,8 @@ public class EliminaPlaylistUI extends JFrame {
         playlistTextArea.setEditable(false);
 
         nomePlaylistField = new JTextField(15);
-        visualizzaPlaylistButton= new JButton("Visualizza tutte le playlist");
+        visualizzaPlaylistButton = new JButton("Visualizza tutte le playlist");
         submitButton = new JButton("Elimina Playlist");
-
 
         panel.add(new JLabel("Nome Playlist:"));
         panel.add(nomePlaylistField);
@@ -88,8 +88,10 @@ public class EliminaPlaylistUI extends JFrame {
      * @throws IOException
      * @throws SQLException
      *
-     *      Metodo per la gestione dell'evento associato al click del pulsante
-     *      Al click chiama il metodo della classe Client per l'eliminazione
+     *                      Metodo per la gestione dell'evento associato al click
+     *                      del pulsante
+     *                      Al click chiama il metodo della classe Client per
+     *                      l'eliminazione
      */
     // <editor-fold desc= "Gestione click button">
     private void handleSubmit() throws IOException, SQLException {
@@ -101,7 +103,7 @@ public class EliminaPlaylistUI extends JFrame {
     // </editor-fold>
 
     private void visualizza() throws RemoteException, SQLException {
-        VisualizzaPlaylistUI vp= new VisualizzaPlaylistUI();
+        VisualizzaPlaylistUI vp = new VisualizzaPlaylistUI();
         vp.visualizzaPlaylist();
     }
 }
