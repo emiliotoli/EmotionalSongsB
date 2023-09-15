@@ -29,7 +29,7 @@ public class ConnessioneDBImpl extends UnicastRemoteObject implements Connession
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "password";
     private static ConnessioneDBImpl instance;
-    private static final String DB_URL = "jdbc:postgresql://172.17.0.2:5432/postgreslab";
+    private static final String DB_URL = "t";
 
     /**
      * @author Emilio Daverio

@@ -457,7 +457,7 @@ public class Client implements MetodiControlli_Client {
      * @throws SQLException Se si verifica un errore di SQL durante l'operazione
      */
     public static int creaPlayList(String nomePlaylist, String userID) throws IOException, SQLException {
-        Registry registroLoggato = LocateRegistry.getRegistry(8080);
+        Registry registroLoggato = LocateRegistry.getRegistry("192.168.43.230", 8080);
 
         try {
             System.out.println("Procedura di collegamento al Server --> Iniziata");
@@ -698,7 +698,7 @@ public class Client implements MetodiControlli_Client {
      *                         durante la connessione al server
      */
     private static void accessoServerNonLoggato() throws RemoteException {
-        Registry registroNonLoggato = LocateRegistry.getRegistry(8080);
+        Registry registroNonLoggato = LocateRegistry.getRegistry("192.168.43.230", 8080);
 
         try {
             System.out.println("Procedura di collegamento al Server --> Iniziata");
@@ -724,7 +724,7 @@ public class Client implements MetodiControlli_Client {
      *                         durante la connessione al server
      */
     private static void accessoServerLoggato() throws RemoteException {
-        Registry registroLoggato = LocateRegistry.getRegistry(8080);
+        Registry registroLoggato = LocateRegistry.getRegistry("192.168.43.230", 8080);
 
         try {
             System.out.println("Procedura di collegamento al Server --> Iniziata");
